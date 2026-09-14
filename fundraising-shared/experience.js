@@ -32,41 +32,74 @@
   window.matchMedia('(max-width: 760px)').addEventListener('change',()=>closeNav());
 
   document.querySelectorAll('[data-explorer]').forEach(explorer => {
-    const tabs=[...explorer.querySelectorAll('[role="tab"]')];
-    const panels=[...explorer.querySelectorAll('.dc-panel')];
+    const hexes=[...explorer.querySelectorAll('[data-hex]')];
     const search=explorer.querySelector('input[type="search"]');
     const count=explorer.querySelector('.dc-count');
     const empty=explorer.querySelector('.dc-empty');
-    let active=tabs[0].dataset.group;
-    function render() {
-      const query=search.value.trim().toLocaleLowerCase('it');
-      let visible=0;
-      tabs.forEach(t=>{const current=t.dataset.group===active; t.setAttribute('aria-selected',String(current&&!query));t.tabIndex=current?0:-1;});
-      panels.forEach(panel=>{
-        let matches=0;
-        const cards=[...panel.querySelectorAll('.dc-card')];
-        cards.forEach((c,i)=>{const match=!query || c.textContent.toLocaleLowerCase('it').includes(query); c.hidden=!match || (!query && !panel.dataset.expanded && i>=6); if(match) matches++;});
-        panel.hidden=query?!matches:panel.dataset.group!==active;
-        panel.setAttribute('role',query?'region':'tabpanel');
-        const more=panel.querySelector('.dc-more');
-        more.hidden=!!query || cards.length<=6;
-        more.textContent=panel.dataset.expanded?'Mostra meno':panel.dataset.group==='integrazioni'?`Mostra tutte le ${cards.length} integrazioni`:`Mostra tutti i ${cards.length} moduli`;
-        more.setAttribute('aria-expanded',String(!!panel.dataset.expanded));
-        if(!panel.hidden) visible+=matches;
-      });
-      count.textContent=query?`${visible} ${visible===1?'risultato':'risultati'} in tutte le categorie per “${search.value.trim()}”`:`${visible} soluzioni da esplorare`;
-      empty.hidden=visible>0;
+    const detail=explorer.querySelector('[data-hex-detail]');
+    const groupLabel=detail.querySelector('[data-hex-group]');
+    const titleEl=detail.querySelector('[data-hex-title]');
+    const descEl=detail.querySelector('[data-hex-desc]');
+    const demo=detail.querySelector('[data-hex-demo]');
+    const groupNames={api:'API WEB SERVICE',integrazioni:'INTEGRAZIONI',pagamenti:'SISTEMI DI PAGAMENTO',moduli:'MODULI'};
+    const itemHexes=hexes.filter(h=>h.dataset.kind==='item');
+    const itemTotal=new Set(itemHexes.map(h=>h.dataset.title)).size;
+    function showDetail(hex){
+      groupLabel.textContent=groupNames[hex.dataset.group]||hex.dataset.group;
+      titleEl.textContent=hex.dataset.title;
+      descEl.textContent=hex.dataset.desc;
+      demo.dataset.demo=hex.dataset.title;
+      detail.hidden=false;
+      hexes.forEach(h=>h.classList.toggle('is-active',h.dataset.title===hex.dataset.title && h.dataset.group===hex.dataset.group));
+      emit('solution_open',{solution:hex.dataset.title,category:hex.dataset.group});
     }
-    tabs.forEach((tab,i)=>{
-      tab.addEventListener('click',()=>{active=tab.dataset.group;search.value='';render();emit('category_select',{category:active});});
-      tab.addEventListener('keydown',e=>{
-        const positions={ArrowRight:(i+1)%tabs.length,ArrowLeft:(i+tabs.length-1)%tabs.length,Home:0,End:tabs.length-1};
-        if(e.key in positions){e.preventDefault();const next=tabs[positions[e.key]];next.focus();next.click();}
+    function matchesQuery(h, query){
+      if(!query) return true;
+      const hay=`${h.dataset.title} ${h.dataset.desc} ${groupNames[h.dataset.group]||''}`.toLocaleLowerCase('it');
+      return hay.includes(query);
+    }
+    function render(){
+      const query=search.value.trim().toLocaleLowerCase('it');
+      const matched=new Set();
+      itemHexes.forEach(h=>{
+        const match=matchesQuery(h, query);
+        const onMap=h.classList.contains('dc-hex-map');
+        if(onMap){
+          h.hidden=false;
+          h.classList.toggle('is-dim',!!query && !match);
+          h.classList.toggle('is-active',!!query && match);
+        }else{
+          h.hidden=!match;
+          h.classList.toggle('is-dim',false);
+          if(!query) h.classList.toggle('is-active',false);
+        }
+        if(match) matched.add(h.dataset.title);
       });
-    });
-    panels.forEach(panel=>panel.querySelector('.dc-more').addEventListener('click',()=>{if(panel.dataset.expanded) delete panel.dataset.expanded;else panel.dataset.expanded='true';render();}));
+      const visible=matched.size;
+      hexes.filter(h=>h.dataset.kind==='hub').forEach(h=>{
+        const any=itemHexes.some(i=>i.dataset.group===h.dataset.group && matchesQuery(i, query));
+        if(h.classList.contains('dc-hex-map')){
+          h.hidden=false;
+          h.classList.toggle('is-dim',!!query && !any);
+        }else{
+          h.hidden=query?!any:false;
+        }
+      });
+      explorer.querySelectorAll('.dc-hex-cluster').forEach(cluster=>{
+        const any=[...cluster.querySelectorAll('[data-hex][data-kind="item"]')].some(h=>!h.hidden);
+        cluster.hidden=query?!any:false;
+      });
+      count.textContent=query?`${visible} ${visible===1?'risultato':'risultati'} per “${search.value.trim()}”`:`${itemTotal} soluzioni nell’ecosistema`;
+      empty.hidden=visible>0;
+      if(query) detail.hidden=true;
+      explorer.querySelector('.dc-honey-map')?.classList.toggle('is-filtering',!!query);
+    }
+    hexes.forEach(hex=>hex.addEventListener('click',()=>{
+      if(hex.hidden) return;
+      showDetail(hex);
+      if(hex.dataset.kind==='hub') emit('category_select',{category:hex.dataset.group});
+    }));
     search.addEventListener('input',render);
-    explorer.querySelectorAll('.dc-card').forEach(c=>c.addEventListener('toggle',()=>{if(c.open)emit('solution_open',{solution:c.querySelector('summary').textContent.trim()});}));
     render();
   });
 

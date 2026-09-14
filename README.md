@@ -1,20 +1,13 @@
-﻿# propostesito
+# Direct Channel · proposta fundraising
 
-Dieci proposte di redesign per le pagine fundraising Direct Channel.
+Concept unico per il redesign delle pagine fundraising Direct Channel.
 
-## Anteprima
+La pagina principale integra una mappa interattiva dell’ecosistema, il carosello dei clienti, gli approfondimenti di prodotto e una richiesta demo dimostrativa.
 
-Apri `proposte/` (o la root, che reindirizza lì).
+## Anteprima locale
 
-Ogni proposta (`sito` … `sito10`) include 6 pagine: Fundraising, Mentor CRM, Moduli, Integrazioni, DirectSense, Analisi Predittive.
-
-## Locale
-
-```bash
-python -m http.server 8765 --bind 127.0.0.1
-# http://127.0.0.1:8765/proposte/
+```powershell
+python -m http.server 8766
 ```
 
-## Account
-
-Repository creato con l'account GitHub `mircodevito` nell'organizzazione `DCmrkt`.
+Apri `http://127.0.0.1:8766/sito/fundraising-soluzioni-per-il-terzo-settore/`.

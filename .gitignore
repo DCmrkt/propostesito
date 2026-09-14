@@ -1,0 +1,8 @@
+# Local visual QA
+mobile-*.png
+
+# Intermediate ecosystem artwork sources
+fundraising-shared/ecosistema-hex-layout.json
+fundraising-shared/ecosistema-html-*.png
+fundraising-shared/ecosistema-media/
+fundraising-shared/ecosistema-svg/
