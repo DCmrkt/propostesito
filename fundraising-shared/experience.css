@@ -177,18 +177,22 @@ body[data-proposal="1"] .dc-steps,body[data-proposal="1"] .dc-contact-person{dis
 @media(max-width:540px){.dc-cards{grid-template-columns:1fr}.dc-card summary{min-height:66px}.dc-actions{gap:10px}.dc-actions .dc-button{width:100%}.dc-section h2{font-size:32px}.dc-clients h2{font-size:20px}.dc-carousel-controls{gap:6px}.dc-control-text{padding-inline:10px}.dc-hex-cluster-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.dc-legend{gap:7px}.dc-legend span{padding:7px 10px;font-size:11px}}
 @media(max-width:760px){
   .dc-honey-mobile{display:flex;flex-direction:column;gap:18px}
-  .dc-hex-cluster{margin:0;padding:clamp(14px,4vw,22px);border:0;border-radius:22px;overflow:visible}
+  .dc-hex-cluster{display:grid;grid-template-columns:minmax(0,1.637fr) minmax(0,2.5fr);justify-content:center;align-items:center;gap:10px;margin:0;padding-block:clamp(14px,4vw,22px);padding-inline:max(8px,calc((100% - 342px)/2));border:0;border-radius:22px;overflow:visible}
   .dc-hex-cluster[data-group="moduli"]{order:1;background:#faeae7}
   .dc-hex-cluster[data-group="integrazioni"]{order:2;background:#fff5cf}
   .dc-hex-cluster[data-group="api"]{order:3;background:#eef5df}
   .dc-hex-cluster[data-group="pagamenti"]{order:4;background:#fffbd8}
-  .dc-hex-cluster-head{margin-bottom:20px}
-  .dc-hex-cluster-head .dc-hex-hub{width:82px}
-  .dc-hex-cluster-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:0;width:min(100%,430px);margin-inline:auto;padding:8px 2px clamp(22px,7vw,36px);align-items:center}
+  .dc-hex-cluster-head{grid-column:1;align-self:center;flex-direction:column;align-items:center;gap:10px;margin:0;text-align:center}
+  .dc-hex-cluster-head>div{order:-1}
+  .dc-hex-cluster-head strong{margin:0;font-size:clamp(12px,3.5vw,16px);line-height:1.15}
+  .dc-hex-cluster-head p{display:none}
+  .dc-hex-cluster-head .dc-hex-hub{width:100%;max-width:132px}
+  .dc-hex-cluster-grid{grid-column:2;display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:0;width:100%;margin:0;padding:8px 0;align-items:center}
   .dc-hex-cluster-grid .dc-hex{grid-column:1/span 4;width:100%!important;margin:0;justify-self:start}
-  .dc-hex-cluster-grid .dc-hex:nth-child(even){grid-column:4/span 4;justify-self:end}
-  .dc-hex-cluster-grid .dc-hex:not(:first-child){margin-top:-45.4%}
-  .dc-hex-label{font-size:clamp(9px,2.45vw,11px);max-width:12ch}
+  .dc-hex-cluster-grid .dc-hex:nth-child(3n+2){grid-column:7/span 4;justify-self:end}
+  .dc-hex-cluster-grid .dc-hex:nth-child(3n){grid-column:4/span 4;justify-self:center}
+  .dc-hex-cluster-grid .dc-hex:nth-child(n+3){margin-top:-45.4%}
+  .dc-hex-label{font-size:clamp(8px,2.3vw,10px);line-height:1.08;max-width:11ch}
   .dc-hex:not(.dc-hex-map):hover,.dc-hex:not(.dc-hex-map):focus-visible,.dc-hex:not(.dc-hex-map).is-match{transform:scale(1.08)}
   .dc-client-list{gap:12px;padding-inline:0}
   .dc-client-list li{flex:0 0 calc(28.5714% - 10.2857px);min-height:82px;padding:10px;border-radius:10px}
