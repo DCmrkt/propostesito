@@ -39,8 +39,12 @@
 
   const flowMap=document.querySelector('.dc-honey-map');
   if(flowMap){
+    const flowPaths=['M 283 385 L 283 725','M 286 544 L 550 544','M 897 191 L 897 475','M 897 615 L 897 903','M 850 545 C 850 372 550 372 550 545 C 550 718 850 718 850 545','M 970 545 C 970 372 1248 372 1248 545 C 1248 718 970 718 970 545'];
+    const paths=className=>`<g class="${className}">${flowPaths.map(path=>`<path d="${path}"></path>`).join('')}</g>`;
     const arrow=(path,duration,begin='0s')=>`<g class="dc-flow-arrow"><polygon points="-13,-8 13,0 -13,8"></polygon><animateMotion path="${path}" dur="${duration}s" begin="${begin}" rotate="auto" repeatCount="indefinite"></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.16;.84;1" dur="${duration}s" begin="${begin}" repeatCount="indefinite"></animate></g>`;
     flowMap.insertAdjacentHTML('beforeend',`<svg aria-hidden="true" class="dc-flow-motion" focusable="false" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+      ${paths('dc-flow-cleanup')}
+      ${paths('dc-flow-guides')}
       ${arrow('M 283 385 L 283 725',4.8,'-1.1s')}
       ${arrow('M 283 725 L 283 385',5.2,'-3.6s')}
       ${arrow('M 286 544 L 548 544',3.9,'-2s')}
