@@ -135,7 +135,7 @@
       list.append(clone);
     });
     carousel.dataset.autoplay='true';
-    let timer,resumeTimer,scrollTimer,interacting=false,visible=true;
+    let timer,resumeTimer,interacting=false,visible=true,lastTick=performance.now();
     const loopWidth=()=>list.children[originals.length]?.offsetLeft-list.firstElementChild.offsetLeft||list.scrollWidth/2;
     const itemStep=()=>{
       const styles=getComputedStyle(list);
@@ -146,20 +146,24 @@
       if(width&&list.scrollLeft>=width)list.scrollLeft-=width;
     }
     function advance(){
-      if(interacting||document.hidden||!visible||reduced.matches)return;
-      list.scrollBy({left:itemStep(),behavior:'smooth'});
+      const now=performance.now();
+      const elapsed=Math.min(now-lastTick,1000);
+      lastTick=now;
+      if(!interacting&&!document.hidden&&visible&&!reduced.matches){
+        list.scrollLeft+=elapsed*.022;
+        normalize();
+      }
     }
-    function schedule(delay=0){
-      clearInterval(timer);clearTimeout(resumeTimer);
-      if(document.hidden||!visible||reduced.matches)return;
-      resumeTimer=setTimeout(()=>{timer=setInterval(advance,2600);},delay);
+    function start(delay=0){
+      clearInterval(timer);clearTimeout(resumeTimer);lastTick=performance.now();
+      resumeTimer=setTimeout(()=>{lastTick=performance.now();timer=setInterval(advance,40);},delay);
     }
-    function pauseForInteraction(){interacting=true;clearInterval(timer);clearTimeout(resumeTimer);}
-    function resumeAfterInteraction(){interacting=false;schedule(4200);}
+    function pauseForInteraction(){interacting=true;clearTimeout(resumeTimer);}
+    function resumeAfterInteraction(){clearTimeout(resumeTimer);resumeTimer=setTimeout(()=>{interacting=false;lastTick=performance.now();},1400);}
     list.addEventListener('pointerdown',pauseForInteraction,{passive:true});
     list.addEventListener('pointerup',resumeAfterInteraction,{passive:true});
     list.addEventListener('pointercancel',resumeAfterInteraction,{passive:true});
-    list.addEventListener('scroll',()=>{clearTimeout(scrollTimer);scrollTimer=setTimeout(normalize,180);},{passive:true});
+    list.addEventListener('scroll',normalize,{passive:true});
     list.addEventListener('keydown',event=>{
       if(!['ArrowLeft','ArrowRight'].includes(event.key))return;
       event.preventDefault();pauseForInteraction();
@@ -167,11 +171,11 @@
       resumeAfterInteraction();
       emit('clients_navigate',{direction:event.key==='ArrowLeft'?'previous':'next'});
     });
-    document.addEventListener('visibilitychange',()=>schedule());
-    reduced.addEventListener('change',()=>schedule());
-    new IntersectionObserver(entries=>{visible=entries[0]?.isIntersecting??true;schedule();},{rootMargin:'160px'}).observe(carousel);
+    document.addEventListener('visibilitychange',()=>{lastTick=performance.now();});
+    reduced.addEventListener('change',()=>{lastTick=performance.now();});
+    new IntersectionObserver(entries=>{visible=entries[0]?.isIntersecting??true;lastTick=performance.now();},{rootMargin:'160px'}).observe(carousel);
     new ResizeObserver(normalize).observe(list);
-    schedule(500);
+    start(350);
   });
 
   const form=document.querySelector('.dc-form');
