@@ -797,6 +797,20 @@ body[data-proposal="1"] .dc-explorer {
   letter-spacing: -0.03em;
 }
 
+.module-item {
+  position: relative;
+  border-radius: 12px;
+  transition: background 220ms ease, box-shadow 220ms ease, transform 220ms ease;
+}
+
+.module-item:target,
+.module-item.is-targeted {
+  z-index: 1;
+  background: #fff;
+  box-shadow: 0 0 0 12px #fff, 0 0 0 15px rgba(126, 34, 206, 0.42), 0 18px 42px rgba(67, 34, 92, 0.16);
+  transform: translateY(-2px);
+}
+
 .module-item p {
   color: var(--muted);
   font-size: 0.98rem;

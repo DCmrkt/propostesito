@@ -36,22 +36,28 @@
     const search=explorer.querySelector('input[type="search"]');
     const count=explorer.querySelector('.dc-count');
     const empty=explorer.querySelector('.dc-empty');
-    const detail=explorer.querySelector('[data-hex-detail]');
-    const groupLabel=detail.querySelector('[data-hex-group]');
-    const titleEl=detail.querySelector('[data-hex-title]');
-    const descEl=detail.querySelector('[data-hex-desc]');
-    const demo=detail.querySelector('[data-hex-demo]');
+    const map=explorer.querySelector('.dc-honey-map');
     const groupNames={api:'API WEB SERVICE',integrazioni:'INTEGRAZIONI',pagamenti:'SISTEMI DI PAGAMENTO',moduli:'MODULI'};
     const itemHexes=hexes.filter(h=>h.dataset.kind==='item');
     const itemTotal=new Set(itemHexes.map(h=>h.dataset.title)).size;
-    function showDetail(hex){
-      groupLabel.textContent=groupNames[hex.dataset.group]||hex.dataset.group;
-      titleEl.textContent=hex.dataset.title;
-      descEl.textContent=hex.dataset.desc;
-      demo.dataset.demo=hex.dataset.title;
-      detail.hidden=false;
-      hexes.forEach(h=>h.classList.toggle('is-active',h.dataset.title===hex.dataset.title && h.dataset.group===hex.dataset.group));
-      emit('solution_open',{solution:hex.dataset.title,category:hex.dataset.group});
+    function syncMapSlices(){
+      if(!map)return;
+      const width=map.clientWidth,height=map.clientHeight;
+      map.querySelectorAll('.dc-hex-map').forEach(hex=>{
+        const x=parseFloat(hex.style.left)*width/100;
+        const y=parseFloat(hex.style.top)*height/100;
+        const hexWidth=hex.offsetWidth,hexHeight=hex.offsetHeight;
+        hex.style.setProperty('--dc-map-width',`${width}px`);
+        hex.style.setProperty('--dc-map-height',`${height}px`);
+        hex.style.setProperty('--dc-map-x',`${-(x-hexWidth/2)}px`);
+        hex.style.setProperty('--dc-map-y',`${-(y-hexHeight/2)}px`);
+      });
+    }
+    if(map){
+      const image=map.querySelector('.dc-honey-slide');
+      const ready=()=>requestAnimationFrame(syncMapSlices);
+      image?.complete?ready():image?.addEventListener('load',ready,{once:true});
+      new ResizeObserver(syncMapSlices).observe(map);
     }
     function matchesQuery(h, query){
       if(!query) return true;
@@ -67,11 +73,11 @@
         if(onMap){
           h.hidden=false;
           h.classList.toggle('is-dim',!!query && !match);
-          h.classList.toggle('is-active',!!query && match);
+          h.classList.toggle('is-match',!!query && match);
         }else{
           h.hidden=!match;
           h.classList.toggle('is-dim',false);
-          if(!query) h.classList.toggle('is-active',false);
+          h.classList.toggle('is-match',!!query && match);
         }
         if(match) matched.add(h.dataset.title);
       });
@@ -91,13 +97,18 @@
       });
       count.textContent=query?`${visible} ${visible===1?'risultato':'risultati'} per “${search.value.trim()}”`:`${itemTotal} soluzioni nell’ecosistema`;
       empty.hidden=visible>0;
-      if(query) detail.hidden=true;
-      explorer.querySelector('.dc-honey-map')?.classList.toggle('is-filtering',!!query);
+      map?.classList.toggle('is-filtering',!!query);
     }
-    hexes.forEach(hex=>hex.addEventListener('click',()=>{
-      if(hex.hidden) return;
-      showDetail(hex);
-      if(hex.dataset.kind==='hub') emit('category_select',{category:hex.dataset.group});
+    hexes.forEach(hex=>hex.addEventListener('click',event=>{
+      if(hex.hidden){event.preventDefault();return;}
+      emit('solution_open',{solution:hex.dataset.title,category:hex.dataset.group});
+      if(hex.dataset.kind==='hub')emit('category_select',{category:hex.dataset.group});
+      if(event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+      const href=hex.getAttribute('href');
+      if(!href)return;
+      event.preventDefault();
+      hex.classList.add('is-activating');
+      window.setTimeout(()=>window.location.assign(href),reduced.matches?0:150);
     }));
     search.addEventListener('input',render);
     render();
