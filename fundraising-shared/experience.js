@@ -165,4 +165,82 @@
     dialog.querySelector('[data-close]').addEventListener('click',()=>dialog.close());
     dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
   }
+
+  const footer=document.querySelector('.site-footer');
+  const contentRoots=[document.querySelector('main'),footer].filter(Boolean);
+  if(footer&&contentRoots.length){
+    const excluded='a,button,label,input,textarea,select,option,summary,script,style,noscript,svg,[aria-hidden="true"],[data-hex],.dc-sr,.dc-tools,.dc-carousel-foot,.dc-form,.dc-dialog';
+    const textNodes=[];
+    contentRoots.forEach(root=>{
+      const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode(node){
+        if(!node.textContent.trim())return NodeFilter.FILTER_REJECT;
+        const parent=node.parentElement;
+        if(!parent||parent.closest(excluded))return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }});
+      while(walker.nextNode())textNodes.push(walker.currentNode);
+    });
+    const editables=[];
+    const parents=new Set();
+    textNodes.forEach(node=>{
+      const parent=node.parentElement;
+      const onlyText=[...parent.childNodes].every(child=>child.nodeType===Node.TEXT_NODE);
+      if(onlyText){
+        if(!parents.has(parent)){parents.add(parent);editables.push(parent);}
+        return;
+      }
+      const span=document.createElement('span');
+      span.textContent=node.textContent;
+      node.replaceWith(span);
+      editables.push(span);
+    });
+
+    const pageKey=`dc-page-copy:${window.location.pathname.replace(/\/$/,'')||'/'}`;
+    let stored={};
+    try{stored=JSON.parse(window.localStorage.getItem(pageKey)||'{}');}catch(error){stored={};}
+    editables.forEach((element,index)=>{
+      const id=`text-${index}`;
+      element.dataset.editId=id;
+      element.classList.add('dc-editable-text');
+      element.setAttribute('contenteditable','plaintext-only');
+      element.setAttribute('spellcheck','true');
+      element.setAttribute('title','Clicca per modificare questo testo');
+      if(Object.prototype.hasOwnProperty.call(stored,id))element.textContent=stored[id];
+      element.dataset.savedText=element.textContent;
+      element.addEventListener('keydown',event=>{
+        const singleLine=/^(H[1-6]|STRONG|SPAN)$/.test(element.tagName);
+        if(event.key==='Enter'&&singleLine){event.preventDefault();element.blur();}
+        if(event.key==='Escape'){event.preventDefault();element.textContent=element.dataset.savedText;element.blur();updateDirty();}
+      });
+    });
+
+    const bar=document.createElement('div');
+    bar.className='dc-save-bar';
+    bar.innerHTML='<div class="dc-save-bar-copy"><strong>Testi modificabili</strong><span data-save-status>Clicca su un testo per modificarlo. Le modifiche restano in questo browser.</span></div><button class="dc-save-page" type="button" disabled>Salva questa pagina</button>';
+    footer.append(bar);
+    const saveButton=bar.querySelector('.dc-save-page');
+    const saveStatus=bar.querySelector('[data-save-status]');
+    function updateDirty(){
+      const dirty=editables.some(element=>element.textContent!==element.dataset.savedText);
+      bar.classList.toggle('is-dirty',dirty);
+      saveButton.disabled=!dirty;
+      if(dirty){saveButton.textContent='Salva questa pagina';saveStatus.textContent='Hai modifiche non salvate.';}
+      return dirty;
+    }
+    editables.forEach(element=>element.addEventListener('input',updateDirty));
+    saveButton.addEventListener('click',()=>{
+      const values=Object.fromEntries(editables.map(element=>[element.dataset.editId,element.textContent]));
+      try{
+        window.localStorage.setItem(pageKey,JSON.stringify(values));
+        editables.forEach(element=>{element.dataset.savedText=element.textContent;});
+        updateDirty();
+        saveButton.textContent='Pagina salvata ✓';
+        saveStatus.textContent='Modifiche salvate in questo browser.';
+        emit('page_saved',{fields:editables.length});
+      }catch(error){
+        saveStatus.textContent='Non è stato possibile salvare in questo browser.';
+      }
+    });
+    document.documentElement.classList.add('dc-editing-enabled');
+  }
 })();
