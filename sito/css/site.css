@@ -347,6 +347,17 @@ body[data-proposal="1"] .opening-band .hero {
   background: transparent;
 }
 
+body[data-proposal="1"] .opening-band--ecosistema::before {
+  border-radius: 50%;
+  background: color-mix(in srgb, #b48ad4 48%, #fff);
+  opacity: 0.92;
+  transform: translate3d(var(--hero-wash-shift, 0px), var(--hero-wash-drop, 0px), 0) scale(var(--hero-wash-scale-x, 1), var(--hero-wash-scale-y, 1));
+}
+
+body[data-proposal="1"] .opening-band--ecosistema .hero-blobs {
+  display: none;
+}
+
 body[data-proposal="1"] .hero.hero-conversion {
   overflow: visible;
   isolation: auto;
