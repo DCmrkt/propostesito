@@ -310,7 +310,7 @@
   }
 
   const blobMarkup = `<div class="hero-blobs" aria-hidden="true">
-    <span class="hero-blob is-mint" data-depth="0.28" data-drift="-0.12" data-spin="18"></span>
+    <span class="hero-blob is-mint" data-depth="0.34" data-drift="-0.18" data-spin="32"></span>
     <svg class="hero-blob is-lilac" data-depth="0.46" data-drift="-0.18" data-spin="-16" data-tilt="-8" viewBox="0 0 200 200">
       <path d="M100 36c22-18 62-2 58 30 28 8 22 54-8 60-6 28-50 36-66 8-28 10-58-22-40-46-16-24 12-58 56-52z"/>
     </svg>
@@ -319,16 +319,17 @@
   function liquidRadius(amount, invert) {
     const direction = invert ? -1 : 1;
     const wave = Math.sin(amount * Math.PI);
+    const ripple = Math.sin(amount * Math.PI * 2) * 0.38;
     return [
-      50 + (22 * wave * direction),
-      50 - (16 * wave * direction),
-      50 + (18 * wave * direction),
-      50 - (20 * wave * direction)
+      50 + ((32 * wave + 10 * ripple) * direction),
+      50 - ((24 * wave + 8 * ripple) * direction),
+      50 + ((28 * wave - 9 * ripple) * direction),
+      50 - ((30 * wave - 7 * ripple) * direction)
     ].map(n => n.toFixed(1) + '%').join(' ') + ' / ' + [
-      50 - (14 * wave * direction),
-      50 + (20 * wave * direction),
-      50 - (18 * wave * direction),
-      50 + (16 * wave * direction)
+      50 - ((22 * wave - 8 * ripple) * direction),
+      50 + ((30 * wave + 9 * ripple) * direction),
+      50 - ((26 * wave + 7 * ripple) * direction),
+      50 + ((24 * wave - 10 * ripple) * direction)
     ].map(n => n.toFixed(1) + '%').join(' ');
   }
 
@@ -350,7 +351,7 @@
         const y = (progress * depth * 160).toFixed(1);
         const x = (progress * drift * 110).toFixed(1);
         const r = (tilt + progress * spin).toFixed(2);
-        const s = (1 + morph * (blob.classList.contains('is-mint') ? 0.08 : 0.12)).toFixed(3);
+        const s = (1 + morph * (blob.classList.contains('is-mint') ? 0.12 : 0.14)).toFixed(3);
         blob.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${r}deg) scale(${s})`;
       });
     }

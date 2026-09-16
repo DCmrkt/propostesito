@@ -327,9 +327,9 @@ select {
 }
 
 .hero-blob.is-mint {
-  top: 6%;
-  left: -22%;
-  width: min(560px, 52vw);
+  top: 8%;
+  left: -26%;
+  width: min(820px, 70vw);
   aspect-ratio: 1;
   background: #d5eadc;
   opacity: 0.92;
@@ -350,8 +350,8 @@ select {
   }
 
   .hero-blob.is-mint {
-    left: -42%;
-    width: min(420px, 88vw);
+    left: -48%;
+    width: min(560px, 98vw);
   }
 }
 
