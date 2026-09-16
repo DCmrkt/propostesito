@@ -1,5 +1,40 @@
 (() => {
   'use strict';
+  function seedButtonDots(btn){
+    if(!btn || btn.querySelector('.btn-bubbles') || btn.classList.contains('hero-ecosystem-chip') || btn.disabled) return;
+    const wrap=document.createElement('span');
+    wrap.className='btn-bubbles';
+    wrap.setAttribute('aria-hidden','true');
+    const cols=10;
+    const rows=3;
+    let n=0;
+    for(let r=0;r<rows;r++){
+      const count=r===1?cols:cols-1;
+      const offset=r===1?0:0.5;
+      for(let c=0;c<count;c++){
+        const dot=document.createElement('i');
+        const nx=(c+offset+0.5)/cols;
+        const x=((c+offset+0.5)/cols)*100;
+        const y=((r+0.5)/rows)*100;
+        const size=0.38+((c*3+r*5)%5)*0.04;
+        dot.style.setProperty('--x',x.toFixed(2)+'%');
+        dot.style.setProperty('--y',y.toFixed(1)+'%');
+        dot.style.setProperty('--s',size.toFixed(2)+'em');
+        dot.style.setProperty('--g',(7.2+(c%3)*0.8).toFixed(2));
+        dot.style.setProperty('--dx',(((nx-0.5)*0.28)).toFixed(2)+'em');
+        dot.style.setProperty('--dy',(((r-1)*0.18)).toFixed(2)+'em');
+        dot.style.setProperty('--d',(n*0.018)+'s');
+        wrap.append(dot);
+        n+=1;
+      }
+    }
+    btn.prepend(wrap);
+  }
+  document.querySelectorAll('.button.secondary, .dc-button.secondary, .hero-conversion .dc-hero-actions .dc-button').forEach(seedButtonDots);
+})();
+
+(() => {
+  'use strict';
   document.documentElement.classList.add('dc-ready');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const emit = (name, detail = {}) => document.dispatchEvent(new CustomEvent('dc:interaction', {detail: {name, proposal: document.body.dataset.proposal, ...detail}}));
@@ -949,31 +984,5 @@
       else requestUpdate();
     });
     update();
-  });
-
-  document.querySelectorAll('.solution-overview .product-cta .button').forEach(btn=>{
-    if(btn.querySelector('.btn-bubbles')) return;
-    const wrap=document.createElement('span');
-    wrap.className='btn-bubbles';
-    wrap.setAttribute('aria-hidden','true');
-    const cols=12;
-    const rows=4;
-    const fromLeft=Math.random()<0.5;
-    for(let r=0;r<rows;r++){
-      for(let c=0;c<cols;c++){
-        const dot=document.createElement('i');
-        const x=((c+0.5)/cols)*100;
-        const y=((r+0.5)/rows)*100;
-        const rank=fromLeft?c:(cols-1-c);
-        const d=rank*0.04+r*0.015+Math.random()*0.04;
-        dot.style.setProperty('--x',x+'%');
-        dot.style.setProperty('--y',y+'%');
-        dot.style.setProperty('--s','0.34em');
-        dot.style.setProperty('--g','12');
-        dot.style.setProperty('--d',d+'s');
-        wrap.append(dot);
-      }
-    }
-    btn.prepend(wrap);
   });
 })();

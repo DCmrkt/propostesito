@@ -183,7 +183,11 @@ select {
 }
 
 .button.secondary {
-  --btn-dot: var(--blue);
+  --btn-dot: var(--product-accent, var(--blue));
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+  z-index: 0;
   border: 2px solid var(--blue);
   border-radius: 999px;
   background: transparent;
@@ -191,66 +195,89 @@ select {
   box-shadow: none;
 }
 
-.button.secondary:hover {
-  color: #fff;
-  border-color: var(--blue);
-  background: var(--blue);
-  transform: none;
-  box-shadow: none;
+.button.secondary::before,
+.dc-button.secondary:not(.hero-ecosystem-chip)::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--btn-dot, var(--dc-cta, var(--blue)));
+  transform: translate(-50%, -50%) scale(0);
+  z-index: -1;
+  pointer-events: none;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.has-btn-dots {
-  --btn-dot: var(--product-accent, var(--dc-cta, var(--blue)));
+.button.secondary:has(.btn-bubbles)::before,
+.dc-button.secondary:has(.btn-bubbles)::before {
+  content: none;
+}
+
+.dc-button.secondary:not(.hero-ecosystem-chip) {
+  --btn-dot: var(--dc-cta, var(--blue));
   position: relative;
   isolation: isolate;
   overflow: visible;
   z-index: 0;
 }
 
-.has-btn-dots .btn-bubbles {
+.btn-bubbles {
   position: absolute;
-  inset: -0.22em -0.32em;
+  inset: 0;
   z-index: -1;
   overflow: visible;
   pointer-events: none;
 }
 
-.has-btn-dots .btn-bubbles i {
+.btn-bubbles i {
   position: absolute;
   left: var(--x, 50%);
   top: var(--y, 50%);
-  width: var(--s, 0.78em);
-  height: var(--s, 0.78em);
+  width: var(--s, 0.42em);
+  height: var(--s, 0.42em);
   display: block;
   margin: 0;
   padding: 0;
   border-radius: 50%;
-  background: color-mix(in srgb, var(--btn-dot) 72%, #fff);
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(0.4);
+  background: var(--btn-dot, var(--product-accent, var(--dc-cta, var(--blue))));
+  transform: translate(-50%, -50%) scale(0);
+  transform-origin: 50% 50%;
   pointer-events: none;
+  transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: 0s;
 }
 
-.button.secondary.has-btn-dots,
-.dc-button.has-btn-dots {
-  transition: color 0.7s ease 0.28s, background-color 0.7s ease 0.28s, border-color 0.35s ease, transform 0.2s, box-shadow 0.2s;
-}
-
-.button.secondary.has-btn-dots:hover,
-.button.secondary.has-btn-dots:focus-visible,
-.dc-button.has-btn-dots:hover,
-.dc-button.has-btn-dots:focus-visible {
+.button.secondary:hover,
+.button.secondary:focus-visible,
+.product-row:hover .button.secondary,
+.dc-button.secondary:not(.hero-ecosystem-chip):hover,
+.dc-button.secondary:not(.hero-ecosystem-chip):focus-visible {
   color: #fff !important;
-  background: var(--btn-dot);
-  border-color: var(--btn-dot);
-  transform: none;
-  box-shadow: none;
+  background: transparent !important;
+  border-color: var(--btn-dot, var(--blue));
+  transform: none !important;
+  box-shadow: none !important;
   z-index: 2;
 }
 
-.has-btn-dots:hover .btn-bubbles i,
-.has-btn-dots:focus-visible .btn-bubbles i {
-  animation: btnCircleBlob 2.15s ease-in-out var(--d, 0s) both;
+.button.secondary:hover::before,
+.button.secondary:focus-visible::before,
+.product-row:hover .button.secondary::before,
+.dc-button.secondary:not(.hero-ecosystem-chip):hover::before,
+.dc-button.secondary:not(.hero-ecosystem-chip):focus-visible::before {
+  transform: translate(-50%, -50%) scale(16);
+}
+
+.button.secondary:hover .btn-bubbles i,
+.button.secondary:focus-visible .btn-bubbles i,
+.product-row:hover .btn-bubbles i,
+.dc-button.secondary:hover .btn-bubbles i,
+.dc-button.secondary:focus-visible .btn-bubbles i {
+  transform: translate(calc(-50% + var(--dx, 0em)), calc(-50% + var(--dy, 0em))) scale(var(--g, 8));
+  transition-delay: var(--d, 0s);
 }
 
 .button.ghost {
@@ -1134,32 +1161,27 @@ body[data-proposal="1"] .hero-blobs .is-mint {
 
 @keyframes btnCircleBlob {
   0% {
-    opacity: 0;
+    opacity: 1;
     transform: translate(-50%, -50%) scale(0.12);
   }
 
-  16% {
+  28% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(0.9);
+    transform: translate(calc(-50% + var(--dx, 0.12em) * 0.4), calc(-50% + var(--dy, -0.1em) * 0.4)) scale(calc(var(--g, 5.6) * 0.62));
   }
 
-  36% {
+  58% {
     opacity: 1;
-    transform: translate(calc(-50% + var(--dx, 0.12em)), calc(-50% + var(--dy, -0.1em))) scale(1.22);
+    transform: translate(calc(-50% + var(--dx, 0.12em)), calc(-50% + var(--dy, -0.1em))) scale(calc(var(--g, 5.6) * 1.12));
   }
 
-  56% {
-    transform: translate(calc(-50% - var(--dx, 0.12em)), calc(-50% - var(--dy, -0.1em))) scale(0.86);
-  }
-
-  76% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+  78% {
+    transform: translate(calc(-50% - var(--dx, 0.12em) * 0.35), calc(-50% - var(--dy, -0.1em) * 0.35)) scale(calc(var(--g, 5.6) * 0.92));
   }
 
   100% {
     opacity: 1;
-    transform: translate(calc(-50% + var(--dx, 0.12em) * 0.55), calc(-50% + var(--dy, -0.1em) * 0.55)) scale(1.06);
+    transform: translate(calc(-50% + var(--dx, 0.12em) * 0.2), calc(-50% + var(--dy, -0.1em) * 0.2)) scale(var(--g, 5.6));
   }
 }
 
@@ -1626,19 +1648,17 @@ body[data-proposal="1"] .hero-conversion .dc-hero-actions .dc-button {
   box-shadow: none;
 }
 
-body[data-proposal="1"] .hero-conversion .dc-hero-actions .dc-button.has-btn-dots {
+body[data-proposal="1"] .hero-conversion .dc-hero-actions .dc-button:not(.hero-ecosystem-chip) {
   --btn-dot: var(--blue);
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
 }
 
 body[data-proposal="1"] .hero-conversion .dc-hero-actions .dc-button:hover,
 body[data-proposal="1"] .hero-conversion .dc-hero-actions .dc-button:focus-visible {
   transform: none;
   box-shadow: none;
-}
-
-body[data-proposal="1"] .hero-conversion .dc-hero-actions .dc-button.has-btn-dots:hover,
-body[data-proposal="1"] .hero-conversion .dc-hero-actions .dc-button.has-btn-dots:focus-visible {
-  background: var(--btn-dot);
 }
 
 body[data-proposal="1"] .hero-conversion .dc-hero-actions .hero-ecosystem-chip {
@@ -2122,6 +2142,7 @@ body[data-proposal="1"] .section.soft.solution-overview {
 }
 
 .solution-overview .product-cta .button {
+  --btn-dot: var(--product-accent);
   width: 100%;
   min-height: 48px;
   border: 1px solid var(--product-accent);
@@ -2132,36 +2153,29 @@ body[data-proposal="1"] .section.soft.solution-overview {
   pointer-events: auto;
 }
 
-.solution-overview .product-cta .button::before {
-  content: none;
-}
-
-.solution-overview .product-cta .button.has-btn-dots {
-  --btn-dot: var(--product-accent);
-}
-
 .solution-overview .product-row:hover,
 .solution-overview .product-row:focus-within {
   z-index: 2;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .button.secondary.has-btn-dots,
-  .dc-button.has-btn-dots,
-  .has-btn-dots .btn-bubbles i {
+  .button.secondary::before,
+  .dc-button.secondary::before,
+  .btn-bubbles i {
     transition: none;
     animation: none;
   }
 
-  .has-btn-dots .btn-bubbles {
+  .btn-bubbles {
     display: none;
   }
 
-  .button.secondary.has-btn-dots:hover,
-  .button.secondary.has-btn-dots:focus-visible,
-  .dc-button.has-btn-dots:hover,
-  .dc-button.has-btn-dots:focus-visible {
-    background: var(--btn-dot);
+  .button.secondary:hover,
+  .button.secondary:focus-visible,
+  .product-row:hover .button.secondary,
+  .dc-button.secondary:hover,
+  .dc-button.secondary:focus-visible {
+    background: var(--btn-dot, var(--blue)) !important;
     color: #fff !important;
   }
 }
@@ -2225,13 +2239,13 @@ body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button {
 }
 
 body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button.secondary {
+  --btn-dot: var(--blue);
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
   background: transparent;
   border: 2px solid var(--blue);
   color: var(--blue) !important;
-}
-
-body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button.secondary.has-btn-dots {
-  --btn-dot: var(--blue);
 }
 
 body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button.secondary:hover,
