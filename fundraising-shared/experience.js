@@ -310,39 +310,48 @@
   }
 
   const blobMarkup = `<div class="hero-blobs" aria-hidden="true">
-    <svg class="hero-blob is-mint" data-depth="0.2" data-drift="-0.08" data-spin="-8" data-tilt="18" viewBox="0 0 200 200">
-      <path d="M100 18c46 0 66 46 34 82 32 36 12 82-34 82s-66-46-34-82c-32-36-12-82 34-82z"/>
-    </svg>
-    <svg class="hero-blob is-gold" data-depth="-0.34" data-drift="0.12" data-spin="10" data-tilt="-16" viewBox="0 0 200 200">
-      <path d="M20 100c0-46 46-66 82-34 36-32 82-12 82 34s-46 66-82 34c-36 32-82 12-82-34z"/>
-    </svg>
-    <svg class="hero-blob is-ring" data-depth="-0.18" data-drift="0.05" data-spin="16" data-tilt="8" viewBox="0 0 200 200">
-      <path d="M28 102c4-48 52-70 88-36 34-30 82-8 80 40-2 48-52 70-88 36-34 30-84 8-80-40z"/>
-    </svg>
-    <svg class="hero-blob is-lilac" data-depth="0.44" data-drift="-0.16" data-spin="-14" data-tilt="-8" viewBox="0 0 200 200">
+    <span class="hero-blob is-mint" data-depth="0.28" data-drift="-0.12" data-spin="18"></span>
+    <svg class="hero-blob is-lilac" data-depth="0.46" data-drift="-0.18" data-spin="-16" data-tilt="-8" viewBox="0 0 200 200">
       <path d="M100 36c22-18 62-2 58 30 28 8 22 54-8 60-6 28-50 36-66 8-28 10-58-22-40-46-16-24 12-58 56-52z"/>
     </svg>
-    <svg class="hero-blob is-speck" data-depth="-0.5" data-drift="0.2" data-spin="20" data-tilt="12" viewBox="0 0 200 200">
-      <path d="M72 70c18-28 70-22 70 16 24 8 14 52-16 52-8 24-54 22-62-6-24 4-38-28-8-40-6-16 8-28 16-22z"/>
-    </svg>
   </div>`;
+
+  function liquidRadius(amount, invert) {
+    const direction = invert ? -1 : 1;
+    const wave = Math.sin(amount * Math.PI);
+    return [
+      50 + (22 * wave * direction),
+      50 - (16 * wave * direction),
+      50 + (18 * wave * direction),
+      50 - (20 * wave * direction)
+    ].map(n => n.toFixed(1) + '%').join(' ') + ' / ' + [
+      50 - (14 * wave * direction),
+      50 + (20 * wave * direction),
+      50 - (18 * wave * direction),
+      50 + (16 * wave * direction)
+    ].map(n => n.toFixed(1) + '%').join(' ');
+  }
 
   document.querySelectorAll('.hero').forEach(hero => {
     if (hero.classList.contains('hvd-hero') || hero.querySelector('.hero-blobs')) return;
     hero.insertAdjacentHTML('afterbegin', blobMarkup);
     const blobs = [...hero.querySelectorAll('.hero-blob')];
+    const mint = hero.querySelector('.hero-blob.is-mint');
     if (!blobs.length) return;
 
     function paint(progress) {
+      const morph = Math.sin(progress * Math.PI * 0.5);
+      if (mint) mint.style.setProperty('--blob-mint-radius', liquidRadius(morph, false));
       blobs.forEach(blob => {
         const depth = Number(blob.dataset.depth || 0);
         const drift = Number(blob.dataset.drift || 0);
         const spin = Number(blob.dataset.spin || 0);
         const tilt = Number(blob.dataset.tilt || 0);
-        const y = (progress * depth * 140).toFixed(1);
-        const x = (progress * drift * 90).toFixed(1);
+        const y = (progress * depth * 160).toFixed(1);
+        const x = (progress * drift * 110).toFixed(1);
         const r = (tilt + progress * spin).toFixed(2);
-        blob.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${r}deg)`;
+        const s = (1 + morph * (blob.classList.contains('is-mint') ? 0.08 : 0.12)).toFixed(3);
+        blob.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${r}deg) scale(${s})`;
       });
     }
 
