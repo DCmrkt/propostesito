@@ -183,6 +183,7 @@ select {
 }
 
 .button.secondary {
+  --btn-dot: var(--blue);
   border: 2px solid var(--blue);
   border-radius: 999px;
   background: transparent;
@@ -196,6 +197,60 @@ select {
   background: var(--blue);
   transform: none;
   box-shadow: none;
+}
+
+.has-btn-dots {
+  --btn-dot: var(--product-accent, var(--dc-cta, var(--blue)));
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+  z-index: 0;
+}
+
+.has-btn-dots .btn-bubbles {
+  position: absolute;
+  inset: -0.22em -0.32em;
+  z-index: -1;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.has-btn-dots .btn-bubbles i {
+  position: absolute;
+  left: var(--x, 50%);
+  top: var(--y, 50%);
+  width: var(--s, 0.78em);
+  height: var(--s, 0.78em);
+  display: block;
+  margin: 0;
+  padding: 0;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--btn-dot) 72%, #fff);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.4);
+  pointer-events: none;
+}
+
+.button.secondary.has-btn-dots,
+.dc-button.has-btn-dots {
+  transition: color 0.7s ease 0.28s, background-color 0.7s ease 0.28s, border-color 0.35s ease, transform 0.2s, box-shadow 0.2s;
+}
+
+.button.secondary.has-btn-dots:hover,
+.button.secondary.has-btn-dots:focus-visible,
+.dc-button.has-btn-dots:hover,
+.dc-button.has-btn-dots:focus-visible {
+  color: #fff !important;
+  background: var(--btn-dot);
+  border-color: var(--btn-dot);
+  transform: none;
+  box-shadow: none;
+  z-index: 2;
+}
+
+.has-btn-dots:hover .btn-bubbles i,
+.has-btn-dots:focus-visible .btn-bubbles i {
+  animation: btnCircleBlob 2.15s ease-in-out var(--d, 0s) both;
 }
 
 .button.ghost {
@@ -347,11 +402,21 @@ body[data-proposal="1"] .opening-band .hero {
   background: transparent;
 }
 
+body[data-proposal="1"] .opening-band--ecosistema {
+  overflow: hidden;
+  isolation: isolate;
+}
+
 body[data-proposal="1"] .opening-band--ecosistema::before {
+  top: 10%;
+  bottom: auto;
+  left: -18%;
+  width: min(520px, 44vw);
   border-radius: 50%;
   background: color-mix(in srgb, #b48ad4 48%, #fff);
   opacity: 0.92;
-  transform: translate3d(var(--hero-wash-shift, 0px), var(--hero-wash-drop, 0px), 0) scale(var(--hero-wash-scale-x, 1), var(--hero-wash-scale-y, 1));
+  transform: none;
+  z-index: 0;
 }
 
 body[data-proposal="1"] .opening-band--ecosistema .hero-blobs {
@@ -1052,6 +1117,37 @@ body[data-proposal="1"] .hero-blobs .is-mint {
   animation: hlCircleBlob 2.15s ease-in-out both;
 }
 
+@keyframes btnCircleBlob {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.12);
+  }
+
+  16% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+
+  36% {
+    opacity: 1;
+    transform: translate(calc(-50% + var(--dx, 0.12em)), calc(-50% + var(--dy, -0.1em))) scale(1.22);
+  }
+
+  56% {
+    transform: translate(calc(-50% - var(--dx, 0.12em)), calc(-50% - var(--dy, -0.1em))) scale(0.86);
+  }
+
+  76% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(calc(-50% + var(--dx, 0.12em) * 0.55), calc(-50% + var(--dy, -0.1em) * 0.55)) scale(1.06);
+  }
+}
+
 .hl--fill.is-play {
   animation: hlShimmer 0.85s ease;
 }
@@ -1500,6 +1596,7 @@ body[data-proposal="1"] .hero-conversion .dc-hero-actions {
   width: 100%;
   margin-top: 0;
   padding-top: 0;
+  overflow: visible;
 }
 
 body[data-proposal="1"] .hero-conversion .dc-hero-actions .dc-button {
@@ -1514,10 +1611,19 @@ body[data-proposal="1"] .hero-conversion .dc-hero-actions .dc-button {
   box-shadow: none;
 }
 
-body[data-proposal="1"] .hero-conversion .dc-hero-actions .dc-button:hover {
+body[data-proposal="1"] .hero-conversion .dc-hero-actions .dc-button.has-btn-dots {
+  --btn-dot: var(--blue);
+}
+
+body[data-proposal="1"] .hero-conversion .dc-hero-actions .dc-button:hover,
+body[data-proposal="1"] .hero-conversion .dc-hero-actions .dc-button:focus-visible {
   transform: none;
   box-shadow: none;
-  background: rgba(33, 101, 171, 0.08);
+}
+
+body[data-proposal="1"] .hero-conversion .dc-hero-actions .dc-button.has-btn-dots:hover,
+body[data-proposal="1"] .hero-conversion .dc-hero-actions .dc-button.has-btn-dots:focus-visible {
+  background: var(--btn-dot);
 }
 
 body[data-proposal="1"] .hero-conversion .dc-hero-actions .hero-ecosystem-chip {
@@ -1997,12 +2103,10 @@ body[data-proposal="1"] .section.soft.solution-overview {
 .solution-overview .product-cta {
   margin-top: auto;
   padding-top: 18px;
+  overflow: visible;
 }
 
 .solution-overview .product-cta .button {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
   width: 100%;
   min-height: 48px;
   border: 1px solid var(--product-accent);
@@ -2010,60 +2114,40 @@ body[data-proposal="1"] .section.soft.solution-overview {
   background: transparent;
   color: var(--product-accent);
   box-shadow: none;
-  z-index: 0;
   pointer-events: auto;
-  transition: color 1.05s ease 0.08s;
 }
 
 .solution-overview .product-cta .button::before {
   content: none;
 }
 
-.solution-overview .product-cta .btn-bubbles {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  overflow: hidden;
-  pointer-events: none;
+.solution-overview .product-cta .button.has-btn-dots {
+  --btn-dot: var(--product-accent);
 }
 
-.solution-overview .product-cta .btn-bubbles i {
-  position: absolute;
-  left: var(--x);
-  top: var(--y);
-  width: var(--s);
-  height: var(--s);
-  border-radius: 50%;
-  background: var(--product-accent);
-  transform: translate(-50%, -50%) scale(0);
-  transform-origin: 50% 50%;
-  transition: transform 1.05s cubic-bezier(.22, 1, .36, 1);
-  transition-delay: 0s;
-}
-
-.solution-overview .product-cta .button:hover,
-.solution-overview .product-cta .button:focus-visible {
-  color: #fff;
-  background: transparent;
-  transform: none;
-  box-shadow: none;
-}
-
-.solution-overview .product-cta .button:hover .btn-bubbles i,
-.solution-overview .product-cta .button:focus-visible .btn-bubbles i {
-  transform: translate(-50%, -50%) scale(var(--g, 12));
-  transition-delay: var(--d, 0s);
+.solution-overview .product-row:hover,
+.solution-overview .product-row:focus-within {
+  z-index: 2;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .solution-overview .product-cta .button,
-  .solution-overview .product-cta .btn-bubbles i {
+  .button.secondary.has-btn-dots,
+  .dc-button.has-btn-dots,
+  .has-btn-dots .btn-bubbles i {
     transition: none;
+    animation: none;
   }
 
-  .solution-overview .product-cta .button:hover .btn-bubbles i,
-  .solution-overview .product-cta .button:focus-visible .btn-bubbles i {
-    transform: translate(-50%, -50%) scale(var(--g, 12));
+  .has-btn-dots .btn-bubbles {
+    display: none;
+  }
+
+  .button.secondary.has-btn-dots:hover,
+  .button.secondary.has-btn-dots:focus-visible,
+  .dc-button.has-btn-dots:hover,
+  .dc-button.has-btn-dots:focus-visible {
+    background: var(--btn-dot);
+    color: #fff !important;
   }
 }
 
@@ -2117,6 +2201,7 @@ body[data-proposal="1"] .dc-explorer .dc-bridge-actions {
   gap: 12px;
   align-items: stretch;
   flex-shrink: 0;
+  overflow: visible;
 }
 
 body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button {
@@ -2130,10 +2215,14 @@ body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button.secondary {
   color: var(--blue) !important;
 }
 
-body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button.secondary:hover {
+body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button.secondary.has-btn-dots {
+  --btn-dot: var(--blue);
+}
+
+body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button.secondary:hover,
+body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button.secondary:focus-visible {
   transform: none;
   box-shadow: none;
-  background: rgba(33, 101, 171, 0.08);
 }
 
 .process-grid {
