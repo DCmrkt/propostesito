@@ -408,15 +408,25 @@ body[data-proposal="1"] .opening-band--ecosistema {
 }
 
 body[data-proposal="1"] .opening-band--ecosistema::before {
-  top: 10%;
+  --petal: color-mix(in srgb, #b48ad4 48%, #fff);
+  top: 18%;
   bottom: auto;
-  left: -18%;
-  width: min(520px, 44vw);
+  left: 1%;
+  width: min(118px, 12vw);
+  font-size: min(118px, 12vw);
+  aspect-ratio: 1;
   border-radius: 50%;
-  background: color-mix(in srgb, #b48ad4 48%, #fff);
+  background: var(--petal);
   opacity: 0.92;
-  transform: none;
+  transform: rotate(-18deg);
+  transform-origin: 50% 50%;
   z-index: 0;
+  box-shadow:
+    0.58em 0 0 0 var(--petal),
+    0.18em 0.55em 0 0 var(--petal),
+    -0.47em 0.34em 0 0 var(--petal),
+    -0.47em -0.34em 0 0 var(--petal),
+    0.18em -0.55em 0 0 var(--petal);
 }
 
 body[data-proposal="1"] .opening-band--ecosistema .hero-blobs {
