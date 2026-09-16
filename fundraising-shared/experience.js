@@ -57,8 +57,22 @@
   document.querySelectorAll('[data-explorer]').forEach(explorer => {
     const hexes=[...explorer.querySelectorAll('[data-hex]')];
     const fundraisingHome=document.querySelector('.brand')?.href||window.location.href;
-    const highValuePage=new URL('../mentor-crm/moduli-di-mentor/high-value-donors/',fundraisingHome).href;
-    hexes.filter(hex=>hex.dataset.title==='High Donor Value').forEach(hex=>hex.href=highValuePage);
+    const modulePages={
+      'High Donor Value':'high-value-donors/',
+      'High Value Donors':'high-value-donors/',
+      'Area Donatori':'area-donatori/',
+      'Telemarketing':'telemarketing/',
+      'Mentor Automation':'mentor-automation/',
+      'Questionari':'questionari/',
+      'Landing Page Maker':'landing-page-maker/',
+      'Lead & Donations':'leads-and-donations/',
+      'Lead & Donation':'leads-and-donations/',
+      'Leads and donations':'leads-and-donations/'
+    };
+    hexes.forEach(hex=>{
+      const slug=modulePages[hex.dataset.title];
+      if(slug) hex.href=new URL('../mentor-crm/moduli-di-mentor/'+slug,fundraisingHome).href;
+    });
     const search=explorer.querySelector('input[type="search"]');
     const count=explorer.querySelector('.dc-count');
     const empty=explorer.querySelector('.dc-empty');
