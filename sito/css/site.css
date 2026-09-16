@@ -1699,7 +1699,24 @@ body[data-proposal="1"] .section.soft.solution-overview {
 }
 
 .community-copy .section-head {
-  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 22px;
+  max-width: none;
+}
+
+.community-copy .section-head h2 {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+.community-mark {
+  display: block;
+  width: 128px;
+  flex: 0 0 128px;
+  height: auto;
 }
 
 .community-copy .prose {
@@ -3073,6 +3090,11 @@ body[data-proposal="1"] .process-section .process-item {
     margin-inline: 0;
   }
 
+  .community-mark {
+    width: 108px;
+    flex-basis: 108px;
+  }
+
   .solution-overview .product-rail {
     grid-template-columns: 1fr;
   }
@@ -3468,6 +3490,17 @@ body[data-proposal="1"] .process-section .process-item {
 }
 
 @media (max-width: 640px) {
+  .community-copy .section-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .community-mark {
+    width: 96px;
+    flex-basis: auto;
+  }
+
   .dc-home-contact-intro {
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
