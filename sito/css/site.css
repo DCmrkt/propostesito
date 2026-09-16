@@ -409,24 +409,29 @@ body[data-proposal="1"] .opening-band--ecosistema {
 
 body[data-proposal="1"] .opening-band--ecosistema::before {
   --petal: color-mix(in srgb, #b48ad4 48%, #fff);
-  top: 18%;
+  top: 6%;
   bottom: auto;
-  left: 1%;
-  width: min(118px, 12vw);
-  font-size: min(118px, 12vw);
+  left: -2%;
+  width: min(260px, 24vw);
+  font-size: min(260px, 24vw);
   aspect-ratio: 1;
   border-radius: 50%;
   background: var(--petal);
   opacity: 0.92;
-  transform: rotate(-18deg);
+  transform: rotate(-12deg);
   transform-origin: 50% 50%;
-  z-index: 0;
+  z-index: -1;
   box-shadow:
-    0.58em 0 0 0 var(--petal),
-    0.18em 0.55em 0 0 var(--petal),
-    -0.47em 0.34em 0 0 var(--petal),
-    -0.47em -0.34em 0 0 var(--petal),
-    0.18em -0.55em 0 0 var(--petal);
+    0.78em 0 0 0 var(--petal),
+    0.63em 0.46em 0 0 var(--petal),
+    0.24em 0.74em 0 0 var(--petal),
+    -0.24em 0.74em 0 0 var(--petal),
+    -0.63em 0.46em 0 0 var(--petal),
+    -0.78em 0 0 0 var(--petal),
+    -0.63em -0.46em 0 0 var(--petal),
+    -0.24em -0.74em 0 0 var(--petal),
+    0.24em -0.74em 0 0 var(--petal),
+    0.63em -0.46em 0 0 var(--petal);
 }
 
 body[data-proposal="1"] .opening-band--ecosistema .hero-blobs {
