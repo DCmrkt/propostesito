@@ -2025,16 +2025,16 @@ body[data-proposal="1"] .section.soft.solution-overview {
   transition-delay: 0s;
 }
 
-.solution-overview .product-row:hover .product-cta .button,
-.solution-overview .product-row:focus-visible .product-cta .button {
+.solution-overview .product-cta .button:hover,
+.solution-overview .product-cta .button:focus-visible {
   color: #fff;
   background: transparent;
   transform: none;
   box-shadow: none;
 }
 
-.solution-overview .product-row:hover .product-cta .btn-bubbles i,
-.solution-overview .product-row:focus-visible .product-cta .btn-bubbles i {
+.solution-overview .product-cta .button:hover .btn-bubbles i,
+.solution-overview .product-cta .button:focus-visible .btn-bubbles i {
   transform: translate(-50%, -50%) scale(var(--g, 12));
   transition-delay: var(--d, 0s);
 }
@@ -2045,8 +2045,8 @@ body[data-proposal="1"] .section.soft.solution-overview {
     transition: none;
   }
 
-  .solution-overview .product-row:hover .product-cta .btn-bubbles i,
-  .solution-overview .product-row:focus-visible .product-cta .btn-bubbles i {
+  .solution-overview .product-cta .button:hover .btn-bubbles i,
+  .solution-overview .product-cta .button:focus-visible .btn-bubbles i {
     transform: translate(-50%, -50%) scale(var(--g, 12));
   }
 }
