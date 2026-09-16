@@ -37,15 +37,32 @@
     moduleTags.scrollLeft=Math.max(0,activeModule.offsetLeft-(moduleTags.clientWidth-activeModule.clientWidth)/2);
   });
 
-  if(document.querySelector('.hl--spot') && !document.getElementById('hl-goo')){
-    document.body.insertAdjacentHTML('afterbegin','<svg id="hl-goo-root" aria-hidden="true" focusable="false" width="0" height="0"><filter id="hl-goo" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8" result="goo"/></filter></svg>');
-  }
-  document.querySelectorAll('.hl--spot').forEach(el=>{
+  document.querySelectorAll('.hl--liquid').forEach(el=>{
     if(!el.querySelector('.hl-blobs')){
       const blobs=document.createElement('span');
       blobs.className='hl-blobs';
       blobs.setAttribute('aria-hidden','true');
-      blobs.innerHTML='<i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>';
+      const cols=8;
+      const rows=3;
+      let n=0;
+      for(let r=0;r<rows;r++){
+        const count=r===1?cols:cols-1;
+        const offset=r===1?0:0.5;
+        for(let c=0;c<count;c++){
+          const dot=document.createElement('i');
+          const x=((c+offset+0.5)/cols)*100;
+          const y=12+(r*38);
+          const size=0.68+((c*3+r*5)%5)*0.07;
+          dot.style.setProperty('--x',x+'%');
+          dot.style.setProperty('--y',y+'%');
+          dot.style.setProperty('--s',size+'em');
+          dot.style.setProperty('--dx',(((c%3)-1)*0.14)+'em');
+          dot.style.setProperty('--dy',(((r%3)-1)*0.12)+'em');
+          dot.style.animationDelay=(n*0.045)+'s';
+          blobs.append(dot);
+          n+=1;
+        }
+      }
       el.prepend(blobs);
     }
     el.addEventListener('pointerenter',()=>el.classList.add('is-liquid'));
