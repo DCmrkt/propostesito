@@ -761,6 +761,211 @@ select {
   background: rgba(255, 255, 255, 0.28);
 }
 
+@property --hl-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.hl--fill {
+  background-image: linear-gradient(110deg, transparent 18%, rgba(255, 255, 255, 0.48) 50%, transparent 82%);
+  background-size: 220% 100%;
+  background-position: 180% 0;
+  background-repeat: no-repeat;
+}
+
+.hvd-hero .hl--fill {
+  background-image: linear-gradient(110deg, transparent 18%, rgba(255, 255, 255, 0.7) 50%, transparent 82%);
+  background-size: 220% 100%;
+  background-position: 180% 0;
+  background-repeat: no-repeat;
+}
+
+.hl--marker {
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.hl--box::after {
+  inset: -0.04em -0.14em -0.06em;
+  z-index: -1;
+  box-sizing: border-box;
+  border-radius: 0.28em;
+  padding: 3px;
+  background: conic-gradient(from var(--hl-angle), transparent 0 58%, color-mix(in srgb, var(--hl-color) 25%, #fff) 70%, #fff 82%, color-mix(in srgb, var(--hl-color) 25%, #fff) 90%, transparent 100%);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  transform: rotate(-1.5deg);
+  opacity: 0;
+}
+
+.hl--box::before {
+  inset: -0.04em -0.14em -0.06em;
+  border-width: 2.5px;
+  border-radius: 0.28em;
+  transform: rotate(-1.5deg);
+  transition: opacity 0.25s ease;
+}
+
+.hl--align {
+  transform: rotate(-4deg);
+  transform-origin: 50% 60%;
+}
+
+.hl--align::before {
+  inset: 0.04em -0.08em 0.02em;
+  border-width: 2px;
+  border-radius: 0.12em;
+  transform: rotate(-3deg);
+}
+
+.hl--align::after,
+.hl--expand::after {
+  content: none;
+}
+
+.hl--expand::before {
+  transform: rotate(-1deg);
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .hl {
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .hl--cycle:hover {
+    transform: scale(1.05);
+  }
+
+  .hl--fill:hover {
+    transform: scale(1.035);
+    animation: hlShimmer 0.85s ease;
+  }
+
+  .hl--box:not(.hl--align):not(.hl--expand):hover::before {
+    opacity: 0.38;
+  }
+
+  .hl--marker:hover {
+    animation: hlMarker 0.7s ease;
+  }
+
+  .hl--scribble:hover::after {
+    animation: hlScribbleDraw 0.7s ease;
+  }
+
+  .hl--wave:hover::after {
+    animation: hlWaveMove 0.85s ease-in-out;
+  }
+
+  .hl--circle:hover::before {
+    animation: hlCircleDraw 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .hl--box:hover::after {
+    opacity: 1;
+    animation: hlTraceSpin 1.15s linear infinite;
+  }
+
+  .hl--align,
+  .hl--align::before {
+    transition: transform 0.6s cubic-bezier(0.34, 1.45, 0.64, 1);
+  }
+
+  .hl--align:hover {
+    transform: rotate(0deg);
+  }
+
+  .hl--align:hover::before {
+    transform: rotate(0deg);
+  }
+
+  .hl--expand::before {
+    transition: inset 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .hl--expand:hover::before {
+    inset: -0.32em -0.62em -0.36em;
+    transform: rotate(0deg);
+  }
+
+  .hl--spot:hover::before {
+    animation: hlSpotMorph 0.9s ease-in-out;
+  }
+}
+
+@keyframes hlShimmer {
+  from { background-position: -80% 0; }
+  to { background-position: 180% 0; }
+}
+
+@keyframes hlMarker {
+  from { background-size: 0% 100%; }
+  to { background-size: 100% 100%; }
+}
+
+@keyframes hlScribbleDraw {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    transform: rotate(-6deg) scaleX(1.02);
+  }
+
+  100% {
+    clip-path: inset(0 0 0 0);
+    transform: rotate(-2.5deg) scaleX(1.16);
+  }
+}
+
+@keyframes hlWaveMove {
+  0% { transform: translateX(-16%) rotate(-2deg); }
+  50% { transform: translateX(10%) rotate(1.2deg); }
+  100% { transform: translateX(0) rotate(-1deg); }
+}
+
+@keyframes hlCircleDraw {
+  0% {
+    opacity: 0.35;
+    transform: rotate(-22deg) scale(0.84);
+  }
+
+  58% {
+    opacity: 1;
+    transform: rotate(8deg) scale(1.06);
+  }
+
+  100% {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+@keyframes hlTraceSpin {
+  to { --hl-angle: 360deg; }
+}
+
+@keyframes hlSpotMorph {
+  0% {
+    border-radius: 62% 38% 58% 42%;
+    transform: rotate(-5deg) scale(1);
+  }
+
+  42% {
+    border-radius: 40% 68% 36% 64%;
+    transform: rotate(10deg) scale(1.1);
+  }
+
+  100% {
+    border-radius: 62% 38% 58% 42%;
+    transform: rotate(-5deg) scale(1);
+  }
+}
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
