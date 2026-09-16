@@ -37,6 +37,21 @@
     moduleTags.scrollLeft=Math.max(0,activeModule.offsetLeft-(moduleTags.clientWidth-activeModule.clientWidth)/2);
   });
 
+  if(document.querySelector('.hl--spot') && !document.getElementById('hl-goo')){
+    document.body.insertAdjacentHTML('afterbegin','<svg id="hl-goo-root" aria-hidden="true" focusable="false" width="0" height="0"><filter id="hl-goo" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8" result="goo"/></filter></svg>');
+  }
+  document.querySelectorAll('.hl--spot').forEach(el=>{
+    if(!el.querySelector('.hl-blobs')){
+      const blobs=document.createElement('span');
+      blobs.className='hl-blobs';
+      blobs.setAttribute('aria-hidden','true');
+      blobs.innerHTML='<i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>';
+      el.prepend(blobs);
+    }
+    el.addEventListener('pointerenter',()=>el.classList.add('is-liquid'));
+    el.addEventListener('pointerleave',()=>el.classList.remove('is-liquid'));
+  });
+
   document.querySelectorAll('.dc-honey-map').forEach(flowMap=>{
     if(flowMap.querySelector('.dc-flow-motion')) return;
     const arrow=(path,duration,begin='0s')=>`<g class="dc-flow-arrow"><polygon points="-13,-8 13,0 -13,8"></polygon><animateMotion path="${path}" dur="${duration}s" begin="${begin}" rotate="auto" repeatCount="indefinite"></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.16;.84;1" dur="${duration}s" begin="${begin}" repeatCount="indefinite"></animate></g>`;
