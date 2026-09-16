@@ -4,6 +4,54 @@
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const emit = (name, detail = {}) => document.dispatchEvent(new CustomEvent('dc:interaction', {detail: {name, proposal: document.body.dataset.proposal, ...detail}}));
   // Local UI events only. No analytics provider, storage or personal data transmission.
+  const NAV_ITEMS = [
+    {id:'fundraising', label:'Fundraising', path:'fundraising-soluzioni-per-il-terzo-settore/'},
+    {id:'mentor', label:'Mentor CRM', path:'mentor-crm/'},
+    {id:'moduli', label:'Moduli', path:'mentor-crm/moduli-di-mentor/'},
+    {id:'integrazioni', label:'Integrazioni', path:'mentor-integrazioni/'},
+    {id:'directsense', label:'DirectSense', path:'direct-sense-business-intelligence/'},
+    {id:'analisi', label:'Analisi Predittive', path:'fundraising-analisi-predittive/'}
+  ];
+  function sitoRoot(){
+    const path=(location.pathname||'').replace(/\\/g,'/');
+    const idx=path.indexOf('/sito/');
+    if((location.protocol==='http:'||location.protocol==='https:') && idx!==-1){
+      return path.slice(0, idx+6);
+    }
+    const src=document.querySelector('script[src*="experience.js"]')?.getAttribute('src')||'';
+    const ups=(src.match(/\.\.\//g)||[]).length;
+    return ups>1 ? '../'.repeat(ups-1) : './';
+  }
+  function currentNavId(){
+    let path=(location.pathname||'').replace(/\\/g,'/');
+    const idx=path.indexOf('/sito/');
+    if(idx!==-1) path=path.slice(idx+6);
+    path=path.replace(/index\.html$/,'').replace(/\/?$/,'/');
+    let match=NAV_ITEMS[0];
+    NAV_ITEMS.forEach(item=>{
+      if(path===item.path || path.startsWith(item.path)) match=item;
+    });
+    return match.id;
+  }
+  function renderSiteNav(navEl){
+    if(!navEl) return;
+    const root=sitoRoot();
+    const current=currentNavId();
+    const frag=document.createDocumentFragment();
+    NAV_ITEMS.forEach(item=>{
+      const a=document.createElement('a');
+      a.href=root+item.path;
+      a.textContent=item.label;
+      if(item.id===current) a.setAttribute('aria-current','page');
+      frag.append(a);
+    });
+    const demo=document.createElement('a');
+    demo.href='#contatti';
+    demo.textContent='Richiedi una demo';
+    frag.append(demo);
+    navEl.replaceChildren(frag);
+  }
+  renderSiteNav(document.querySelector('.nav'));
   const nav = document.querySelector('.nav');
   const toggle = document.querySelector('.nav-toggle');
   const dropdowns = [...document.querySelectorAll('.nav-dropdown')];
@@ -29,7 +77,7 @@
   document.addEventListener('keydown',e => {if(e.key==='Escape' && nav?.classList.contains('is-open')) closeNav(true);});
   document.addEventListener('click',e => {if(!e.target.closest('.site-header')) closeNav(); else if(e.target.closest('.nav a')) closeNav();});
   document.addEventListener('focusin', e => {if(!e.target.closest('.nav-dropdown')) closeDropdowns(); if(nav?.classList.contains('is-open') && !e.target.closest('.site-header')) closeNav();});
-  window.matchMedia('(max-width: 760px)').addEventListener('change',()=>closeNav());
+  window.matchMedia('(max-width: 1120px)').addEventListener('change',()=>closeNav());
 
   const moduleTags=document.querySelector('.module-tags');
   const activeModule=moduleTags?.querySelector('[aria-current="page"]');
@@ -39,52 +87,229 @@
 
   const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
   function playHl(el, cls, ms){
-    if(reducedMotion.matches) return;
+    if(reducedMotion.matches){
+      if(el.classList.contains('hl--connect')) el.classList.add('is-drawn');
+      return;
+    }
+    el.classList.remove('is-drawn');
     el.classList.remove(cls);
     void el.offsetWidth;
     el.classList.add(cls);
     window.clearTimeout(el._hlTimer);
-    el._hlTimer=window.setTimeout(()=>el.classList.remove(cls), ms);
+    el._hlTimer=window.setTimeout(()=>{
+      el.classList.remove(cls);
+      if(el.classList.contains('hl--connect')) el.classList.add('is-drawn');
+    }, ms);
   }
 
-  document.querySelectorAll('.hl--liquid').forEach(el=>{
-    if(!el.querySelector('.hl-blobs')){
-      const blobs=document.createElement('span');
-      blobs.className='hl-blobs';
-      blobs.setAttribute('aria-hidden','true');
-      const cols=8;
-      const rows=3;
-      let n=0;
-      for(let r=0;r<rows;r++){
-        const count=r===1?cols:cols-1;
-        const offset=r===1?0:0.5;
-        for(let c=0;c<count;c++){
-          const dot=document.createElement('i');
-          const x=((c+offset+0.5)/cols)*100;
-          const y=12+(r*38);
-          const size=0.68+((c*3+r*5)%5)*0.07;
-          dot.style.setProperty('--x',x+'%');
-          dot.style.setProperty('--y',y+'%');
-          dot.style.setProperty('--s',size+'em');
-          dot.style.setProperty('--dx',(((c%3)-1)*0.14)+'em');
-          dot.style.setProperty('--dy',(((r%3)-1)*0.12)+'em');
-          dot.style.animationDelay=(n*0.018)+'s';
-          blobs.append(dot);
-          n+=1;
-        }
-      }
-      el.prepend(blobs);
-    }
-    requestAnimationFrame(()=>playHl(el,'is-liquid',2700));
-    el.addEventListener('pointerenter',()=>playHl(el,'is-liquid',2700));
-  });
+  function bindHl(el, cls, ms){
+    const start=()=>playHl(el, cls, ms);
+    start();
+    window.setTimeout(start, 50);
+    el.addEventListener('pointerenter', start);
+  }
 
-  document.querySelectorAll('.hl--connect').forEach(el=>{
-    if(!el.querySelector('.hl-connect')){
-      el.insertAdjacentHTML('afterbegin','<svg class="hl-connect" aria-hidden="true" viewBox="0 0 120 48" preserveAspectRatio="none"><path class="hl-link" pathLength="100" d="M8 24 C 26 8, 46 8, 60 24 C 74 40, 94 40, 112 24"/><path class="hl-link hl-link-b" pathLength="100" d="M8 24 C 26 40, 46 40, 60 24 C 74 8, 94 8, 112 24"/><circle class="hl-node" cx="8" cy="24" r="4.1"/><circle class="hl-node hl-node-mid" cx="60" cy="24" r="3.2"/><circle class="hl-node" cx="112" cy="24" r="4.1"/><circle class="hl-packet" r="2.6"/></svg>');
+  function bindLoop(el, cls){
+    const start=()=>{
+      if(reducedMotion.matches) return;
+      el.classList.remove(cls);
+      void el.offsetWidth;
+      el.classList.add(cls);
+    };
+    start();
+    window.setTimeout(start, 50);
+    el.addEventListener('pointerenter', start);
+  }
+
+  function layoutCircle(el){
+    const svg=el.querySelector('.hl-rings');
+    if(!svg) return;
+    const w=Math.max(el.offsetWidth, 8);
+    const h=Math.max(el.offsetHeight, 8);
+    const sizeKey=w+'x'+h;
+    if(el._hlRingSize===sizeKey && svg.querySelector('.hl-ring')) return;
+    el._hlRingSize=sizeKey;
+    svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+    svg.setAttribute('preserveAspectRatio','none');
+    const cx=(w/2).toFixed(2);
+    const cy=(h/2+0.6).toFixed(2);
+    const ns='http://www.w3.org/2000/svg';
+    let a=svg.querySelector('.hl-ring-a');
+    let b=svg.querySelector('.hl-ring-b');
+    if(!a){
+      a=document.createElementNS(ns,'ellipse');
+      a.setAttribute('class','hl-ring hl-ring-a');
+      svg.append(a);
     }
-    requestAnimationFrame(()=>playHl(el,'is-connect',2400));
-    el.addEventListener('pointerenter',()=>playHl(el,'is-connect',2400));
+    if(!b){
+      b=document.createElementNS(ns,'ellipse');
+      b.setAttribute('class','hl-ring hl-ring-b');
+      svg.append(b);
+    }
+    a.setAttribute('cx',cx);
+    a.setAttribute('cy',cy);
+    a.setAttribute('rx',Math.max(w/2-4, 12).toFixed(2));
+    a.setAttribute('ry',Math.max(h/2-3.2, 10).toFixed(2));
+    a.setAttribute('pathLength','100');
+    a.setAttribute('transform',`rotate(-6 ${cx} ${cy})`);
+    b.setAttribute('cx',cx);
+    b.setAttribute('cy',(h/2-0.8).toFixed(2));
+    b.setAttribute('rx',Math.max(w/2-1.2, 14).toFixed(2));
+    b.setAttribute('ry',Math.max(h/2-1.4, 11).toFixed(2));
+    b.setAttribute('pathLength','100');
+    b.setAttribute('transform',`rotate(5 ${cx} ${(h/2-0.8).toFixed(2)})`);
+  }
+
+  function roundedRectPath(x,y,w,h,r){
+    return `M ${x+r} ${y} H ${x+w-r} A ${r} ${r} 0 0 1 ${x+w} ${y+r} V ${y+h-r} A ${r} ${r} 0 0 1 ${x+w-r} ${y+h} H ${x+r} A ${r} ${r} 0 0 1 ${x} ${y+h-r} V ${y+r} A ${r} ${r} 0 0 1 ${x+r} ${y} Z`;
+  }
+
+  function pointOnRoundedRect(x,y,w,h,r,t){
+    const straightW=Math.max(w-2*r,0);
+    const straightH=Math.max(h-2*r,0);
+    const arc=Math.PI*r/2;
+    const peri=2*(straightW+straightH)+4*arc;
+    let d=(((t%1)+1)%1)*peri;
+    if(d<=straightW) return [x+r+d, y];
+    d-=straightW;
+    if(d<=arc){
+      const a=-Math.PI/2+(d/arc)*(Math.PI/2);
+      return [x+w-r+Math.cos(a)*r, y+r+Math.sin(a)*r];
+    }
+    d-=arc;
+    if(d<=straightH) return [x+w, y+r+d];
+    d-=straightH;
+    if(d<=arc){
+      const a=(d/arc)*(Math.PI/2);
+      return [x+w-r+Math.cos(a)*r, y+h-r+Math.sin(a)*r];
+    }
+    d-=arc;
+    if(d<=straightW) return [x+w-r-d, y+h];
+    d-=straightW;
+    if(d<=arc){
+      const a=Math.PI/2+(d/arc)*(Math.PI/2);
+      return [x+r+Math.cos(a)*r, y+h-r+Math.sin(a)*r];
+    }
+    d-=arc;
+    if(d<=straightH) return [x, y+h-r-d];
+    d-=straightH;
+    const a=Math.PI+Math.min(d,arc)/arc*(Math.PI/2);
+    return [x+r+Math.cos(a)*r, y+r+Math.sin(a)*r];
+  }
+
+  function layoutConnect(el){
+    const svg=el.querySelector('.hl-connect');
+    if(!svg) return;
+    const font=parseFloat(getComputedStyle(el).fontSize)||16;
+    const w=Math.max(Math.round(el.offsetWidth + 0.88*font), 2);
+    const h=Math.max(Math.round(el.offsetHeight + 0.64*font), 2);
+    const sizeKey=w+'x'+h;
+    if(el._hlSize===sizeKey && svg.querySelector('.hl-dot') && svg.querySelector('.hl-link')) return;
+    el._hlSize=sizeKey;
+    const radius=2.35;
+    const pad=radius+3;
+    const corner=Math.min(14, Math.max(8, h*0.28));
+    const x=pad, y=pad, rw=Math.max(w-pad*2, corner*2+1), rh=Math.max(h-pad*2, corner*2+1);
+    svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+    svg.setAttribute('preserveAspectRatio','none');
+    const frame=roundedRectPath(x,y,rw,rh,corner);
+    const peri=2*(rw-2*corner+rh-2*corner)+2*Math.PI*corner;
+    const count=Math.max(22, Math.round(peri/11));
+    const ns='http://www.w3.org/2000/svg';
+    let link=svg.querySelector('.hl-link');
+    if(!link){
+      link=document.createElementNS(ns,'path');
+      link.setAttribute('class','hl-link');
+      svg.insertBefore(link, svg.firstChild);
+    }
+    link.setAttribute('d', frame);
+    link.setAttribute('pathLength','100');
+    let group=svg.querySelector('.hl-dot-g');
+    if(!group){
+      group=document.createElementNS(ns,'g');
+      group.setAttribute('class','hl-dot-g');
+      svg.append(group);
+    }
+    group.replaceChildren();
+    const step=1.45/Math.max(count-1,1);
+    for(let i=0;i<count;i++){
+      const pt=pointOnRoundedRect(x,y,rw,rh,corner,i/count);
+      const c=document.createElementNS(ns,'circle');
+      c.setAttribute('class','hl-dot');
+      c.setAttribute('cx',pt[0].toFixed(2));
+      c.setAttribute('cy',pt[1].toFixed(2));
+      c.setAttribute('r', String(radius));
+      c.style.animationDelay=(i*step)+'s';
+      group.append(c);
+    }
+    const oldPen=svg.querySelector('.hl-pen');
+    if(oldPen) oldPen.remove();
+    el._hlConnectMs=Math.ceil((step*(count-1)+0.9+1.55)*1000);
+  }
+
+  document.querySelectorAll('h1 .hl').forEach(el=>{
+    if(el.classList.contains('hl--cycle')) return;
+    if(el.classList.contains('hl--liquid')){
+      if(!el.querySelector('.hl-blobs')){
+        const blobs=document.createElement('span');
+        blobs.className='hl-blobs';
+        blobs.setAttribute('aria-hidden','true');
+        const cols=8;
+        const rows=3;
+        let n=0;
+        for(let r=0;r<rows;r++){
+          const count=r===1?cols:cols-1;
+          const offset=r===1?0:0.5;
+          for(let c=0;c<count;c++){
+            const dot=document.createElement('i');
+            const x=((c+offset+0.5)/cols)*100;
+            const y=12+(r*38);
+            const size=0.68+((c*3+r*5)%5)*0.07;
+            dot.style.setProperty('--x',x+'%');
+            dot.style.setProperty('--y',y+'%');
+            dot.style.setProperty('--s',size+'em');
+            dot.style.setProperty('--dx',(((c%3)-1)*0.14)+'em');
+            dot.style.setProperty('--dy',(((r%3)-1)*0.12)+'em');
+            dot.style.animationDelay=(n*0.018)+'s';
+            blobs.append(dot);
+            n+=1;
+          }
+        }
+        el.prepend(blobs);
+      }
+      bindHl(el,'is-liquid',2700);
+      return;
+    }
+    if(el.classList.contains('hl--connect')){
+      if(!el.querySelector('.hl-connect')){
+        const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+        svg.setAttribute('class','hl-connect');
+        svg.setAttribute('aria-hidden','true');
+        el.prepend(svg);
+      }
+      layoutConnect(el);
+      if(typeof ResizeObserver==='function'){
+        new ResizeObserver(()=>layoutConnect(el)).observe(el);
+      }
+      bindHl(el,'is-connect', el._hlConnectMs||2600);
+      return;
+    }
+    if(el.classList.contains('hl--circle')){
+      if(!el.querySelector('.hl-rings')){
+        const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+        svg.setAttribute('class','hl-rings');
+        svg.setAttribute('aria-hidden','true');
+        el.prepend(svg);
+      }
+      layoutCircle(el);
+      if(typeof ResizeObserver==='function'){
+        new ResizeObserver(()=>layoutCircle(el)).observe(el);
+      }
+      bindLoop(el,'is-play');
+      return;
+    }
+    const ms=el.classList.contains('hl--align')?1250:el.classList.contains('hl--expand')?1100:el.classList.contains('hl--fill')?950:1000;
+    bindHl(el,'is-play',ms);
   });
 
   document.querySelectorAll('.dc-honey-map').forEach(flowMap=>{

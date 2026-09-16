@@ -226,7 +226,7 @@ select {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  gap: 12px;
   height: 100%;
   min-height: 0;
 }
@@ -246,14 +246,15 @@ select {
 .nav {
   display: flex;
   align-items: center;
-  gap: 8px 18px;
+  gap: 6px 12px;
   flex-wrap: nowrap;
   justify-content: flex-end;
 }
 
 .nav a {
   text-decoration: none;
-  font-size: 0.92rem;
+  white-space: nowrap;
+  font-size: 0.86rem;
   font-weight: 700;
   color: #3f3f46;
   transition: color 160ms ease;
@@ -572,6 +573,24 @@ select {
   .hl--cycle::after {
     animation-play-state: paused;
   }
+
+  .hl-connect .hl-dot {
+    opacity: 0;
+  }
+
+  .hl-connect .hl-link {
+    stroke-dashoffset: 0;
+  }
+
+  .hl-rings .hl-ring {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+
+  .hl--circle.is-play .hl-ring-a,
+  .hl--circle.is-play .hl-ring-b {
+    animation: none;
+  }
 }
 
 .hero-grid {
@@ -873,9 +892,12 @@ select {
 
 .hl-connect {
   position: absolute;
-  inset: -0.42em -0.62em -0.32em;
-  width: auto;
-  height: auto;
+  top: -0.34em;
+  right: auto;
+  bottom: auto;
+  left: -0.44em;
+  width: calc(100% + 0.88em);
+  height: calc(100% + 0.64em);
   overflow: visible;
   pointer-events: none;
   z-index: -1;
@@ -884,48 +906,78 @@ select {
 .hl-connect .hl-link {
   fill: none;
   stroke: var(--hl-color);
-  stroke-width: 2.4;
+  stroke-width: 4.6;
   stroke-linecap: round;
   stroke-linejoin: round;
-  vector-effect: non-scaling-stroke;
   stroke-dasharray: 100;
   stroke-dashoffset: 100;
-  opacity: 0;
+  vector-effect: non-scaling-stroke;
 }
 
-.hl-connect .hl-node {
-  fill: color-mix(in srgb, var(--hl-color) 72%, #fff);
-  opacity: 0.7;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-.hl-connect .hl-packet {
-  fill: #fff;
+.hl-connect .hl-dot {
+  fill: var(--hl-color);
   opacity: 0;
   transform-box: fill-box;
   transform-origin: center;
+}
+
+.hl--connect.is-drawn .hl-link {
+  stroke-dashoffset: 0;
+}
+
+.hl--connect.is-drawn .hl-dot {
+  opacity: 0;
+}
+
+.hl--connect.is-connect .hl-dot {
+  animation: hlInkDot 0.9s cubic-bezier(0.22, 1.15, 0.36, 1) both;
 }
 
 .hl--connect.is-connect .hl-link {
-  animation: hlDrawLink 2.1s ease-in-out both;
+  animation: hlConnectLine 1.55s cubic-bezier(0.22, 0.72, 0.28, 1) both;
+  animation-delay: 0.42s;
 }
 
-.hl--connect.is-connect .hl-link-b {
-  animation-delay: 0.12s;
+.hl--circle:has(.hl-rings)::before {
+  content: none;
 }
 
-.hl--connect.is-connect .hl-node {
-  animation: hlNodePulse 2.1s ease-in-out both;
+.hl-rings {
+  position: absolute;
+  inset: -0.22em -0.32em -0.18em;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  pointer-events: none;
+  z-index: -1;
 }
 
-.hl--connect.is-connect .hl-node-mid {
-  animation-delay: 0.08s;
+.hl-rings .hl-ring {
+  fill: none;
+  stroke: var(--hl-color);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  vector-effect: non-scaling-stroke;
 }
 
-.hl--connect.is-connect .hl-packet {
-  offset-path: path("M8 24 C 26 8, 46 8, 60 24 C 74 40, 94 40, 112 24");
-  animation: hlPacket 2.1s ease-in-out both;
+.hl-rings .hl-ring-a {
+  stroke-width: 3.4;
+}
+
+.hl-rings .hl-ring-b {
+  stroke-width: 2.15;
+  opacity: 0.86;
+}
+
+.hl--circle.is-play .hl-ring-a {
+  animation: hlRingLoop 2.7s ease-in-out infinite;
+}
+
+.hl--circle.is-play .hl-ring-b {
+  animation: hlRingLoop 2.7s ease-in-out infinite;
+  animation-delay: 0.2s;
 }
 
 .hl--liquid.is-liquid::before {
@@ -934,6 +986,38 @@ select {
 
 .hl--liquid.is-liquid .hl-blobs i {
   animation: hlCircleBlob 2.15s ease-in-out both;
+}
+
+.hl--fill.is-play {
+  animation: hlShimmer 0.85s ease;
+}
+
+.hl--marker.is-play {
+  animation: hlMarker 0.7s ease;
+}
+
+.hl--scribble.is-play::after {
+  animation: hlScribbleDraw 0.7s ease;
+}
+
+.hl--wave.is-play::after {
+  animation: hlWaveMove 0.85s ease-in-out;
+}
+
+.hl--spot:not(.hl--liquid).is-play::before {
+  animation: hlSpotMorph 0.9s ease-in-out;
+}
+
+.hl--align.is-play {
+  animation: hlAlign 1.15s cubic-bezier(0.34, 1.45, 0.64, 1) both;
+}
+
+.hl--align.is-play::before {
+  animation: hlAlignBox 1.15s cubic-bezier(0.34, 1.45, 0.64, 1) both;
+}
+
+.hl--expand.is-play::before {
+  animation: hlExpand 1s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
@@ -966,7 +1050,7 @@ select {
     animation: hlWaveMove 0.85s ease-in-out;
   }
 
-  .hl--circle:hover::before {
+  .hl--circle:not(:has(.hl-rings)):hover::before {
     animation: hlCircleDraw 0.8s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
@@ -1101,45 +1185,74 @@ select {
   }
 }
 
-@keyframes hlDrawLink {
+@keyframes hlInkDot {
   0% {
-    stroke-dashoffset: 100;
     opacity: 0;
+    transform: scale(0.2);
   }
 
-  28% {
+  16% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  42% {
+    opacity: 1;
+    transform: scale(4);
+  }
+
+  72% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+@keyframes hlConnectLine {
+  0% { stroke-dashoffset: 100; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes hlRingLoop {
+  0% {
+    stroke-dashoffset: 100;
+    opacity: 1;
+  }
+
+  40% {
     stroke-dashoffset: 0;
     opacity: 1;
   }
 
-  78% {
+  52% {
     stroke-dashoffset: 0;
+    opacity: 1;
+  }
+
+  90% {
+    stroke-dashoffset: -100;
     opacity: 1;
   }
 
   100% {
-    stroke-dashoffset: 0;
-    opacity: 0.28;
+    stroke-dashoffset: -100;
+    opacity: 0;
   }
 }
 
-@keyframes hlNodePulse {
-  0% { transform: scale(0.7); }
-  22% { transform: scale(1.18); }
-  48% { transform: scale(1); }
-  100% { transform: scale(1); }
-}
-
-@keyframes hlPacket {
-  0%,
-  18% {
+@keyframes hlPenTip {
+  0% {
     opacity: 0;
     offset-distance: 0%;
   }
 
-  28% { opacity: 1; }
+  8% { opacity: 1; }
 
-  78% {
+  72% {
     opacity: 1;
     offset-distance: 100%;
   }
@@ -1147,6 +1260,38 @@ select {
   100% {
     opacity: 0;
     offset-distance: 100%;
+  }
+}
+
+@keyframes hlAlign {
+  0% { transform: rotate(-4deg); }
+  42%,
+  68% { transform: rotate(0deg); }
+  100% { transform: rotate(-4deg); }
+}
+
+@keyframes hlAlignBox {
+  0% { transform: rotate(-3deg); }
+  42%,
+  68% { transform: rotate(0deg); }
+  100% { transform: rotate(-3deg); }
+}
+
+@keyframes hlExpand {
+  0% {
+    inset: -0.04em -0.14em -0.06em;
+    transform: rotate(-1deg);
+  }
+
+  46%,
+  64% {
+    inset: -0.32em -0.62em -0.36em;
+    transform: rotate(0deg);
+  }
+
+  100% {
+    inset: -0.04em -0.14em -0.06em;
+    transform: rotate(-1deg);
   }
 }
 
@@ -2482,11 +2627,7 @@ body[data-proposal="1"] .process-section .process-item {
   }
 }
 
-@media (max-width: 760px) {
-  .hero-badge {
-    inset: auto 12px 12px;
-  }
-
+@media (max-width: 1120px) {
   .nav-toggle {
     display: inline-flex;
   }
@@ -2522,6 +2663,12 @@ body[data-proposal="1"] .process-section .process-item {
 
   .nav a[href="#contatti"] {
     justify-content: center;
+  }
+}
+
+@media (max-width: 760px) {
+  .hero-badge {
+    inset: auto 12px 12px;
   }
 
   .fields {
