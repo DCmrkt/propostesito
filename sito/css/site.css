@@ -1190,6 +1190,8 @@ body[data-proposal="1"] .outcome-grid article + article {
   display: block;
   width: 100%;
   height: auto;
+  border-radius: 24px;
+  object-fit: cover;
   filter: drop-shadow(0 28px 48px rgba(39, 32, 52, 0.22));
 }
 
