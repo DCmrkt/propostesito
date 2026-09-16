@@ -342,6 +342,11 @@ body[data-proposal="1"] .opening-band .promise-strip {
   z-index: 1;
 }
 
+body[data-proposal="1"] .opening-band .hero {
+  overflow: visible;
+  background: transparent;
+}
+
 body[data-proposal="1"] .hero.hero-conversion {
   overflow: visible;
   isolation: auto;
