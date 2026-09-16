@@ -4,13 +4,12 @@
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const emit = (name, detail = {}) => document.dispatchEvent(new CustomEvent('dc:interaction', {detail: {name, proposal: document.body.dataset.proposal, ...detail}}));
   // Local UI events only. No analytics provider, storage or personal data transmission.
+  const HOME_PATH = 'fundraising-soluzioni-per-il-terzo-settore/';
   const NAV_ITEMS = [
-    {id:'fundraising', label:'Fundraising', path:'fundraising-soluzioni-per-il-terzo-settore/'},
-    {id:'mentor', label:'Mentor CRM', path:'mentor-crm/'},
-    {id:'moduli', label:'Moduli', path:'mentor-crm/moduli-di-mentor/'},
-    {id:'integrazioni', label:'Integrazioni', path:'mentor-integrazioni/'},
-    {id:'directsense', label:'DirectSense', path:'direct-sense-business-intelligence/'},
-    {id:'analisi', label:'Analisi Predittive', path:'fundraising-analisi-predittive/'}
+    {id:'fundraising', label:'Fundraising', hash:'#hero'},
+    {id:'strumenti', label:'Gli strumenti', hash:'#strumenti'},
+    {id:'ecosistema', label:'L’ecosistema', hash:'#dc-ecosistema'},
+    {id:'community', label:'La community', hash:'#community'}
   ];
   function sitoRoot(){
     const path=(location.pathname||'').replace(/\\/g,'/');
@@ -22,33 +21,32 @@
     const ups=(src.match(/\.\.\//g)||[]).length;
     return ups>1 ? '../'.repeat(ups-1) : './';
   }
-  function currentNavId(){
+  function pagePath(){
     let path=(location.pathname||'').replace(/\\/g,'/');
     const idx=path.indexOf('/sito/');
     if(idx!==-1) path=path.slice(idx+6);
-    path=path.replace(/index\.html$/,'').replace(/\/?$/,'/');
-    let match=NAV_ITEMS[0];
-    NAV_ITEMS.forEach(item=>{
-      if(path===item.path || path.startsWith(item.path)) match=item;
-    });
-    return match.id;
+    return path.replace(/index\.html$/,'').replace(/\/?$/,'/');
+  }
+  function isFundraisingHome(){
+    const path=pagePath();
+    return path===HOME_PATH || path==='' || path==='/';
   }
   function renderSiteNav(navEl){
     if(!navEl) return;
     const root=sitoRoot();
-    const current=currentNavId();
+    const home=isFundraisingHome();
     const frag=document.createDocumentFragment();
     NAV_ITEMS.forEach(item=>{
       const a=document.createElement('a');
-      a.href=root+item.path;
+      a.href=home ? item.hash : root+HOME_PATH+item.hash;
       a.textContent=item.label;
-      if(item.id===current) a.setAttribute('aria-current','page');
+      if(home && item.id==='fundraising') a.setAttribute('aria-current','page');
       frag.append(a);
     });
-    const demo=document.createElement('a');
-    demo.href='#contatti';
-    demo.textContent='Richiedi una demo';
-    frag.append(demo);
+    const cta=document.createElement('a');
+    cta.href='#contatti';
+    cta.textContent='Richiedi una consulenza';
+    frag.append(cta);
     navEl.replaceChildren(frag);
   }
   renderSiteNav(document.querySelector('.nav'));
@@ -110,15 +108,59 @@
   }
 
   function bindLoop(el, cls){
-    const start=()=>{
-      if(reducedMotion.matches) return;
+    if(reducedMotion.matches){
+      el.classList.add(cls);
+      return;
+    }
+    el.classList.add(cls);
+    el.addEventListener('pointerenter',()=>{
       el.classList.remove(cls);
       void el.offsetWidth;
       el.classList.add(cls);
-    };
-    start();
-    window.setTimeout(start, 50);
-    el.addEventListener('pointerenter', start);
+    });
+  }
+
+  function ellipsePoints(cx,cy,rx,ry,rotDeg,n,start,sweep){
+    const rot=rotDeg*Math.PI/180;
+    const pts=[];
+    for(let i=0;i<n;i++){
+      const a=start+sweep*(i/(n-1));
+      const x0=Math.cos(a)*rx;
+      const y0=Math.sin(a)*ry;
+      pts.push({
+        x:cx+x0*Math.cos(rot)-y0*Math.sin(rot),
+        y:cy+x0*Math.sin(rot)+y0*Math.cos(rot)
+      });
+    }
+    return pts;
+  }
+
+  function linePath(pts){
+    return 'M '+pts.map(p=>p.x.toFixed(2)+' '+p.y.toFixed(2)).join(' L ');
+  }
+
+  function taperedRibbon(pts,w0,w1){
+    const left=[], right=[];
+    for(let i=0;i<pts.length;i++){
+      const t=i/(pts.length-1);
+      const w=Math.max(0.55, w0+(w1-w0)*Math.pow(t,0.78));
+      const i0=Math.max(0,i-1);
+      const i1=Math.min(pts.length-1,i+1);
+      let tx=pts[i1].x-pts[i0].x, ty=pts[i1].y-pts[i0].y;
+      const len=Math.hypot(tx,ty)||1;
+      const nx=-ty/len, ny=tx/len;
+      left.push({x:pts[i].x+nx*w/2, y:pts[i].y+ny*w/2});
+      right.push({x:pts[i].x-nx*w/2, y:pts[i].y-ny*w/2});
+    }
+    const fmt=p=>p.x.toFixed(2)+' '+p.y.toFixed(2);
+    const capS=Math.hypot(left[0].x-right[0].x,left[0].y-right[0].y)/2;
+    const capE=Math.hypot(left[left.length-1].x-right[right.length-1].x,left[left.length-1].y-right[right.length-1].y)/2;
+    let d='M '+fmt(left[0]);
+    for(let i=1;i<left.length;i++) d+=' L '+fmt(left[i]);
+    d+=' A '+capE.toFixed(2)+' '+capE.toFixed(2)+' 0 0 1 '+fmt(right[right.length-1]);
+    for(let i=right.length-2;i>=0;i--) d+=' L '+fmt(right[i]);
+    d+=' A '+capS.toFixed(2)+' '+capS.toFixed(2)+' 0 0 1 '+fmt(left[0])+' Z';
+    return d;
   }
 
   function layoutCircle(el){
@@ -127,37 +169,42 @@
     const w=Math.max(el.offsetWidth, 8);
     const h=Math.max(el.offsetHeight, 8);
     const sizeKey=w+'x'+h;
-    if(el._hlRingSize===sizeKey && svg.querySelector('.hl-ring')) return;
+    if(el._hlRingSize===sizeKey && svg.querySelector('.hl-taper')) return;
     el._hlRingSize=sizeKey;
     svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
     svg.setAttribute('preserveAspectRatio','none');
-    const cx=(w/2).toFixed(2);
-    const cy=(h/2+0.6).toFixed(2);
+    const cx=w/2;
+    const cy=h/2+0.2;
     const ns='http://www.w3.org/2000/svg';
-    let a=svg.querySelector('.hl-ring-a');
-    let b=svg.querySelector('.hl-ring-b');
-    if(!a){
-      a=document.createElementNS(ns,'ellipse');
-      a.setAttribute('class','hl-ring hl-ring-a');
-      svg.append(a);
+    if(!el._hlMaskA) el._hlMaskA='hl-mask-a-'+Math.random().toString(36).slice(2,8);
+    if(!el._hlMaskB) el._hlMaskB='hl-mask-b-'+Math.random().toString(36).slice(2,8);
+    const ptsA=ellipsePoints(cx, cy, Math.max(w/2-2.4, 13), Math.max(h/2-1.8, 11), -7, 52, -0.95, Math.PI*1.88);
+    const ptsB=ellipsePoints(cx+0.8, cy-0.6, Math.max(w/2-0.4, 15), Math.max(h/2-0.6, 12), 6, 52, 0.35, Math.PI*1.86);
+    svg.replaceChildren();
+    const defs=document.createElementNS(ns,'defs');
+    function maskFor(id, pts, cls){
+      const mask=document.createElementNS(ns,'mask');
+      mask.setAttribute('id', id);
+      mask.setAttribute('maskUnits','userSpaceOnUse');
+      const draw=document.createElementNS(ns,'path');
+      draw.setAttribute('class','hl-draw '+cls);
+      draw.setAttribute('d', linePath(pts));
+      draw.setAttribute('pathLength','100');
+      mask.append(draw);
+      defs.append(mask);
     }
-    if(!b){
-      b=document.createElementNS(ns,'ellipse');
-      b.setAttribute('class','hl-ring hl-ring-b');
-      svg.append(b);
-    }
-    a.setAttribute('cx',cx);
-    a.setAttribute('cy',cy);
-    a.setAttribute('rx',Math.max(w/2-4, 12).toFixed(2));
-    a.setAttribute('ry',Math.max(h/2-3.2, 10).toFixed(2));
-    a.setAttribute('pathLength','100');
-    a.setAttribute('transform',`rotate(-6 ${cx} ${cy})`);
-    b.setAttribute('cx',cx);
-    b.setAttribute('cy',(h/2-0.8).toFixed(2));
-    b.setAttribute('rx',Math.max(w/2-1.2, 14).toFixed(2));
-    b.setAttribute('ry',Math.max(h/2-1.4, 11).toFixed(2));
-    b.setAttribute('pathLength','100');
-    b.setAttribute('transform',`rotate(5 ${cx} ${(h/2-0.8).toFixed(2)})`);
+    maskFor(el._hlMaskA, ptsA, 'hl-draw-a');
+    maskFor(el._hlMaskB, ptsB, 'hl-draw-b');
+    svg.append(defs);
+    const taperA=document.createElementNS(ns,'path');
+    taperA.setAttribute('class','hl-taper hl-taper-a');
+    taperA.setAttribute('d', taperedRibbon(ptsA, 11.5, 1.05));
+    taperA.setAttribute('mask','url(#'+el._hlMaskA+')');
+    const taperB=document.createElementNS(ns,'path');
+    taperB.setAttribute('class','hl-taper hl-taper-b');
+    taperB.setAttribute('d', taperedRibbon(ptsB, 8.2, 0.85));
+    taperB.setAttribute('mask','url(#'+el._hlMaskB+')');
+    svg.append(taperA, taperB);
   }
 
   function roundedRectPath(x,y,w,h,r){
@@ -200,27 +247,44 @@
   function layoutConnect(el){
     const svg=el.querySelector('.hl-connect');
     if(!svg) return;
-    const font=parseFloat(getComputedStyle(el).fontSize)||16;
-    const w=Math.max(Math.round(el.offsetWidth + 0.88*font), 2);
-    const h=Math.max(Math.round(el.offsetHeight + 0.64*font), 2);
+    const w=Math.max(el.offsetWidth, 2);
+    const h=Math.max(el.offsetHeight, 2);
     const sizeKey=w+'x'+h;
     if(el._hlSize===sizeKey && svg.querySelector('.hl-dot') && svg.querySelector('.hl-link')) return;
     el._hlSize=sizeKey;
-    const radius=2.35;
-    const pad=radius+3;
-    const corner=Math.min(14, Math.max(8, h*0.28));
-    const x=pad, y=pad, rw=Math.max(w-pad*2, corner*2+1), rh=Math.max(h-pad*2, corner*2+1);
+    const radius=2.8;
+    const padX=3.4, padTop=2.6, padBottom=10;
+    const corner=Math.min(12, Math.max(7, h*0.36));
+    const x=padX, y=padTop, rw=Math.max(w-padX*2, corner*2+1), rh=Math.max(h-padTop-padBottom, corner*2+1);
     svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
     svg.setAttribute('preserveAspectRatio','none');
     const frame=roundedRectPath(x,y,rw,rh,corner);
     const peri=2*(rw-2*corner+rh-2*corner)+2*Math.PI*corner;
-    const count=Math.max(22, Math.round(peri/11));
+    const count=Math.max(16, Math.round(peri/16));
     const ns='http://www.w3.org/2000/svg';
+    let defs=svg.querySelector('defs');
+    if(!defs){
+      defs=document.createElementNS(ns,'defs');
+      svg.insertBefore(defs, svg.firstChild);
+    }
+    if(!el._hlGooId) el._hlGooId='hl-goo-'+Math.random().toString(36).slice(2,8);
+    let filter=defs.querySelector('.hl-goo');
+    if(!filter){
+      filter=document.createElementNS(ns,'filter');
+      filter.setAttribute('class','hl-goo');
+      filter.setAttribute('id', el._hlGooId);
+      filter.setAttribute('x','-80%');
+      filter.setAttribute('y','-80%');
+      filter.setAttribute('width','260%');
+      filter.setAttribute('height','260%');
+      filter.innerHTML='<feGaussianBlur in="SourceGraphic" stdDeviation="3.4" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8" result="goo"/><feComposite in="SourceGraphic" in2="goo" operator="atop"/>';
+      defs.append(filter);
+    }
     let link=svg.querySelector('.hl-link');
     if(!link){
       link=document.createElementNS(ns,'path');
       link.setAttribute('class','hl-link');
-      svg.insertBefore(link, svg.firstChild);
+      svg.append(link);
     }
     link.setAttribute('d', frame);
     link.setAttribute('pathLength','100');
@@ -230,21 +294,30 @@
       group.setAttribute('class','hl-dot-g');
       svg.append(group);
     }
+    group.setAttribute('filter','url(#'+el._hlGooId+')');
     group.replaceChildren();
-    const step=1.45/Math.max(count-1,1);
+    const step=1.05/Math.max(count-1,1);
     for(let i=0;i<count;i++){
       const pt=pointOnRoundedRect(x,y,rw,rh,corner,i/count);
+      const nxt=pointOnRoundedRect(x,y,rw,rh,corner,(i+1)/count);
+      const lx=nxt[0]-pt[0], ly=nxt[1]-pt[1];
+      const len=Math.hypot(lx,ly)||1;
+      const nx=-ly/len, ny=lx/len;
+      const outward=i%2===0?1:-1;
+      const bump=outward*2.2;
       const c=document.createElementNS(ns,'circle');
       c.setAttribute('class','hl-dot');
-      c.setAttribute('cx',pt[0].toFixed(2));
-      c.setAttribute('cy',pt[1].toFixed(2));
-      c.setAttribute('r', String(radius));
-      c.style.animationDelay=(i*step)+'s';
+      c.setAttribute('cx',(pt[0]+nx*bump).toFixed(2));
+      c.setAttribute('cy',(pt[1]+ny*bump).toFixed(2));
+      c.setAttribute('r',(radius*(0.78+(i%3)*0.16)).toFixed(2));
+      c.style.setProperty('--dx',(nx*outward*18).toFixed(1)+'px');
+      c.style.setProperty('--dy',(ny*outward*14).toFixed(1)+'px');
+      c.style.animationDelay=(0.28+i*step)+'s';
       group.append(c);
     }
     const oldPen=svg.querySelector('.hl-pen');
     if(oldPen) oldPen.remove();
-    el._hlConnectMs=Math.ceil((step*(count-1)+0.9+1.55)*1000);
+    el._hlConnectMs=Math.ceil((0.28+step*(count-1)+1.15)*1000)+280;
   }
 
   document.querySelectorAll('h1 .hl').forEach(el=>{
@@ -291,7 +364,9 @@
       if(typeof ResizeObserver==='function'){
         new ResizeObserver(()=>layoutConnect(el)).observe(el);
       }
-      bindHl(el,'is-connect', el._hlConnectMs||2600);
+      const start=()=>playHl(el,'is-connect', el._hlConnectMs||2400);
+      window.setTimeout(start, 320);
+      el.addEventListener('pointerenter', start);
       return;
     }
     if(el.classList.contains('hl--circle')){
@@ -493,8 +568,9 @@
     form.querySelector('button[type="submit"]').disabled=false;
     const interest=form.elements.interesse, status=form.querySelector('.dc-form-status'), dialog=document.querySelector('.dc-dialog');
     document.querySelectorAll('[data-demo]').forEach(link=>link.addEventListener('click',()=>{
-      if(link.dataset.demo) interest.value=link.dataset.demo;
-      status.textContent=interest.value?`La tua demo: ${interest.value}.`:'';
+      if(interest && link.dataset.demo) interest.value=link.dataset.demo;
+      const topic=(interest && interest.value) || link.dataset.demo || '';
+      status.textContent=topic?`La tua consulenza: ${topic}.`:'';
       const heading=document.querySelector('#dc-contact-title');heading.focus({preventScroll:true});
       emit('demo_click',{solution:link.dataset.demo||'generale'});
     }));
@@ -503,7 +579,7 @@
       e.preventDefault();
       if(!form.reportValidity())return;
       const summary=dialog.querySelector('dl');summary.replaceChildren();
-      [['Nome',form.elements.nome.value],['Email',form.elements.email.value],['Organizzazione',form.elements.organizzazione.value],['Interesse',interest.value||'Demo personalizzata'],['Messaggio',form.elements.messaggio.value]].forEach(([label,value])=>{if(!value)return;const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=value;summary.append(dt,dd);});
+      [['Nome',form.elements.nome?.value],['Email',form.elements.email?.value],['Organizzazione',form.elements.organizzazione?.value],['Interesse',interest?.value],['Messaggio',form.elements.messaggio?.value]].forEach(([label,value])=>{if(!value)return;const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=value;summary.append(dt,dd);});
       dialog.showModal();status.textContent='Anteprima pronta. Nessuna richiesta è stata inviata.';emit('demo_preview');
     });
     dialog.querySelector('[data-close]').addEventListener('click',()=>dialog.close());
@@ -598,7 +674,7 @@
     fundraising: [
       disc('is-mint', 'data-x="160" data-y="18" data-spin="16" data-morph="1"'),
       cloud('is-lilac', 'data-x="-12" data-y="-8" data-grow="0.9" data-spin="-10" data-tilt="-8"', cloudLilac),
-      cloud('is-gold', 'data-x="-36" data-y="90" data-spin="24" data-tilt="10" data-grow="0.12"', cloudGold)
+      cloud('is-gold', 'data-x="-18" data-to="bottom" data-spin="12" data-tilt="8" data-grow="6.2" data-scroll="slow"', cloudGold)
     ],
     mentor: [
       disc('is-peach', 'data-x="140" data-y="28" data-spin="-14" data-morph="1"'),
@@ -720,6 +796,25 @@
     ].map(n => n.toFixed(1) + '%').join(' ');
   }
 
+  function washBlobRadius(amount) {
+    const t = Math.min(1, Math.max(0, amount));
+    const wave = Math.sin(t * Math.PI);
+    const ripple = Math.sin(t * Math.PI * 2.7);
+    const wobble = Math.cos(t * Math.PI * 1.85);
+    const clamp = n => Math.max(12, Math.min(88, n)).toFixed(1) + '%';
+    return [
+      84 + wave * 4 + ripple * 10,
+      16 - wave * 6 + wobble * 12,
+      72 + wobble * 14 - ripple * 8,
+      28 - wave * 10 + ripple * 12
+    ].map(clamp).join(' ') + ' / ' + [
+      32 - wobble * 12 + wave * 10,
+      80 + wave * 6 + ripple * 10,
+      18 + ripple * 14 - wobble * 8,
+      70 - wave * 10 + wobble * 12
+    ].map(clamp).join(' ');
+  }
+
   document.querySelectorAll('.hero, .hvd-hero').forEach(hero => {
     if (hero.querySelector('.hero-blobs')) return;
     const theme = blobTheme();
@@ -727,20 +822,46 @@
     hero.insertAdjacentHTML('afterbegin', `<div class="hero-blobs" data-theme="${theme}" aria-hidden="true">${parts.join('')}</div>`);
     const blobs = [...hero.querySelectorAll('.hero-blob')];
     if (!blobs.length) return;
+    const heroBox = hero.getBoundingClientRect();
+    blobs.forEach(blob => {
+      if (blob.dataset.to !== 'bottom') return;
+      const box = blob.getBoundingClientRect();
+      const top = box.top - heroBox.top;
+      blob.dataset.y = String(Math.max(160, Math.round(hero.clientHeight - top - box.height * 0.12 + 110)));
+    });
 
     function paint(progress) {
-      const morph = Math.sin(progress * Math.PI * 0.5);
+      const band = hero.closest('.opening-band');
+      let wash = progress;
+      let slow = progress;
+      if (band) {
+        const story = hero.closest('main')?.querySelector('.partner-story');
+        const storyEnd = story
+          ? story.getBoundingClientRect().top + window.scrollY + story.offsetHeight * 0.9
+          : 0;
+        const washTravel = Math.max(band.offsetHeight * 2.4, window.innerHeight * 1.6, storyEnd);
+        const slowTravel = Math.max(band.offsetHeight * 2.6, window.innerHeight * 2.2);
+        wash = Math.min(1, Math.max(0, window.scrollY / washTravel));
+        slow = Math.min(1, Math.max(0, window.scrollY / slowTravel));
+        band.style.setProperty('--hero-wash-scale-x', (1 + wash * 0.62).toFixed(3));
+        band.style.setProperty('--hero-wash-scale-y', (1 + wash * 0.18).toFixed(3));
+        band.style.setProperty('--hero-wash-shift', (wash * 120).toFixed(1) + 'px');
+        band.style.setProperty('--hero-wash-drop', (wash * 160).toFixed(1) + 'px');
+        band.style.setProperty('--hero-wash-tilt', (-14 + wash * 10).toFixed(2) + 'deg');
+        band.style.setProperty('--hero-wash-radius', washBlobRadius(wash));
+      }
       blobs.forEach(blob => {
-        const x = Number(blob.dataset.x || 0) * progress;
-        const y = Number(blob.dataset.y || 0) * progress;
+        const amount = blob.dataset.scroll === 'wash' ? wash : blob.dataset.scroll === 'slow' ? slow : progress;
+        const x = Number(blob.dataset.x || 0) * amount;
+        const y = Number(blob.dataset.y || 0) * amount;
         const spin = Number(blob.dataset.spin || 0);
         const tilt = Number(blob.dataset.tilt || 0);
         const grow = Number(blob.dataset.grow || 0);
-        const scale = 1 + grow * progress;
+        const scale = 1 + grow * amount;
         if (blob.dataset.morph === '1') {
-          blob.style.setProperty('--blob-radius', liquidRadius(morph, false));
+          blob.style.setProperty('--blob-radius', liquidRadius(Math.sin(amount * Math.PI * 0.5), false));
         }
-        blob.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) rotate(${(tilt + spin * progress).toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+        blob.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) rotate(${(tilt + spin * amount).toFixed(2)}deg) scale(${scale.toFixed(3)})`;
       });
     }
 
@@ -770,5 +891,89 @@
       else requestUpdate();
     });
     update();
+  });
+
+  document.querySelectorAll('.hero-sky-scene').forEach(scene => {
+    const balloons = [...scene.querySelectorAll('.hero-balloon-shot')];
+    const layer = scene.querySelector('.hero-balloons');
+    if (!balloons.length || !layer) return;
+
+    function fitLayer() {
+      const cw = scene.clientWidth || 1;
+      const ch = scene.clientHeight || 1;
+      const iw = 1152;
+      const ih = 864;
+      const scale = Math.max(cw / iw, ch / ih);
+      const w = iw * scale;
+      const h = ih * scale;
+      layer.style.left = `${((cw - w) / 2).toFixed(2)}px`;
+      layer.style.top = `${((ch - h) / 2).toFixed(2)}px`;
+      layer.style.width = `${w.toFixed(2)}px`;
+      layer.style.height = `${h.toFixed(2)}px`;
+      layer.style.right = 'auto';
+      layer.style.bottom = 'auto';
+    }
+
+    function lift(progress) {
+      const sceneH = scene.clientHeight || 1;
+      balloons.forEach(balloon => {
+        const rise = sceneH * (Number(balloon.dataset.lift || 70) / 100) * progress;
+        const drift = Number(balloon.dataset.drift || 0) * progress;
+        balloon.style.transform = `translate3d(${drift.toFixed(1)}px, ${(-rise).toFixed(1)}px, 0)`;
+      });
+    }
+
+    if (reduced.matches) {
+      fitLayer();
+      lift(0);
+    }
+
+    let pending = false;
+    function update() {
+      fitLayer();
+      const travel = Math.max(window.innerHeight * 0.8, 420);
+      const progress = reduced.matches ? 0 : Math.min(1, Math.max(0, window.scrollY / travel));
+      lift(progress);
+      pending = false;
+    }
+    function requestUpdate() {
+      if (pending) return;
+      pending = true;
+      window.requestAnimationFrame(update);
+    }
+
+    window.addEventListener('scroll', requestUpdate, {passive: true});
+    window.addEventListener('resize', requestUpdate);
+    reduced.addEventListener('change', () => {
+      if (reduced.matches) lift(0);
+      else requestUpdate();
+    });
+    update();
+  });
+
+  document.querySelectorAll('.solution-overview .product-cta .button').forEach(btn=>{
+    if(btn.querySelector('.btn-bubbles')) return;
+    const wrap=document.createElement('span');
+    wrap.className='btn-bubbles';
+    wrap.setAttribute('aria-hidden','true');
+    const cols=12;
+    const rows=4;
+    const fromLeft=Math.random()<0.5;
+    for(let r=0;r<rows;r++){
+      for(let c=0;c<cols;c++){
+        const dot=document.createElement('i');
+        const x=((c+0.5)/cols)*100;
+        const y=((r+0.5)/rows)*100;
+        const rank=fromLeft?c:(cols-1-c);
+        const d=rank*0.04+r*0.015+Math.random()*0.04;
+        dot.style.setProperty('--x',x+'%');
+        dot.style.setProperty('--y',y+'%');
+        dot.style.setProperty('--s','0.34em');
+        dot.style.setProperty('--g','12');
+        dot.style.setProperty('--d',d+'s');
+        wrap.append(dot);
+      }
+    }
+    btn.prepend(wrap);
   });
 })();
