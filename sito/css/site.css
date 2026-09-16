@@ -1109,23 +1109,8 @@ body[data-proposal="1"] .outcome-grid article + article {
 }
 
 .hvd-hero-copy {
-  max-width: 610px;
-}
-
-.hvd-mentor-mark {
-  width: 86px;
-  height: 86px;
-  display: grid;
-  place-items: center;
-  margin-bottom: 26px;
-  border-radius: 50%;
-  background: #fff;
-}
-
-.hvd-mentor-mark img {
-  width: 62px;
-  height: 62px;
-  object-fit: contain;
+  max-width: 560px;
+  padding-right: clamp(8px, 2vw, 28px);
 }
 
 .hvd-eyebrow {
@@ -1147,12 +1132,13 @@ body[data-proposal="1"] .outcome-grid article + article {
 }
 
 .hvd-hero h1 {
-  max-width: 640px;
+  max-width: 18ch;
   margin: 0 0 18px;
   color: #fff;
-  font-size: clamp(2.6rem, 5.4vw, 5.2rem);
-  line-height: 1.02;
+  font-size: clamp(2.08rem, 4.32vw, 4.16rem);
+  line-height: 1.06;
   letter-spacing: -0.055em;
+  text-wrap: balance;
 }
 
 .hvd-hero .lead {
@@ -1184,6 +1170,7 @@ body[data-proposal="1"] .outcome-grid article + article {
   z-index: 2;
   justify-self: end;
   width: min(100%, 540px);
+  padding-left: clamp(8px, 2vw, 24px);
 }
 
 .hvd-hero-photo img {
@@ -1456,13 +1443,15 @@ body[data-proposal="1"] .outcome-grid article + article {
   position: relative;
   z-index: 2;
   padding: clamp(28px, 5vw, 54px);
+  padding-bottom: clamp(64px, 9vw, 110px);
+  background: #fff;
 }
 
 .hvd-contact-visual h2 {
   margin: 0 0 16px;
   color: var(--hvd-ink);
-  font-size: clamp(2.25rem, 4.6vw, 4.2rem);
-  line-height: 1.02;
+  font-size: clamp(1.8rem, 3.68vw, 3.36rem);
+  line-height: 1.08;
   letter-spacing: -0.055em;
 }
 
@@ -1475,18 +1464,20 @@ body[data-proposal="1"] .outcome-grid article + article {
 
 .hvd-contact-visual figure {
   position: relative;
-  min-height: 260px;
+  z-index: 1;
+  flex: 1 1 auto;
+  min-height: 300px;
   margin: 0;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .hvd-contact-visual img {
   position: absolute;
-  width: 118%;
+  width: 108%;
   max-width: none;
   height: auto;
-  left: -9%;
-  bottom: -1px;
+  left: -4%;
+  bottom: -28%;
   filter: drop-shadow(0 20px 28px rgba(38, 30, 55, 0.16));
 }
 
@@ -1782,7 +1773,8 @@ body[data-proposal="1"] .outcome-grid article + article {
   }
 
   .hvd-hero h1 {
-    font-size: clamp(3.2rem, 15vw, 5rem);
+    font-size: clamp(2.08rem, 9.6vw, 3.2rem);
+    max-width: none;
   }
 
   .hvd-diamond-stage {
@@ -1851,10 +1843,14 @@ body[data-proposal="1"] .outcome-grid article + article {
   }
 
   .hvd-contact-visual {
-    min-height: 530px;
+    min-height: 560px;
   }
 
   .hvd-contact-visual figure {
-    min-height: 230px;
+    min-height: 260px;
+  }
+
+  .hvd-contact-visual img {
+    bottom: -32%;
   }
 }
