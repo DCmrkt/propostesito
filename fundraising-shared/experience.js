@@ -37,6 +37,16 @@
     moduleTags.scrollLeft=Math.max(0,activeModule.offsetLeft-(moduleTags.clientWidth-activeModule.clientWidth)/2);
   });
 
+  const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+  function playHl(el, cls, ms){
+    if(reducedMotion.matches) return;
+    el.classList.remove(cls);
+    void el.offsetWidth;
+    el.classList.add(cls);
+    window.clearTimeout(el._hlTimer);
+    el._hlTimer=window.setTimeout(()=>el.classList.remove(cls), ms);
+  }
+
   document.querySelectorAll('.hl--liquid').forEach(el=>{
     if(!el.querySelector('.hl-blobs')){
       const blobs=document.createElement('span');
@@ -58,15 +68,23 @@
           dot.style.setProperty('--s',size+'em');
           dot.style.setProperty('--dx',(((c%3)-1)*0.14)+'em');
           dot.style.setProperty('--dy',(((r%3)-1)*0.12)+'em');
-          dot.style.animationDelay=(n*0.045)+'s';
+          dot.style.animationDelay=(n*0.018)+'s';
           blobs.append(dot);
           n+=1;
         }
       }
       el.prepend(blobs);
     }
-    el.addEventListener('pointerenter',()=>el.classList.add('is-liquid'));
-    el.addEventListener('pointerleave',()=>el.classList.remove('is-liquid'));
+    requestAnimationFrame(()=>playHl(el,'is-liquid',2700));
+    el.addEventListener('pointerenter',()=>playHl(el,'is-liquid',2700));
+  });
+
+  document.querySelectorAll('.hl--connect').forEach(el=>{
+    if(!el.querySelector('.hl-connect')){
+      el.insertAdjacentHTML('afterbegin','<svg class="hl-connect" aria-hidden="true" viewBox="0 0 120 48" preserveAspectRatio="none"><path class="hl-link" pathLength="100" d="M8 24 C 26 8, 46 8, 60 24 C 74 40, 94 40, 112 24"/><path class="hl-link hl-link-b" pathLength="100" d="M8 24 C 26 40, 46 40, 60 24 C 74 8, 94 8, 112 24"/><circle class="hl-node" cx="8" cy="24" r="4.1"/><circle class="hl-node hl-node-mid" cx="60" cy="24" r="3.2"/><circle class="hl-node" cx="112" cy="24" r="4.1"/><circle class="hl-packet" r="2.6"/></svg>');
+    }
+    requestAnimationFrame(()=>playHl(el,'is-connect',2400));
+    el.addEventListener('pointerenter',()=>playHl(el,'is-connect',2400));
   });
 
   document.querySelectorAll('.dc-honey-map').forEach(flowMap=>{

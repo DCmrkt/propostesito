@@ -866,6 +866,76 @@ select {
   transform: rotate(-1deg);
 }
 
+.hl--connect::before,
+.hl--connect::after {
+  content: none;
+}
+
+.hl-connect {
+  position: absolute;
+  inset: -0.42em -0.62em -0.32em;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.hl-connect .hl-link {
+  fill: none;
+  stroke: var(--hl-color);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  opacity: 0;
+}
+
+.hl-connect .hl-node {
+  fill: color-mix(in srgb, var(--hl-color) 72%, #fff);
+  opacity: 0.7;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.hl-connect .hl-packet {
+  fill: #fff;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.hl--connect.is-connect .hl-link {
+  animation: hlDrawLink 2.1s ease-in-out both;
+}
+
+.hl--connect.is-connect .hl-link-b {
+  animation-delay: 0.12s;
+}
+
+.hl--connect.is-connect .hl-node {
+  animation: hlNodePulse 2.1s ease-in-out both;
+}
+
+.hl--connect.is-connect .hl-node-mid {
+  animation-delay: 0.08s;
+}
+
+.hl--connect.is-connect .hl-packet {
+  offset-path: path("M8 24 C 26 8, 46 8, 60 24 C 74 40, 94 40, 112 24");
+  animation: hlPacket 2.1s ease-in-out both;
+}
+
+.hl--liquid.is-liquid::before {
+  animation: hlBlobSplit 2.15s ease-in-out both;
+}
+
+.hl--liquid.is-liquid .hl-blobs i {
+  animation: hlCircleBlob 2.15s ease-in-out both;
+}
+
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .hl {
     transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
@@ -927,17 +997,6 @@ select {
     transform: rotate(0deg);
   }
 
-  .hl--liquid:hover::before,
-  .hl--liquid.is-liquid::before {
-    opacity: 0;
-  }
-
-  .hl--liquid:hover .hl-blobs i,
-  .hl--liquid.is-liquid .hl-blobs i {
-    opacity: 1;
-    animation: hlCircleBlob 1.65s ease-in-out infinite;
-  }
-
   .hl--spot:not(.hl--liquid):hover::before {
     animation: hlSpotMorph 0.9s ease-in-out;
   }
@@ -993,17 +1052,101 @@ select {
 }
 
 @keyframes hlCircleBlob {
-  0%,
-  100% {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.12);
+  }
+
+  16% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+
+  36% {
+    opacity: 1;
+    transform: translate(calc(-50% + var(--dx, 0.12em)), calc(-50% + var(--dy, -0.1em))) scale(1.22);
+  }
+
+  56% {
+    transform: translate(calc(-50% - var(--dx, 0.12em)), calc(-50% - var(--dy, -0.1em))) scale(0.86);
+  }
+
+  76% {
+    opacity: 1;
     transform: translate(-50%, -50%) scale(1);
   }
 
-  35% {
-    transform: translate(calc(-50% + var(--dx, 0.1em)), calc(-50% + var(--dy, -0.08em))) scale(1.18);
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.12);
+  }
+}
+
+@keyframes hlBlobSplit {
+  0%,
+  10% {
+    opacity: 1;
+    transform: rotate(-5deg) scale(1);
   }
 
-  68% {
-    transform: translate(calc(-50% - var(--dx, 0.1em)), calc(-50% - var(--dy, -0.08em))) scale(0.86);
+  22%,
+  78% {
+    opacity: 0;
+    transform: rotate(-5deg) scale(0.92);
+  }
+
+  100% {
+    opacity: 1;
+    transform: rotate(-5deg) scale(1);
+  }
+}
+
+@keyframes hlDrawLink {
+  0% {
+    stroke-dashoffset: 100;
+    opacity: 0;
+  }
+
+  28% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+
+  78% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0.28;
+  }
+}
+
+@keyframes hlNodePulse {
+  0% { transform: scale(0.7); }
+  22% { transform: scale(1.18); }
+  48% { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes hlPacket {
+  0%,
+  18% {
+    opacity: 0;
+    offset-distance: 0%;
+  }
+
+  28% { opacity: 1; }
+
+  78% {
+    opacity: 1;
+    offset-distance: 100%;
+  }
+
+  100% {
+    opacity: 0;
+    offset-distance: 100%;
   }
 }
 
