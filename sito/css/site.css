@@ -462,52 +462,6 @@ select {
   font-size: 0.9rem;
 }
 
-.outcome-strip {
-  position: relative;
-  z-index: 3;
-  margin-top: -34px;
-  padding-bottom: clamp(34px, 5vw, 58px);
-}
-
-.outcome-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: var(--shadow-soft);
-  overflow: hidden;
-}
-
-.outcome-grid article {
-  display: flex;
-  gap: 14px;
-  min-width: 0;
-  padding: 22px;
-}
-
-.outcome-grid article + article {
-  border-left: 1px solid var(--line);
-}
-
-.outcome-grid article > span {
-  color: var(--purple-deep);
-  font-size: 0.72rem;
-  font-weight: 800;
-}
-
-.outcome-grid strong {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 0.96rem;
-}
-
-.outcome-grid p {
-  color: var(--muted);
-  font-size: 0.82rem;
-  line-height: 1.5;
-}
-
 .hero-visual.plain {
   box-shadow: none;
   background: transparent;
@@ -1080,14 +1034,9 @@ body[data-proposal="1"] .dc-explorer {
   background: var(--cream);
 }
 
-body[data-proposal="1"] .outcome-grid,
 body[data-proposal="1"] .solution-overview .product-row,
 body[data-proposal="1"] .solution-overview .product-row:last-child,
 body[data-proposal="1"] .process-section .process-item {
-  border: 0;
-}
-
-body[data-proposal="1"] .outcome-grid article + article {
   border: 0;
 }
 
@@ -1696,15 +1645,6 @@ body[data-proposal="1"] .outcome-grid article + article {
     min-height: 0;
   }
 
-  .outcome-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .outcome-grid article + article {
-    border-top: 1px solid var(--line);
-    border-left: 0;
-  }
-
   .split.reverse > :first-child {
     order: 0;
   }
@@ -1759,20 +1699,8 @@ body[data-proposal="1"] .outcome-grid article + article {
 }
 
 @media (max-width: 760px) {
-  .hero-conversion {
-    padding-bottom: 76px;
-  }
-
   .hero-badge {
     inset: auto 12px 12px;
-  }
-
-  .outcome-strip {
-    margin-top: -24px;
-  }
-
-  .outcome-grid article {
-    padding: 18px;
   }
 
   .nav-toggle {
