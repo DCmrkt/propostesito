@@ -24,7 +24,7 @@
   --container-max: 1180px;
   --page-gutter: 20px;
   --font-family: "Plus Jakarta Sans", sans-serif;
-  --font-h1: clamp(2.75rem, 5.8vw, 5.2rem);
+  --font-h1: clamp(2.75rem, 5.8vw, 3.2rem);
   --font-h2: clamp(2rem, 3.8vw, 3.4rem);
   --font-h3: clamp(1.25rem, 2vw, 1.65rem);
   --font-body: clamp(1rem, 1.25vw, 1.125rem);
@@ -1125,7 +1125,7 @@ body[data-proposal="1"] .outcome-grid article + article {
   max-width: 18ch;
   margin: 0 0 18px;
   color: #fff;
-  font-size: clamp(2.08rem, 4.32vw, 4.16rem);
+  font-size: var(--font-h1);
   line-height: 1.06;
   letter-spacing: -0.055em;
   text-wrap: balance;
@@ -1760,7 +1760,6 @@ body[data-proposal="1"] .outcome-grid article + article {
   }
 
   .hvd-hero h1 {
-    font-size: clamp(2.08rem, 9.6vw, 3.2rem);
     max-width: none;
   }
 
