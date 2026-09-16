@@ -830,16 +830,6 @@ body[data-proposal="1"] .dc-explorer {
 
 .module-item {
   position: relative;
-  border-radius: 12px;
-  transition: background 220ms ease, box-shadow 220ms ease, transform 220ms ease;
-}
-
-.module-item:target,
-.module-item.is-targeted {
-  z-index: 1;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 18px 42px rgba(67, 34, 92, 0.18);
-  transform: translateY(-2px);
 }
 
 .module-item p {
@@ -1177,8 +1167,6 @@ body[data-proposal="1"] .outcome-grid article + article {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 24px;
-  object-fit: cover;
   filter: drop-shadow(0 28px 48px rgba(39, 32, 52, 0.22));
 }
 
@@ -1442,14 +1430,12 @@ body[data-proposal="1"] .outcome-grid article + article {
 .hvd-contact-visual > div {
   position: relative;
   z-index: 2;
-  padding: clamp(28px, 5vw, 54px);
-  padding-bottom: clamp(64px, 9vw, 110px);
-  background: #fff;
+  padding: clamp(28px, 5vw, 54px) clamp(28px, 5vw, 54px) 8px;
 }
 
 .hvd-contact-visual h2 {
   margin: 0 0 16px;
-  color: var(--hvd-ink);
+  color: var(--hvd-ink, #272034);
   font-size: clamp(1.8rem, 3.68vw, 3.36rem);
   line-height: 1.08;
   letter-spacing: -0.055em;
@@ -1466,18 +1452,18 @@ body[data-proposal="1"] .outcome-grid article + article {
   position: relative;
   z-index: 1;
   flex: 1 1 auto;
-  min-height: 300px;
+  min-height: 280px;
   margin: 0;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .hvd-contact-visual img {
   position: absolute;
-  width: 108%;
+  width: 118%;
   max-width: none;
   height: auto;
-  left: -4%;
-  bottom: -28%;
+  left: -9%;
+  bottom: -1px;
   filter: drop-shadow(0 20px 28px rgba(38, 30, 55, 0.16));
 }
 
@@ -1843,14 +1829,10 @@ body[data-proposal="1"] .outcome-grid article + article {
   }
 
   .hvd-contact-visual {
-    min-height: 560px;
+    min-height: 530px;
   }
 
   .hvd-contact-visual figure {
-    min-height: 260px;
-  }
-
-  .hvd-contact-visual img {
-    bottom: -32%;
+    min-height: 230px;
   }
 }
