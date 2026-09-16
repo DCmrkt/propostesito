@@ -67,7 +67,11 @@
       'Landing Page Maker':'landing-page-maker/',
       'Lead & Donations':'leads-and-donations/',
       'Lead & Donation':'leads-and-donations/',
-      'Leads and donations':'leads-and-donations/'
+      'Leads and donations':'leads-and-donations/',
+      'Lasciti testamentari':'lasciti-testamentari/',
+      'Eventi Web':'eventi-web/',
+      'Data Quality e Normalizzazione':'data-quality-e-normalizzazione/',
+      'Riconciliazioni':'riconciliazioni/'
     };
     hexes.forEach(hex=>{
       const slug=modulePages[hex.dataset.title];
@@ -234,7 +238,7 @@
   const footer=document.querySelector('.site-footer');
   const contentRoots=[document.querySelector('main'),footer].filter(Boolean);
   if(footer&&contentRoots.length){
-    const excluded='a,button,label,input,textarea,select,option,summary,script,style,noscript,svg,[aria-hidden="true"],[data-hex],.dc-sr,.dc-tools,.dc-carousel-foot,.dc-form,.dc-dialog';
+    const excluded='a,button,label,input,textarea,select,option,summary,script,style,noscript,svg,[aria-hidden="true"],[data-hex],.dc-sr,.dc-tools,.dc-carousel-foot,.dc-form,.dc-dialog,h1,.hl';
     const textNodes=[];
     contentRoots.forEach(root=>{
       const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode(node){
@@ -309,12 +313,120 @@
     document.documentElement.classList.add('dc-editing-enabled');
   }
 
-  const blobMarkup = `<div class="hero-blobs" aria-hidden="true">
-    <span class="hero-blob is-mint" data-depth="0.34" data-drift="-0.18" data-spin="32"></span>
-    <svg class="hero-blob is-lilac" data-depth="0.46" data-drift="-0.18" data-spin="-16" data-tilt="-8" viewBox="0 0 200 200">
-      <path d="M100 36c22-18 62-2 58 30 28 8 22 54-8 60-6 28-50 36-66 8-28 10-58-22-40-46-16-24 12-58 56-52z"/>
-    </svg>
-  </div>`;
+  const cloudLilac = '<path d="M100 36c22-18 62-2 58 30 28 8 22 54-8 60-6 28-50 36-66 8-28 10-58-22-40-46-16-24 12-58 56-52z"/>';
+  const cloudGold = '<path d="M28 124c-18 0-28-20-14-36 4-24 38-30 52-12 8-26 48-38 70-12 22-20 60-8 58 20 24 2 34 24 18 40-4 20-38 28-56 10-16 18-60 22-128-10z"/>';
+  const cloudSoft = '<path d="M44 116c-18 4-32-14-20-30 6-22 38-28 50-10 10-24 48-30 64-6 18-16 52-6 54 18 20 4 28 28 8 38-6 18-42 22-58 6-14 14-54 16-98-16z"/>';
+  const disc = (tone, motion) => `<span class="hero-blob is-disc ${tone}" ${motion}></span>`;
+  const cloud = (tone, motion, path) => `<svg class="hero-blob is-cloud ${tone}" ${motion} viewBox="0 0 200 200">${path}</svg>`;
+
+  const blobThemes = {
+    fundraising: [
+      disc('is-mint', 'data-x="160" data-y="18" data-spin="16" data-morph="1"'),
+      cloud('is-lilac', 'data-x="-12" data-y="-8" data-grow="0.9" data-spin="-10" data-tilt="-8"', cloudLilac),
+      cloud('is-gold', 'data-x="-36" data-y="90" data-spin="24" data-tilt="10" data-grow="0.12"', cloudGold)
+    ],
+    mentor: [
+      disc('is-peach', 'data-x="140" data-y="28" data-spin="-14" data-morph="1"'),
+      cloud('is-mint', 'data-x="24" data-y="-20" data-grow="0.7" data-spin="12"', cloudSoft),
+      cloud('is-sky', 'data-x="-50" data-y="70" data-spin="-22" data-tilt="6"', cloudGold)
+    ],
+    sense: [
+      disc('is-sky', 'data-x="150" data-y="12" data-spin="12" data-morph="1"'),
+      cloud('is-aqua', 'data-x="18" data-y="-16" data-grow="0.8" data-spin="-8"', cloudLilac),
+      cloud('is-gold', 'data-x="-44" data-y="64" data-spin="20" data-tilt="8"', cloudGold)
+    ],
+    analisi: [
+      disc('is-peach', 'data-x="130" data-y="22" data-spin="20" data-morph="1"'),
+      cloud('is-gold', 'data-x="30" data-y="-12" data-grow="0.75" data-spin="-14"', cloudGold),
+      cloud('is-lilac', 'data-x="-28" data-y="80" data-spin="18" data-tilt="-6"', cloudLilac)
+    ],
+    integrazioni: [
+      disc('is-mint', 'data-x="90" data-y="16" data-spin="-10" data-morph="1"'),
+      disc('is-sky', 'data-x="110" data-y="40" data-spin="18" data-grow="-0.08" data-morph="1"'),
+      cloud('is-gold', 'data-x="-40" data-y="54" data-grow="0.55" data-spin="16"', cloudGold)
+    ],
+    moduli: [
+      disc('is-lilac', 'data-x="120" data-y="20" data-spin="14" data-morph="1"'),
+      disc('is-mint', 'data-x="70" data-y="-24" data-spin="-18" data-grow="0.35"'),
+      cloud('is-peach', 'data-x="-48" data-y="72" data-grow="0.65" data-spin="22"', cloudSoft)
+    ],
+    hvd: [
+      disc('is-foam', 'data-x="130" data-y="24" data-spin="12" data-morph="1"'),
+      cloud('is-gold', 'data-x="-30" data-y="40" data-grow="0.7" data-spin="-16"', cloudGold),
+      cloud('is-blush', 'data-x="36" data-y="-18" data-spin="20"', cloudLilac)
+    ],
+    donors: [
+      disc('is-foam', 'data-x="140" data-y="16" data-spin="-12" data-morph="1"'),
+      cloud('is-mint', 'data-x="-24" data-y="48" data-grow="0.8" data-spin="14"', cloudSoft),
+      cloud('is-peach', 'data-x="28" data-y="-20" data-spin="-18"', cloudLilac)
+    ],
+    survey: [
+      disc('is-foam', 'data-x="120" data-y="20" data-spin="16" data-morph="1"'),
+      cloud('is-gold', 'data-x="-36" data-y="56" data-grow="0.65" data-spin="-12"', cloudGold),
+      cloud('is-lilac', 'data-x="22" data-y="-16" data-spin="18"', cloudLilac)
+    ],
+    tele: [
+      disc('is-foam', 'data-x="135" data-y="18" data-spin="-14" data-morph="1"'),
+      cloud('is-mint', 'data-x="-28" data-y="44" data-grow="0.75" data-spin="16"', cloudSoft),
+      cloud('is-sky', 'data-x="34" data-y="-22" data-spin="-20"', cloudGold)
+    ],
+    landing: [
+      disc('is-foam', 'data-x="125" data-y="22" data-spin="12" data-morph="1"'),
+      cloud('is-lilac', 'data-x="-32" data-y="50" data-grow="0.7" data-spin="-14"', cloudLilac),
+      cloud('is-gold', 'data-x="26" data-y="-18" data-spin="22"', cloudGold)
+    ],
+    leads: [
+      disc('is-foam', 'data-x="145" data-y="14" data-spin="-10" data-morph="1"'),
+      cloud('is-gold', 'data-x="-26" data-y="46" data-grow="0.72" data-spin="18"', cloudGold),
+      cloud('is-aqua', 'data-x="30" data-y="-14" data-spin="-16"', cloudSoft)
+    ],
+    auto: [
+      disc('is-foam', 'data-x="128" data-y="20" data-spin="14" data-morph="1"'),
+      cloud('is-peach', 'data-x="-34" data-y="52" data-grow="0.68" data-spin="-18"', cloudGold),
+      cloud('is-mint', 'data-x="24" data-y="-20" data-spin="16"', cloudLilac)
+    ],
+    legacy: [
+      disc('is-peach', 'data-x="132" data-y="18" data-spin="16" data-morph="1"'),
+      cloud('is-blush', 'data-x="-30" data-y="48" data-grow="0.7" data-spin="-14"', cloudLilac),
+      cloud('is-gold', 'data-x="28" data-y="-18" data-spin="18"', cloudGold)
+    ],
+    web: [
+      disc('is-gold', 'data-x="126" data-y="22" data-spin="-12" data-morph="1"'),
+      cloud('is-peach', 'data-x="-32" data-y="50" data-grow="0.66" data-spin="16"', cloudGold),
+      cloud('is-lilac', 'data-x="24" data-y="-16" data-spin="-18"', cloudLilac)
+    ],
+    quality: [
+      disc('is-lilac', 'data-x="138" data-y="16" data-spin="14" data-morph="1"'),
+      cloud('is-mint', 'data-x="-28" data-y="46" data-grow="0.72" data-spin="-16"', cloudSoft),
+      cloud('is-gold', 'data-x="30" data-y="-20" data-spin="20"', cloudGold)
+    ],
+    recon: [
+      disc('is-peach', 'data-x="124" data-y="20" data-spin="-14" data-morph="1"'),
+      cloud('is-gold', 'data-x="-34" data-y="52" data-grow="0.68" data-spin="18"', cloudGold),
+      cloud('is-aqua', 'data-x="26" data-y="-18" data-spin="-16"', cloudSoft)
+    ]
+  };
+
+  function blobTheme() {
+    const path = (location.pathname || '').replace(/\\/g, '/').toLowerCase();
+    if (path.includes('high-value-donors')) return 'hvd';
+    if (path.includes('area-donatori')) return 'donors';
+    if (path.includes('questionari')) return 'survey';
+    if (path.includes('telemarketing')) return 'tele';
+    if (path.includes('landing-page-maker')) return 'landing';
+    if (path.includes('leads-and-donations')) return 'leads';
+    if (path.includes('mentor-automation')) return 'auto';
+    if (path.includes('lasciti')) return 'legacy';
+    if (path.includes('eventi-web')) return 'web';
+    if (path.includes('data-quality')) return 'quality';
+    if (path.includes('riconciliazioni')) return 'recon';
+    if (path.includes('moduli-di-mentor')) return 'moduli';
+    if (path.includes('mentor-integrazioni')) return 'integrazioni';
+    if (path.includes('direct-sense')) return 'sense';
+    if (path.includes('analisi-predittive')) return 'analisi';
+    if (path.includes('mentor-crm')) return 'mentor';
+    return 'fundraising';
+  }
 
   function liquidRadius(amount, invert) {
     const direction = invert ? -1 : 1;
@@ -333,26 +445,27 @@
     ].map(n => n.toFixed(1) + '%').join(' ');
   }
 
-  document.querySelectorAll('.hero').forEach(hero => {
-    if (hero.classList.contains('hvd-hero') || hero.querySelector('.hero-blobs')) return;
-    hero.insertAdjacentHTML('afterbegin', blobMarkup);
+  document.querySelectorAll('.hero, .hvd-hero').forEach(hero => {
+    if (hero.querySelector('.hero-blobs')) return;
+    const theme = blobTheme();
+    const parts = blobThemes[theme] || blobThemes.fundraising;
+    hero.insertAdjacentHTML('afterbegin', `<div class="hero-blobs" data-theme="${theme}" aria-hidden="true">${parts.join('')}</div>`);
     const blobs = [...hero.querySelectorAll('.hero-blob')];
-    const mint = hero.querySelector('.hero-blob.is-mint');
     if (!blobs.length) return;
 
     function paint(progress) {
       const morph = Math.sin(progress * Math.PI * 0.5);
-      if (mint) mint.style.setProperty('--blob-mint-radius', liquidRadius(morph, false));
       blobs.forEach(blob => {
-        const depth = Number(blob.dataset.depth || 0);
-        const drift = Number(blob.dataset.drift || 0);
+        const x = Number(blob.dataset.x || 0) * progress;
+        const y = Number(blob.dataset.y || 0) * progress;
         const spin = Number(blob.dataset.spin || 0);
         const tilt = Number(blob.dataset.tilt || 0);
-        const y = (progress * depth * 160).toFixed(1);
-        const x = (progress * drift * 110).toFixed(1);
-        const r = (tilt + progress * spin).toFixed(2);
-        const s = (1 + morph * (blob.classList.contains('is-mint') ? 0.12 : 0.14)).toFixed(3);
-        blob.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${r}deg) scale(${s})`;
+        const grow = Number(blob.dataset.grow || 0);
+        const scale = 1 + grow * progress;
+        if (blob.dataset.morph === '1') {
+          blob.style.setProperty('--blob-radius', liquidRadius(morph, false));
+        }
+        blob.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) rotate(${(tilt + spin * progress).toFixed(2)}deg) scale(${scale.toFixed(3)})`;
       });
     }
 

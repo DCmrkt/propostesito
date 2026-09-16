@@ -474,7 +474,11 @@ select {
 .hero-blobs[data-theme="tele"] .is-foam,
 .hero-blobs[data-theme="landing"] .is-foam,
 .hero-blobs[data-theme="leads"] .is-foam,
-.hero-blobs[data-theme="auto"] .is-foam {
+.hero-blobs[data-theme="auto"] .is-foam,
+.hero-blobs[data-theme="legacy"] .is-peach,
+.hero-blobs[data-theme="web"] .is-gold,
+.hero-blobs[data-theme="quality"] .is-lilac,
+.hero-blobs[data-theme="recon"] .is-peach {
   top: 8%;
   left: -18%;
   width: min(560px, 52vw);
@@ -487,7 +491,11 @@ select {
 .hero-blobs[data-theme="tele"] .is-mint,
 .hero-blobs[data-theme="landing"] .is-lilac,
 .hero-blobs[data-theme="leads"] .is-gold,
-.hero-blobs[data-theme="auto"] .is-peach {
+.hero-blobs[data-theme="auto"] .is-peach,
+.hero-blobs[data-theme="legacy"] .is-blush,
+.hero-blobs[data-theme="web"] .is-peach,
+.hero-blobs[data-theme="quality"] .is-mint,
+.hero-blobs[data-theme="recon"] .is-gold {
   top: 12%;
   right: 8%;
   width: min(150px, 14vw);
@@ -500,7 +508,11 @@ select {
 .hero-blobs[data-theme="tele"] .is-sky,
 .hero-blobs[data-theme="landing"] .is-gold,
 .hero-blobs[data-theme="leads"] .is-aqua,
-.hero-blobs[data-theme="auto"] .is-mint {
+.hero-blobs[data-theme="auto"] .is-mint,
+.hero-blobs[data-theme="legacy"] .is-gold,
+.hero-blobs[data-theme="web"] .is-lilac,
+.hero-blobs[data-theme="quality"] .is-gold,
+.hero-blobs[data-theme="recon"] .is-aqua {
   bottom: 12%;
   left: 38%;
   width: min(110px, 10vw);
@@ -532,7 +544,11 @@ select {
   .hero-blobs[data-theme="tele"] .is-foam,
   .hero-blobs[data-theme="landing"] .is-foam,
   .hero-blobs[data-theme="leads"] .is-foam,
-  .hero-blobs[data-theme="auto"] .is-foam {
+  .hero-blobs[data-theme="auto"] .is-foam,
+  .hero-blobs[data-theme="legacy"] .is-peach,
+  .hero-blobs[data-theme="web"] .is-gold,
+  .hero-blobs[data-theme="quality"] .is-lilac,
+  .hero-blobs[data-theme="recon"] .is-peach {
     left: -48%;
     width: min(560px, 98vw);
   }
