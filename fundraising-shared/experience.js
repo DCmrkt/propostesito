@@ -37,8 +37,8 @@
     moduleTags.scrollLeft=Math.max(0,activeModule.offsetLeft-(moduleTags.clientWidth-activeModule.clientWidth)/2);
   });
 
-  const flowMap=document.querySelector('.dc-honey-map');
-  if(flowMap){
+  document.querySelectorAll('.dc-honey-map').forEach(flowMap=>{
+    if(flowMap.querySelector('.dc-flow-motion')) return;
     const arrow=(path,duration,begin='0s')=>`<g class="dc-flow-arrow"><polygon points="-13,-8 13,0 -13,8"></polygon><animateMotion path="${path}" dur="${duration}s" begin="${begin}" rotate="auto" repeatCount="indefinite"></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.16;.84;1" dur="${duration}s" begin="${begin}" repeatCount="indefinite"></animate></g>`;
     flowMap.insertAdjacentHTML('beforeend',`<svg aria-hidden="true" class="dc-flow-motion" focusable="false" viewBox="0 0 1920 1080" preserveAspectRatio="none">
       ${arrow('M 283 385 L 283 725',4.8,'-1.1s')}
@@ -52,7 +52,7 @@
       ${arrow('M 970 545 C 970 372 1248 372 1248 545 C 1248 718 970 718 970 545',8.1,'-1.2s')}
       ${arrow('M 970 545 C 970 372 1248 372 1248 545 C 1248 718 970 718 970 545',8.1,'-5.25s')}
     </svg>`);
-  }
+  });
 
   document.querySelectorAll('[data-explorer]').forEach(explorer => {
     const hexes=[...explorer.querySelectorAll('[data-hex]')];
