@@ -184,6 +184,7 @@ select {
 
 .button.secondary {
   --btn-dot: var(--product-accent, var(--blue));
+  --btn-label: var(--btn-dot, var(--blue));
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -191,9 +192,9 @@ select {
   border: 2px solid var(--blue);
   border-radius: 999px;
   background: transparent;
-  color: var(--blue);
+  color: var(--btn-label);
   box-shadow: none;
-  transition: color 0.35s ease, background-color 0.35s ease, border-color 0.35s ease;
+  transition: background-color 0.35s ease, border-color 0.35s ease;
 }
 
 .button.secondary::before,
@@ -219,10 +220,17 @@ select {
 .dc-button.secondary:not(.hero-ecosystem-chip),
 .hero-conversion .dc-hero-actions .dc-button:not(.hero-ecosystem-chip) {
   --btn-dot: var(--dc-cta, var(--blue));
+  --btn-label: var(--btn-dot, var(--dc-cta, var(--blue)));
   position: relative;
   isolation: isolate;
   overflow: hidden;
   z-index: 0;
+  color: var(--btn-label) !important;
+}
+
+body[data-proposal="1"] .hero-copy .dc-hero-actions .dc-button.secondary:not(.hero-ecosystem-chip),
+body[data-proposal="1"] .dc-hero-actions .dc-button.secondary:not(.hero-ecosystem-chip) {
+  color: var(--btn-label) !important;
 }
 
 .button.secondary::after,
@@ -251,13 +259,13 @@ select {
   position: absolute;
   left: var(--x, 50%);
   top: var(--y, 50%);
-  width: var(--s, 22px);
-  height: var(--s, 22px);
+  width: var(--s, 14px);
+  height: var(--s, 14px);
   display: block;
   margin: 0;
   padding: 0;
   border-radius: 50%;
-  background: var(--btn-dot, var(--product-accent, var(--dc-cta, var(--blue))));
+  background: color-mix(in srgb, var(--btn-dot, var(--product-accent, var(--dc-cta, var(--blue)))) 70%, #fff);
   transform: translate(-50%, -50%) scale(0);
   transform-origin: 50% 50%;
   pointer-events: none;
@@ -270,7 +278,6 @@ select {
 .dc-button.secondary:not(.hero-ecosystem-chip):focus-visible,
 .hero-conversion .dc-hero-actions .dc-button:not(.hero-ecosystem-chip):hover,
 .hero-conversion .dc-hero-actions .dc-button:not(.hero-ecosystem-chip):focus-visible {
-  color: #fff !important;
   transform: none !important;
   box-shadow: none !important;
   z-index: 2;
@@ -1139,6 +1146,12 @@ body[data-proposal="1"] .hero-blobs .is-mint {
   initial-value: 0deg;
 }
 
+@property --btn-label {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #2165ab;
+}
+
 .hl--fill {
   background-image: linear-gradient(110deg, transparent 18%, rgba(255, 255, 255, 0.48) 50%, transparent 82%);
   background-size: 220% 100%;
@@ -1353,12 +1366,14 @@ body[data-proposal="1"] .hero-blobs .is-mint {
   42% {
     background-color: transparent;
     border-color: transparent;
+    --btn-label: var(--btn-dot, var(--blue));
   }
 
   72%,
   100% {
     background-color: var(--btn-dot, var(--blue));
     border-color: var(--btn-dot, var(--blue));
+    --btn-label: #fff;
   }
 }
 
@@ -1850,7 +1865,6 @@ body[data-proposal="1"] .hero-conversion .dc-hero-actions .dc-button:not(.hero-e
 
 body[data-proposal="1"] .hero-conversion .dc-hero-actions .dc-button:not(.hero-ecosystem-chip):hover,
 body[data-proposal="1"] .hero-conversion .dc-hero-actions .dc-button:not(.hero-ecosystem-chip):focus-visible {
-  color: #fff !important;
   transform: none;
   box-shadow: none;
 }
@@ -2439,17 +2453,17 @@ body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button {
 
 body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button.secondary {
   --btn-dot: var(--blue);
+  --btn-label: var(--blue);
   position: relative;
   isolation: isolate;
   overflow: hidden;
   background: transparent;
   border: 2px solid var(--blue);
-  color: var(--blue) !important;
+  color: var(--btn-label) !important;
 }
 
 body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button.secondary:hover,
 body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button.secondary:focus-visible {
-  color: #fff !important;
   transform: none;
   box-shadow: none;
 }

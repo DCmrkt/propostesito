@@ -16,7 +16,7 @@
         const dot=document.createElement('i');
         const x=((c+offset+0.5)/cols)*100;
         const y=((r+0.5)/rows)*100;
-        const size=h*(0.38+((c*3+r*5)%5)*0.04);
+        const size=h*(0.26+((c*3+r*5)%5)*0.035);
         dot.style.setProperty('--x',x.toFixed(2)+'%');
         dot.style.setProperty('--y',y.toFixed(1)+'%');
         dot.style.setProperty('--s',size.toFixed(1)+'px');
