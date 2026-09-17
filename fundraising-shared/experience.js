@@ -23,19 +23,20 @@
     const cols=Math.max(4, Math.round(w/pitch));
     const rows=h>=64?4:3;
     for(let r=0;r<rows;r++){
-      const count=r===1?cols:Math.max(3, cols-1);
-      const offset=r===1?0:0.5;
+      const count=r%2?cols:Math.max(3, cols-1);
       for(let c=0;c<count;c++){
         const dot=document.createElement('i');
-        const x=((c+offset+0.5)/cols)*100;
+        const x=((c+0.5)/count)*100;
         const y=((r+0.5)/rows)*100;
-        const size=h*(0.32+((c*3+r*5)%5)*0.04);
-        const delay=(x/100)*0.1+(y/100)*0.05;
-        dot.style.setProperty('--x',x.toFixed(2)+'%');
-        dot.style.setProperty('--y',y.toFixed(1)+'%');
+        const jx=((c*17+r*11)%9-4)*0.55;
+        const jy=((c*13+r*19)%7-3)*0.4;
+        const size=h*(0.3+((c*3+r*5)%5)*0.018);
+        const delay=(x/100)*0.32+(y/100)*0.14+((c+r)%4)*0.03;
+        dot.style.setProperty('--x',(x+jx).toFixed(2)+'%');
+        dot.style.setProperty('--y',(y+jy).toFixed(1)+'%');
         dot.style.setProperty('--s',size.toFixed(1)+'px');
-        dot.style.setProperty('--dx',(((c%3)-1)*(h*0.035)).toFixed(1)+'px');
-        dot.style.setProperty('--dy',(((r%3)-1)*(h*0.03)).toFixed(1)+'px');
+        dot.style.setProperty('--dx',((((c*5+r)%5)-2)*(h*0.02)).toFixed(1)+'px');
+        dot.style.setProperty('--dy',((((c*3+r*2)%5)-2)*(h*0.018)).toFixed(1)+'px');
         dot.style.setProperty('--d',delay.toFixed(3)+'s');
         wrap.append(dot);
       }
@@ -171,6 +172,15 @@
     if(isCurrentPage(item)) a.setAttribute('aria-current','page');
     return a;
   }
+  function createMenuHeading(label){
+    const heading=document.createElement('p');
+    heading.className='nav-menu-heading';
+    heading.textContent=label;
+    return heading;
+  }
+  function appendMenuPages(parent, root, home, pages){
+    pages.forEach(item=>parent.append(createNavLink(root, home, item)));
+  }
   function renderDiscoverMenu(root, home){
     const dropdown=document.createElement('div');
     dropdown.className='nav-dropdown';
@@ -184,7 +194,7 @@
     menu.setAttribute('role','region');
     menu.setAttribute('aria-label','Tutte le pagine');
     const inner=document.createElement('div');
-    inner.className='nav-menu-inner';
+    inner.className='wrap nav-menu-inner';
     const stack=document.createElement('div');
     stack.className='nav-menu-stack';
     NAV_PAGE_GROUPS.forEach(group=>{
@@ -194,11 +204,19 @@
       }
       const section=document.createElement('div');
       section.className='nav-menu-group'+(group.id==='moduli'?' nav-menu-group--moduli':'');
-      const heading=document.createElement('p');
-      heading.className='nav-menu-heading';
-      heading.textContent=group.label;
-      section.append(heading);
-      group.pages.forEach(item=>section.append(createNavLink(root, home, item)));
+      if(group.id==='moduli'){
+        const split=Math.ceil(group.pages.length/2);
+        [group.pages.slice(0,split), group.pages.slice(split)].forEach(columnPages=>{
+          const column=document.createElement('div');
+          column.className='nav-menu-moduli-col';
+          column.append(createMenuHeading(group.label));
+          appendMenuPages(column, root, home, columnPages);
+          section.append(column);
+        });
+      }else{
+        section.append(createMenuHeading(group.label));
+        appendMenuPages(section, root, home, group.pages);
+      }
       inner.append(section);
     });
     inner.append(stack);
@@ -215,7 +233,7 @@
       const a=document.createElement('a');
       a.href=home ? item.hash : root+HOME_PATH+item.hash;
       a.textContent=item.label;
-      if(home && item.id==='fundraising' && (!location.hash || location.hash==='#hero')) a.setAttribute('aria-current','page');
+      a.dataset.navSection=item.id;
       frag.append(a);
     });
     frag.append(renderDiscoverMenu(root, home));
@@ -264,6 +282,34 @@
   });
   document.addEventListener('focusin', e => {if(!e.target.closest('.nav-dropdown')) closeDropdowns(); if(nav?.classList.contains('is-open') && !e.target.closest('.site-header')) closeNav();});
   window.matchMedia('(max-width: 1120px)').addEventListener('change',()=>closeNav());
+
+  function spyHomeNav(){
+    if(!nav || !isFundraisingHome()) return;
+    const sections=NAV_ITEMS.map(item=>({id:item.id, el:document.querySelector(item.hash)})).filter(item=>item.el);
+    if(!sections.length) return;
+    const styles=getComputedStyle(document.documentElement);
+    const offset=Math.max(
+      (parseFloat(styles.getPropertyValue('--header-h'))||72)+48,
+      (parseFloat(styles.scrollPaddingTop)||110)+8
+    );
+    let activeId=sections[0].id;
+    for(const section of sections){
+      if(section.el.getBoundingClientRect().top<=offset) activeId=section.id;
+    }
+    nav.querySelectorAll('a[data-nav-section]').forEach(a=>{
+      if(a.dataset.navSection===activeId) a.setAttribute('aria-current','page');
+      else a.removeAttribute('aria-current');
+    });
+  }
+  let spyFrame=0;
+  function requestNavSpy(){
+    if(spyFrame) return;
+    spyFrame=requestAnimationFrame(()=>{spyFrame=0; spyHomeNav();});
+  }
+  spyHomeNav();
+  window.addEventListener('scroll', requestNavSpy, {passive:true});
+  window.addEventListener('hashchange', spyHomeNav);
+  window.addEventListener('resize', requestNavSpy);
 
   const moduleTags=document.querySelector('.module-tags');
   const activeModule=moduleTags?.querySelector('[aria-current="page"]');
