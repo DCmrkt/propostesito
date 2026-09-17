@@ -190,10 +190,27 @@ body[data-proposal="1"] .dc-steps,body[data-proposal="1"] .dc-contact-person{dis
 [data-proposal="3"] .site-header{background:#101439;padding-top:0}
 [data-proposal="3"] .site-header .nav a{color:#fff}
 .nav-toggle{min-width:44px;min-height:44px}
-.nav-dropdown .menu{top:100%;padding-top:12px}
+.nav-dropdown{position:relative}
+.nav-dropdown>button{appearance:none;background:none;border:0;padding:0;min-height:44px;font:inherit;font-size:.86rem;font-weight:700;color:#3f3f46;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.nav-dropdown>button::after{content:"";width:.45em;height:.45em;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-.12em);transition:transform 160ms ease}
+.nav-dropdown.is-open>button,.nav-dropdown>button:hover,.nav-dropdown>button:focus-visible{color:var(--red,#e30613)}
+.nav-dropdown.is-open>button::after{transform:rotate(225deg) translateY(-.05em)}
+.nav-dropdown .menu{position:fixed;top:var(--header-h,72px);left:50%;z-index:80;width:min(1180px,calc(100vw - 40px));transform:translateX(-50%);padding:22px;border:1px solid var(--line,#ded5ca);border-radius:18px;background:#fff;box-shadow:0 18px 48px rgba(48,31,24,.12);grid-template-columns:repeat(6,minmax(0,1fr));gap:18px 22px;align-items:start;max-height:min(70vh,calc(100dvh - var(--header-h,72px) - 16px));overflow:auto}
 .nav-dropdown:not(.is-open) .menu{display:none!important}
 .nav-dropdown.is-open .menu{display:grid!important}
-.nav-dropdown>button{min-height:44px}
+.nav-menu-group{display:grid;gap:6px;align-content:start}
+.nav-menu-heading{margin:0 0 4px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#8a8178}
+.nav-dropdown .menu a{white-space:normal;font-size:.8rem;font-weight:600;line-height:1.35;padding:4px 0}
+.site-header{overflow:visible}
+@media(max-width:1120px){
+  .nav-dropdown{width:100%}
+  .nav-dropdown>button{width:100%;justify-content:space-between;padding:12px 10px;border-radius:10px}
+  .nav-dropdown.is-open>button{background:#fdecec}
+  .nav-dropdown .menu{position:static;left:auto;width:100%;transform:none;max-height:none;margin:0;padding:4px 10px 12px;border:0;border-radius:12px;background:#f7f3ee;box-shadow:none;grid-template-columns:1fr 1fr;gap:14px 18px}
+}
+@media(max-width:540px){
+  .nav-dropdown .menu{grid-template-columns:1fr}
+}
 .reveal{opacity:1!important;transform:none!important}
 .dc-only-js{display:none}
 .dc-ready .dc-only-js{display:flex}

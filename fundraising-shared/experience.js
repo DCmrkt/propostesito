@@ -11,38 +11,49 @@
       }
       return;
     }
-    if(existing && !force) return;
+    const w=rect.width;
+    const h=Math.max(rect.height||48, 40);
+    const seededW=Number(btn.dataset.btnDotsW||0);
+    if(existing && !force && Math.abs(seededW-w)<6) return;
     if(existing) existing.remove();
     const wrap=document.createElement('span');
     wrap.className='btn-bubbles';
     wrap.setAttribute('aria-hidden','true');
-    const h=Math.max(rect.height||48, 40);
-    const w=Math.max(rect.width||160, 80);
-    const pitch=Math.max(h*0.42, 18);
-    const cols=Math.max(5, Math.min(14, Math.round(w/pitch)));
-    const rows=3;
-    let n=0;
+    const pitch=Math.max(h*0.34, 14);
+    const cols=Math.max(4, Math.round(w/pitch));
+    const rows=h>=64?4:3;
     for(let r=0;r<rows;r++){
-      const count=r===1?cols:cols-1;
+      const count=r===1?cols:Math.max(3, cols-1);
       const offset=r===1?0:0.5;
       for(let c=0;c<count;c++){
         const dot=document.createElement('i');
         const x=((c+offset+0.5)/cols)*100;
         const y=((r+0.5)/rows)*100;
         const size=h*(0.26+((c*3+r*5)%5)*0.035);
+        const delay=(x/100)*0.1+(y/100)*0.05;
         dot.style.setProperty('--x',x.toFixed(2)+'%');
         dot.style.setProperty('--y',y.toFixed(1)+'%');
         dot.style.setProperty('--s',size.toFixed(1)+'px');
         dot.style.setProperty('--dx',(((c%3)-1)*(h*0.035)).toFixed(1)+'px');
         dot.style.setProperty('--dy',(((r%3)-1)*(h*0.03)).toFixed(1)+'px');
-        dot.style.setProperty('--d',(n*0.014)+'s');
+        dot.style.setProperty('--d',delay.toFixed(3)+'s');
         wrap.append(dot);
-        n+=1;
       }
     }
+    btn.dataset.btnDotsW=String(Math.round(w));
     btn.prepend(wrap);
   }
-  document.querySelectorAll('.button.secondary, .dc-button.secondary, .hero-conversion .dc-hero-actions .dc-button').forEach(seedButtonDots);
+  function watchButtonDots(btn){
+    seedButtonDots(btn);
+    if(!btn || btn.dataset.btnDotsObs || typeof ResizeObserver==='undefined') return;
+    btn.dataset.btnDotsObs='1';
+    const ro=new ResizeObserver(() => {
+      if(btn.matches(':hover') || btn.matches(':focus-visible')) return;
+      seedButtonDots(btn, true);
+    });
+    ro.observe(btn);
+  }
+  document.querySelectorAll('.button.secondary, .dc-button.secondary, .hero-conversion .dc-hero-actions .dc-button').forEach(watchButtonDots);
 })();
 
 (() => {
@@ -57,6 +68,58 @@
     {id:'strumenti', label:'Gli strumenti', hash:'#strumenti'},
     {id:'ecosistema', label:'L’ecosistema', hash:'#dc-ecosistema'},
     {id:'community', label:'La community', hash:'#community'}
+  ];
+  const NAV_PAGE_GROUPS = [
+    {
+      label:'Fundraising',
+      pages:[
+        {label:'Fundraising', path:HOME_PATH},
+        {label:'Gli strumenti', path:HOME_PATH, hash:'#strumenti'},
+        {label:'L’ecosistema', path:'ecosistema/'},
+        {label:'La community', path:HOME_PATH, hash:'#community'}
+      ]
+    },
+    {
+      label:'Mentor CRM',
+      pages:[
+        {label:'Mentor CRM', path:'mentor-crm/'},
+        {label:'Moduli di Mentor', path:'mentor-crm/moduli-di-mentor/'}
+      ]
+    },
+    {
+      label:'Moduli',
+      pages:[
+        {label:'Area Donatori', path:'mentor-crm/moduli-di-mentor/area-donatori/'},
+        {label:'High Value Donors', path:'mentor-crm/moduli-di-mentor/high-value-donors/'},
+        {label:'Telemarketing', path:'mentor-crm/moduli-di-mentor/telemarketing/'},
+        {label:'Mentor Automation', path:'mentor-crm/moduli-di-mentor/mentor-automation/'},
+        {label:'Questionari', path:'mentor-crm/moduli-di-mentor/questionari/'},
+        {label:'Landing Page Maker', path:'mentor-crm/moduli-di-mentor/landing-page-maker/'},
+        {label:'Lead & Donations', path:'mentor-crm/moduli-di-mentor/leads-and-donations/'},
+        {label:'Lasciti testamentari', path:'mentor-crm/moduli-di-mentor/lasciti-testamentari/'},
+        {label:'Eventi Web', path:'mentor-crm/moduli-di-mentor/eventi-web/'},
+        {label:'Data Quality e Normalizzazione', path:'mentor-crm/moduli-di-mentor/data-quality-e-normalizzazione/'},
+        {label:'Riconciliazioni', path:'mentor-crm/moduli-di-mentor/riconciliazioni/'}
+      ]
+    },
+    {
+      label:'Integrazioni',
+      pages:[
+        {label:'Mentor Integrazioni', path:'mentor-integrazioni/'}
+      ]
+    },
+    {
+      label:'DirectSense',
+      pages:[
+        {label:'DirectSense', path:'direct-sense-business-intelligence/'}
+      ]
+    },
+    {
+      label:'Analisi Predittive',
+      pages:[
+        {label:'Analisi Predittive', path:'fundraising-analisi-predittive/'}
+      ]
+    }
   ];
   function sitoRoot(){
     const path=(location.pathname||'').replace(/\\/g,'/');
@@ -78,6 +141,52 @@
     const path=pagePath();
     return path===HOME_PATH || path==='' || path==='/';
   }
+  function pageHref(root, home, item){
+    const hash=item.hash||'';
+    if(home && item.path===HOME_PATH) return hash||'#hero';
+    return root+item.path+hash;
+  }
+  function isCurrentPage(item){
+    const current=pagePath();
+    const onHome=isFundraisingHome();
+    if(item.hash){
+      return (current===item.path || (onHome && item.path===HOME_PATH)) && location.hash===item.hash;
+    }
+    if(item.path===HOME_PATH) return onHome && !location.hash;
+    return current===item.path;
+  }
+  function createNavLink(root, home, item){
+    const a=document.createElement('a');
+    a.href=pageHref(root, home, item);
+    a.textContent=item.label;
+    if(isCurrentPage(item)) a.setAttribute('aria-current','page');
+    return a;
+  }
+  function renderDiscoverMenu(root, home){
+    const dropdown=document.createElement('div');
+    dropdown.className='nav-dropdown';
+    const button=document.createElement('button');
+    button.type='button';
+    button.setAttribute('aria-expanded','false');
+    button.setAttribute('aria-haspopup','true');
+    button.textContent='Scopri di più';
+    const menu=document.createElement('div');
+    menu.className='menu';
+    menu.setAttribute('role','region');
+    menu.setAttribute('aria-label','Tutte le pagine');
+    NAV_PAGE_GROUPS.forEach(group=>{
+      const section=document.createElement('div');
+      section.className='nav-menu-group';
+      const heading=document.createElement('p');
+      heading.className='nav-menu-heading';
+      heading.textContent=group.label;
+      section.append(heading);
+      group.pages.forEach(item=>section.append(createNavLink(root, home, item)));
+      menu.append(section);
+    });
+    dropdown.append(button, menu);
+    return dropdown;
+  }
   function renderSiteNav(navEl){
     if(!navEl) return;
     const root=sitoRoot();
@@ -87,9 +196,10 @@
       const a=document.createElement('a');
       a.href=home ? item.hash : root+HOME_PATH+item.hash;
       a.textContent=item.label;
-      if(home && item.id==='fundraising') a.setAttribute('aria-current','page');
+      if(home && item.id==='fundraising' && (!location.hash || location.hash==='#hero')) a.setAttribute('aria-current','page');
       frag.append(a);
     });
+    frag.append(renderDiscoverMenu(root, home));
     const cta=document.createElement('a');
     cta.href='#contatti';
     cta.textContent='Richiedi una consulenza';
@@ -120,7 +230,19 @@
     d.addEventListener('keydown',e => {if(e.key==='Escape'){e.stopPropagation();closeDropdowns();b.focus();}});
   });
   document.addEventListener('keydown',e => {if(e.key==='Escape' && nav?.classList.contains('is-open')) closeNav(true);});
-  document.addEventListener('click',e => {if(!e.target.closest('.site-header')) closeNav(); else if(e.target.closest('.nav a')) closeNav();});
+  document.addEventListener('click',e => {
+    const menuLink=e.target.closest?.('.nav-dropdown .menu a');
+    if(menuLink){
+      if(e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey) return;
+      e.preventDefault();
+      const href=menuLink.href;
+      closeNav();
+      window.location.assign(href);
+      return;
+    }
+    if(!e.target.closest('.site-header')) closeNav();
+    else if(e.target.closest('.nav a')) closeNav();
+  });
   document.addEventListener('focusin', e => {if(!e.target.closest('.nav-dropdown')) closeDropdowns(); if(nav?.classList.contains('is-open') && !e.target.closest('.site-header')) closeNav();});
   window.matchMedia('(max-width: 1120px)').addEventListener('change',()=>closeNav());
 
