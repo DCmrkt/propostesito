@@ -186,6 +186,7 @@
     dropdown.className='nav-dropdown';
     const button=document.createElement('button');
     button.type='button';
+    button.className='nav-discover';
     button.setAttribute('aria-expanded','false');
     button.setAttribute('aria-haspopup','true');
     button.textContent='Scopri di più';
@@ -843,7 +844,7 @@
   const footer=document.querySelector('.site-footer');
   const contentRoots=[document.querySelector('main'),footer].filter(Boolean);
   if(footer&&contentRoots.length){
-    const excluded='a,button,label,input,textarea,select,option,summary,script,style,noscript,svg,[aria-hidden="true"],[data-hex],.dc-sr,.dc-tools,.dc-carousel-foot,.dc-form,.dc-dialog,h1,.hl';
+    const excluded='a,button,label,input,textarea,select,option,summary,script,style,noscript,svg,[aria-hidden="true"],[data-hex],[data-no-edit],.dc-sr,.dc-tools,.dc-carousel-foot,.dc-form,.dc-dialog,h1,.hl,.hvd-big-number';
     const textNodes=[];
     contentRoots.forEach(root=>{
       const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode(node){
@@ -869,17 +870,27 @@
       editables.push(span);
     });
 
-    const pageKey=`dc-page-copy:${window.location.pathname.replace(/\/$/,'')||'/'}`;
+    const pageKey=`dc-page-copy-v2:${window.location.pathname.replace(/\/$/,'')||'/'}`;
     let stored={};
     try{stored=JSON.parse(window.localStorage.getItem(pageKey)||'{}');}catch(error){stored={};}
-    editables.forEach((element,index)=>{
-      const id=`text-${index}`;
+    const seenIds=new Map();
+    editables.forEach((element)=>{
+      const raw=`${element.tagName}:${(element.textContent||'').trim().replace(/\s+/g,' ').slice(0,80)}`;
+      const count=(seenIds.get(raw)||0)+1;
+      seenIds.set(raw,count);
+      const id=count===1?raw:`${raw}#${count}`;
       element.dataset.editId=id;
       element.classList.add('dc-editable-text');
       element.setAttribute('contenteditable','plaintext-only');
       element.setAttribute('spellcheck','true');
       element.setAttribute('title','Clicca per modificare questo testo');
-      if(Object.prototype.hasOwnProperty.call(stored,id))element.textContent=stored[id];
+      if(Object.prototype.hasOwnProperty.call(stored,id)){
+        const next=String(stored[id]);
+        const originalLen=(element.textContent||'').trim().length;
+        if(!(originalLen<=24 && next.length>Math.max(48, originalLen*4))){
+          element.textContent=next;
+        }
+      }
       element.dataset.savedText=element.textContent;
       element.addEventListener('keydown',event=>{
         const singleLine=/^(H[1-6]|STRONG|SPAN)$/.test(element.tagName);
