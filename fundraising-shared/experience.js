@@ -19,7 +19,7 @@
     const wrap=document.createElement('span');
     wrap.className='btn-bubbles';
     wrap.setAttribute('aria-hidden','true');
-    const pitch=Math.max(h*0.34, 14);
+    const pitch=Math.max(h*0.27, 12);
     const cols=Math.max(4, Math.round(w/pitch));
     const rows=h>=64?4:3;
     for(let r=0;r<rows;r++){
@@ -29,7 +29,7 @@
         const dot=document.createElement('i');
         const x=((c+offset+0.5)/cols)*100;
         const y=((r+0.5)/rows)*100;
-        const size=h*(0.26+((c*3+r*5)%5)*0.035);
+        const size=h*(0.32+((c*3+r*5)%5)*0.04);
         const delay=(x/100)*0.1+(y/100)*0.05;
         dot.style.setProperty('--x',x.toFixed(2)+'%');
         dot.style.setProperty('--y',y.toFixed(1)+'%');
@@ -71,6 +71,7 @@
   ];
   const NAV_PAGE_GROUPS = [
     {
+      id:'fundraising',
       label:'Fundraising',
       pages:[
         {label:'Fundraising', path:HOME_PATH},
@@ -80,6 +81,7 @@
       ]
     },
     {
+      id:'mentor',
       label:'Mentor CRM',
       pages:[
         {label:'Mentor CRM', path:'mentor-crm/'},
@@ -87,6 +89,7 @@
       ]
     },
     {
+      id:'moduli',
       label:'Moduli',
       pages:[
         {label:'Area Donatori', path:'mentor-crm/moduli-di-mentor/area-donatori/'},
@@ -103,19 +106,25 @@
       ]
     },
     {
+      id:'integrazioni',
       label:'Integrazioni',
+      stack:true,
       pages:[
-        {label:'Mentor Integrazioni', path:'mentor-integrazioni/'}
+        {label:'Integrazioni', path:'mentor-integrazioni/'}
       ]
     },
     {
+      id:'sense',
       label:'DirectSense',
+      stack:true,
       pages:[
         {label:'DirectSense', path:'direct-sense-business-intelligence/'}
       ]
     },
     {
+      id:'analisi',
       label:'Analisi Predittive',
+      stack:true,
       pages:[
         {label:'Analisi Predittive', path:'fundraising-analisi-predittive/'}
       ]
@@ -174,16 +183,26 @@
     menu.className='menu';
     menu.setAttribute('role','region');
     menu.setAttribute('aria-label','Tutte le pagine');
+    const inner=document.createElement('div');
+    inner.className='nav-menu-inner';
+    const stack=document.createElement('div');
+    stack.className='nav-menu-stack';
     NAV_PAGE_GROUPS.forEach(group=>{
+      if(group.stack){
+        group.pages.forEach(item=>stack.append(createNavLink(root, home, item)));
+        return;
+      }
       const section=document.createElement('div');
-      section.className='nav-menu-group';
+      section.className='nav-menu-group'+(group.id==='moduli'?' nav-menu-group--moduli':'');
       const heading=document.createElement('p');
       heading.className='nav-menu-heading';
       heading.textContent=group.label;
       section.append(heading);
       group.pages.forEach(item=>section.append(createNavLink(root, home, item)));
-      menu.append(section);
+      inner.append(section);
     });
+    inner.append(stack);
+    menu.append(inner);
     dropdown.append(button, menu);
     return dropdown;
   }
