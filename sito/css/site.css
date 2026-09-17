@@ -14,8 +14,8 @@
   --yellow: #facc15;
   --pink: #fac9fa;
   --orange: #ff8a3d;
-  --blue: #2165ab;
   --blob-sky: #c8def2;
+  --blue: var(--blob-sky);
   --teal: #2da3ba;
   --mint: #acd9be;
   --focus: rgba(34, 197, 94, 0.28);
@@ -168,24 +168,25 @@ select {
   border: 0;
   border-radius: 999px;
   background: var(--blue);
-  color: #fff;
+  color: var(--ink);
   cursor: pointer;
   font-weight: 750;
   letter-spacing: -0.025em;
   text-decoration: none;
-  box-shadow: 0 14px 30px rgba(33, 101, 171, 0.22);
+  box-shadow: 0 14px 30px color-mix(in srgb, var(--blob-sky) 42%, transparent);
   transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
 }
 
 .button:hover {
   transform: translateY(-1px);
-  background: #1a528c;
-  box-shadow: 0 16px 34px rgba(33, 101, 171, 0.28);
+  background: color-mix(in srgb, var(--blob-sky) 78%, #7ea9d0);
+  color: var(--ink);
+  box-shadow: 0 16px 34px color-mix(in srgb, var(--blob-sky) 48%, transparent);
 }
 
 .button.secondary {
   --btn-dot: var(--product-accent, var(--blue));
-  --btn-label: var(--btn-dot, var(--blue));
+  --btn-label: var(--ink);
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -221,7 +222,7 @@ select {
 .dc-button.secondary:not(.hero-ecosystem-chip),
 .hero-conversion .dc-hero-actions .dc-button:not(.hero-ecosystem-chip) {
   --btn-dot: var(--dc-cta, var(--blue));
-  --btn-label: var(--btn-dot, var(--dc-cta, var(--blue)));
+  --btn-label: var(--ink);
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -244,8 +245,8 @@ body[data-proposal="1"] .hero-copy .dc-hero-actions .dc-button.secondary:not(.he
 body[data-proposal="1"] .hero-copy .dc-hero-actions .dc-button.secondary:not(.hero-ecosystem-chip):focus-visible,
 body[data-proposal="1"] .dc-hero-actions .dc-button.secondary:not(.hero-ecosystem-chip):hover,
 body[data-proposal="1"] .dc-hero-actions .dc-button.secondary:not(.hero-ecosystem-chip):focus-visible {
-  --btn-label: #fff;
-  color: #fff !important;
+  --btn-label: var(--ink);
+  color: var(--ink) !important;
 }
 
 .button.secondary::after,
@@ -280,6 +281,8 @@ body[data-proposal="1"] .dc-hero-actions .dc-button.secondary:not(.hero-ecosyste
   padding: 0;
   border-radius: 50%;
   background: color-mix(in srgb, var(--btn-dot, var(--product-accent, var(--dc-cta, var(--blue)))) 86%, #fff);
+  opacity: 0;
+  visibility: hidden;
   transform: translate(-50%, -50%) scale(0);
   transform-origin: 50% 50%;
   pointer-events: none;
@@ -292,12 +295,12 @@ body[data-proposal="1"] .dc-hero-actions .dc-button.secondary:not(.hero-ecosyste
 .dc-button.secondary:not(.hero-ecosystem-chip):focus-visible,
 .hero-conversion .dc-hero-actions .dc-button:not(.hero-ecosystem-chip):hover,
 .hero-conversion .dc-hero-actions .dc-button:not(.hero-ecosystem-chip):focus-visible {
-  --btn-label: #fff;
-  color: #fff !important;
+  --btn-label: var(--ink);
+  color: var(--ink) !important;
   transform: none !important;
   box-shadow: none !important;
   z-index: 2;
-  animation: btnHighlight 1.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: btnHighlight 2.45s cubic-bezier(0.37, 0.08, 0.22, 1) forwards;
 }
 
 .button.secondary:hover::before,
@@ -305,7 +308,7 @@ body[data-proposal="1"] .dc-hero-actions .dc-button.secondary:not(.hero-ecosyste
 .product-row:hover .button.secondary::before,
 .dc-button.secondary:not(.hero-ecosystem-chip):hover::before,
 .dc-button.secondary:not(.hero-ecosystem-chip):focus-visible::before {
-  animation: btnDotPulse 1.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: btnDotPulse 2.7s cubic-bezier(0.37, 0.08, 0.22, 1) forwards;
 }
 
 .button.secondary:hover::after,
@@ -323,7 +326,8 @@ body[data-proposal="1"] .dc-hero-actions .dc-button.secondary:not(.hero-ecosyste
 .product-row:hover .btn-bubbles i,
 .dc-button:hover .btn-bubbles i,
 .dc-button:focus-visible .btn-bubbles i {
-  animation: btnDotPulse 1.55s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0s) both;
+  visibility: visible;
+  animation: btnDotPulse 2.7s cubic-bezier(0.37, 0.08, 0.22, 1) var(--d, 0s) forwards;
 }
 
 body[data-page="integrazioni"] {
@@ -449,13 +453,13 @@ body[data-proposal="1"][data-page="integrazioni"] .dc-explorer .dc-bridge-action
   padding: 8px 16px;
   border-radius: 999px;
   background: var(--blue);
-  color: #fff;
+  color: var(--ink);
 }
 
 .nav a[href="#contatti"]:hover,
 .nav a[href="#contatti"][aria-current="page"] {
-  background: #1a528c;
-  color: #fff;
+  background: color-mix(in srgb, var(--blob-sky) 78%, #7ea9d0);
+  color: var(--ink);
 }
 
 .nav-toggle {
@@ -1215,7 +1219,7 @@ body[data-proposal="1"] .hero-blobs .is-mint {
 @property --btn-label {
   syntax: "<color>";
   inherits: false;
-  initial-value: #2165ab;
+  initial-value: #1a1a1a;
 }
 
 .hl--fill {
@@ -1397,49 +1401,55 @@ body[data-proposal="1"] .hero-blobs .is-mint {
 
 @keyframes btnDotPulse {
   0% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(0.12);
+    opacity: 0;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(0);
   }
 
-  16% {
+  18% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1.08);
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(0.55);
   }
 
-  36% {
+  44% {
     opacity: 1;
-    transform: translate(calc(-50% + var(--dx, 2px)), calc(-50% + var(--dy, -2px))) scale(1.5);
+    visibility: visible;
+    transform: translate(calc(-50% + var(--dx, 2px)), calc(-50% + var(--dy, -2px))) scale(1.32);
   }
 
-  56% {
+  62% {
     opacity: 1;
-    transform: translate(calc(-50% - var(--dx, 2px)), calc(-50% - var(--dy, -2px))) scale(1.08);
+    visibility: visible;
+    transform: translate(calc(-50% - var(--dx, 2px)), calc(-50% - var(--dy, -2px))) scale(0.94);
   }
 
-  76% {
+  80% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1.22);
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1.12);
   }
 
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.18);
+    visibility: hidden;
+    transform: translate(-50%, -50%) scale(0);
   }
 }
 
 @keyframes btnHighlight {
   0%,
-  42% {
+  48% {
     background-color: transparent;
     border-color: var(--btn-dot, var(--blue));
-    --btn-label: var(--btn-dot, var(--blue));
+    --btn-label: var(--ink);
   }
 
-  72%,
+  78%,
   100% {
     background-color: var(--btn-dot, var(--blue));
     border-color: var(--btn-dot, var(--blue));
-    --btn-label: #fff;
+    --btn-label: var(--ink);
   }
 }
 
@@ -1902,7 +1912,7 @@ body[data-proposal="1"] .hero-conversion .dc-hero-actions .dc-button {
   justify-content: center;
   background: transparent;
   border: 1px solid var(--blue);
-  color: var(--blue) !important;
+  color: var(--ink) !important;
   box-shadow: none;
 }
 
@@ -2440,9 +2450,9 @@ body[data-proposal="1"] .section.soft.solution-overview {
   .product-row:hover .button.secondary,
   .dc-button.secondary:hover,
   .dc-button.secondary:focus-visible {
-    --btn-label: #fff;
+    --btn-label: var(--ink);
     background: var(--btn-dot, var(--blue)) !important;
-    color: #fff !important;
+    color: var(--ink) !important;
   }
 }
 
@@ -2508,7 +2518,7 @@ body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button {
 
 body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button.secondary {
   --btn-dot: var(--blue);
-  --btn-label: var(--blue);
+  --btn-label: var(--ink);
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -2519,8 +2529,8 @@ body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button.secondary {
 
 body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button.secondary:hover,
 body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button.secondary:focus-visible {
-  --btn-label: #fff;
-  color: #fff !important;
+  --btn-label: var(--ink);
+  color: var(--ink) !important;
   transform: none;
   box-shadow: none;
 }
@@ -3841,8 +3851,9 @@ body[data-proposal="1"] .process-section .process-item {
 
 .dc-home-contact-actions .dc-button:hover,
 .dc-home-contact-actions .dc-button:focus-visible {
-  background: #1a528c;
-  border-color: #1a528c;
+  background: var(--blob-sky);
+  border-color: var(--blob-sky);
+  color: var(--ink) !important;
   transform: none;
   box-shadow: none;
 }

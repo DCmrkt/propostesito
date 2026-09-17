@@ -1,5 +1,5 @@
 /* Shared behaviour, with a visual vocabulary for every proposal. */
-body{--dc-accent:#e30613;--dc-cta:#2165ab;--dc-wash:#faf6f3;--dc-paper:#fff;--dc-text:#20202b;--dc-muted:#585664;--dc-line:#ded5ca;--dc-radius:16px;--dc-heading:inherit}
+body{--dc-accent:#e30613;--dc-cta:#c8def2;--dc-wash:#faf6f3;--dc-paper:#fff;--dc-text:#20202b;--dc-muted:#585664;--dc-line:#ded5ca;--dc-radius:16px;--dc-heading:inherit}
 body[data-proposal="2"]{--dc-accent:#17608e;--dc-wash:#e7f4fa;--dc-radius:22px}
 body[data-proposal="3"]{--dc-accent:#0d6f7d;--dc-wash:#d7f3f7;--dc-radius:28px}
 body[data-proposal="4"],body[data-proposal="5"]{--dc-accent:#096b8d;--dc-wash:#eef7fa;--dc-radius:3px;--dc-heading:Oswald,sans-serif}
@@ -22,9 +22,9 @@ html{scroll-padding-top:110px}
 .dc-heading-row{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:32px}
 .dc-heading-row>div{max-width:700px}
 .dc-intro{max-width:650px;color:var(--dc-muted);font-size:17px;line-height:1.65;margin:0}
-.dc-button{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:48px;padding:12px 22px;background:var(--dc-cta,var(--dc-accent));color:#fff!important;border:1px solid var(--dc-cta,var(--dc-accent));border-radius:999px;font:inherit;font-size:14px;font-weight:750;text-decoration:none;cursor:pointer;transition:transform .2s,box-shadow .2s;line-height:1.45;text-align:center}
+.dc-button{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:48px;padding:12px 22px;background:var(--dc-cta,var(--dc-accent));color:var(--ink,#1a1a1a)!important;border:1px solid var(--dc-cta,var(--dc-accent));border-radius:999px;font:inherit;font-size:14px;font-weight:750;text-decoration:none;cursor:pointer;transition:transform .2s,box-shadow .2s;line-height:1.45;text-align:center}
 .dc-button:hover{transform:translateY(-2px);box-shadow:0 6px 20px #00000015}
-.dc-button.secondary{background:transparent;color:var(--dc-cta,var(--dc-accent))!important}
+.dc-button.secondary{background:transparent;color:var(--ink,#1a1a1a)!important}
 [data-proposal="7"] .dc-button{color:#14212c!important}
 [data-proposal="7"] .dc-button.secondary{color:var(--dc-accent)!important}
 .dc-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
@@ -195,8 +195,8 @@ body[data-proposal="1"] .dc-steps,body[data-proposal="1"] .dc-contact-person{dis
 .nav-dropdown{position:relative;display:block}
 .nav-dropdown>button{appearance:none;background:none;border:0;margin:0;padding:0;min-height:0;height:auto;font-family:inherit;font-size:.86rem;font-weight:700;line-height:1.2;color:#3f3f46;cursor:pointer;white-space:nowrap;display:block;text-decoration:none}
 .nav-dropdown>button:hover,.nav-dropdown>button:focus-visible,.nav-dropdown.is-open>button{color:#3f3f46;background:none}
-.nav-dropdown .menu{position:fixed;top:var(--header-h,72px);left:0;right:0;z-index:45;width:100%;max-height:min(70vh,calc(100dvh - var(--header-h,72px)));overflow:hidden;padding:12px 0 22px;border:0;border-radius:0;background:rgba(250,248,245,.38);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:none;visibility:hidden;pointer-events:none;opacity:0;clip-path:inset(0 0 100% 0);transition:clip-path 320ms cubic-bezier(.22,.8,.2,1),opacity 180ms ease,visibility 0s linear 320ms}
-.nav-dropdown.is-open .menu{visibility:visible;pointer-events:auto;opacity:1;overflow:auto;clip-path:inset(0);transition:clip-path 320ms cubic-bezier(.22,.8,.2,1),opacity 180ms ease,visibility 0s}
+.nav-dropdown .menu{position:fixed;top:var(--header-h,72px);left:0;right:0;z-index:45;width:100%;max-height:min(70vh,calc(100dvh - var(--header-h,72px)));overflow:hidden;padding:12px 0 22px;border:0;border-radius:0;background:rgba(250,248,245,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:none;visibility:hidden;pointer-events:none;opacity:0;transform:translate3d(0,-10px,0);transition:opacity 220ms ease,transform 280ms cubic-bezier(.22,.8,.2,1),visibility 0s linear 280ms}
+.nav-dropdown.is-open .menu{visibility:visible;pointer-events:auto;opacity:1;overflow:auto;transform:none;transition:opacity 220ms ease,transform 280ms cubic-bezier(.22,.8,.2,1),visibility 0s}
 .site-header:has(.nav-dropdown.is-open){border-bottom-color:transparent}
 .nav-menu-inner{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,2.4fr) minmax(180px,1fr);gap:8px 40px;align-items:start;opacity:0;transform:translateY(-8px);transition:opacity 240ms ease 50ms,transform 280ms cubic-bezier(.22,.8,.2,1) 30ms}
 .nav-dropdown.is-open .nav-menu-inner{opacity:1;transform:none}
@@ -210,14 +210,14 @@ body[data-proposal="1"] .dc-steps,body[data-proposal="1"] .dc-contact-person{dis
 .nav-menu-stack{display:grid;gap:16px;align-content:start}
 .site-header{overflow:visible}
 @media(prefers-reduced-motion:reduce){
-  .nav-dropdown .menu,.nav-menu-inner{transition:none;clip-path:none;transform:none;opacity:1}
+  .nav-dropdown .menu,.nav-menu-inner{transition:none;transform:none;opacity:1}
   .nav-dropdown:not(.is-open) .menu{display:none;visibility:hidden;pointer-events:none}
 }
 @media(max-width:1120px){
   .nav-dropdown{width:100%}
   .nav-dropdown>button{display:flex;width:100%;justify-content:flex-start;padding:12px 10px;border-radius:10px}
   .nav-dropdown.is-open>button{background:transparent;color:#3f3f46}
-  .nav-dropdown .menu,.nav-dropdown.is-open .menu{position:static;max-height:none;padding:4px 0 12px;border:0;background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;clip-path:none;transform:none;opacity:1;visibility:visible;overflow:visible;pointer-events:auto;transition:none}
+  .nav-dropdown .menu,.nav-dropdown.is-open .menu{position:static;max-height:none;padding:4px 0 12px;border:0;background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;transform:none;opacity:1;visibility:visible;overflow:visible;pointer-events:auto;transition:none}
   .nav-dropdown:not(.is-open) .menu{display:none;visibility:hidden;pointer-events:none;opacity:0}
   .nav-menu-inner,.nav-dropdown.is-open .nav-menu-inner{opacity:1;transform:none;transition:none}
   .nav-menu-inner{grid-template-columns:1fr 1fr;gap:16px 18px;padding-left:10px;padding-right:10px}
