@@ -433,12 +433,30 @@ body[data-proposal="1"][data-page="integrazioni"] .dc-explorer .dc-bridge-action
   justify-content: flex-end;
 }
 
-.nav a {
-  text-decoration: none;
-  white-space: nowrap;
+.nav a,
+.nav > button:not(.nav-toggle),
+.nav .nav-discover {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  background-color: transparent;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-height: 0;
+  height: auto;
+  font-family: inherit;
   font-size: 0.86rem;
   font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: inherit;
+  text-align: inherit;
   color: #3f3f46;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: none;
+  border-radius: 0;
   transition: color 160ms ease;
 }
 
@@ -3613,9 +3631,13 @@ body[data-proposal="1"] .process-section .process-item {
     display: flex;
   }
 
-  .nav a {
+  .nav a,
+  .nav > button:not(.nav-toggle),
+  .nav .nav-discover {
     padding: 12px 10px;
     border-radius: 10px;
+    width: auto;
+    text-align: left;
   }
 
   .nav a:hover {
