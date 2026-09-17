@@ -549,6 +549,11 @@ body[data-proposal="1"] .hero-blobs .is-mint {
   border-radius: var(--blob-radius, 50%);
 }
 
+.hero-blob-cluster .is-neck-top,
+.hero-blob-cluster .is-neck-left {
+  border-radius: 999px;
+}
+
 .hero-blob.is-mint { color: #d5eadc; }
 .hero-blob.is-lilac { color: #d7c4f0; }
 .hero-blob.is-gold { color: #f3e08a; }
@@ -645,38 +650,45 @@ body[data-proposal="1"] .hero-blobs .is-mint {
 
 .hero-blobs[data-theme="integrazioni"] .hero-blob-cluster {
   top: 10%;
-  left: -8%;
-  width: min(460px, 44vw);
-  height: min(460px, 44vw);
-  opacity: 0.78;
+  left: 1%;
+  width: min(520px, 46vw);
+  height: min(520px, 46vw);
+  opacity: 0.82;
 }
 
 .hero-blobs[data-theme="integrazioni"] .is-core {
-  right: 4%;
-  bottom: 6%;
-  width: 64%;
-  height: 64%;
+  right: 2%;
+  bottom: 4%;
+  width: 42%;
+  height: 42%;
 }
 
 .hero-blobs[data-theme="integrazioni"] .is-top {
-  top: 1%;
-  left: 36%;
-  width: 38%;
-  height: 38%;
+  top: 0;
+  left: 66%;
+  width: 22%;
+  height: 22%;
 }
 
 .hero-blobs[data-theme="integrazioni"] .is-left {
   left: 0;
-  top: 40%;
-  width: 32%;
-  height: 32%;
+  top: 63%;
+  width: 24%;
+  height: 24%;
 }
 
-.hero-blobs[data-theme="integrazioni"] .is-bridge {
-  top: 18%;
-  left: 12%;
-  width: 20%;
-  height: 20%;
+.hero-blobs[data-theme="integrazioni"] .is-neck-top {
+  top: 16%;
+  left: 70%;
+  width: 13%;
+  height: 42%;
+}
+
+.hero-blobs[data-theme="integrazioni"] .is-neck-left {
+  top: 68%;
+  left: 16%;
+  width: 44%;
+  height: 13%;
 }
 
 .hero-blobs[data-theme="integrazioni"] .is-gold {
@@ -798,10 +810,10 @@ body[data-proposal="1"] .hero-blobs .is-mint {
   }
 
   .hero-blobs[data-theme="integrazioni"] .hero-blob-cluster {
-    top: 18%;
-    left: -22%;
-    width: min(340px, 78vw);
-    height: min(340px, 78vw);
+    top: 12%;
+    left: -8%;
+    width: min(380px, 86vw);
+    height: min(380px, 86vw);
   }
 }
 

@@ -704,8 +704,8 @@
   const cloudSoft = '<path d="M44 116c-18 4-32-14-20-30 6-22 38-28 50-10 10-24 48-30 64-6 18-16 52-6 54 18 20 4 28 28 8 38-6 18-42 22-58 6-14 14-54 16-98-16z"/>';
   const disc = (tone, motion) => `<span class="hero-blob is-disc ${tone}" ${motion}></span>`;
   const cloud = (tone, motion, path) => `<svg class="hero-blob is-cloud ${tone}" ${motion} viewBox="0 0 200 200">${path}</svg>`;
-  const cluster = (tone, motion) => `<span class="hero-blob hero-blob-cluster ${tone}" ${motion}><span class="hero-blob-cell is-core"></span><span class="hero-blob-cell is-top"></span><span class="hero-blob-cell is-left"></span><span class="hero-blob-cell is-bridge"></span></span>`;
-  const blobGoo = '<svg class="hero-blob-goo-defs" aria-hidden="true" focusable="false"><defs><filter id="hero-blob-goo" x="-45%" y="-45%" width="190%" height="190%"><feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -8" result="goo"/></filter></defs></svg>';
+  const cluster = (tone, motion) => `<span class="hero-blob hero-blob-cluster ${tone}" ${motion}><span class="hero-blob-cell is-core"></span><span class="hero-blob-cell is-top"></span><span class="hero-blob-cell is-left"></span><span class="hero-blob-cell is-neck-top"></span><span class="hero-blob-cell is-neck-left"></span></span>`;
+  const blobGoo = '<svg class="hero-blob-goo-defs" aria-hidden="true" focusable="false"><defs><filter id="hero-blob-goo" x="-55%" y="-55%" width="210%" height="210%"><feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8" result="goo"/></filter></defs></svg>';
 
   const blobThemes = {
     fundraising: [
