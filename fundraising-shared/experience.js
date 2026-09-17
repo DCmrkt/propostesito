@@ -204,7 +204,7 @@
         return;
       }
       const section=document.createElement('div');
-      section.className='nav-menu-group'+(group.id==='moduli'?' nav-menu-group--moduli':'');
+      section.className='nav-menu-group'+(group.id==='moduli'?' nav-menu-group--moduli':'')+(group.id==='mentor'?' nav-menu-group--mentor':'');
       if(group.id==='moduli'){
         const split=Math.ceil(group.pages.length/2);
         [group.pages.slice(0,split), group.pages.slice(split)].forEach(columnPages=>{

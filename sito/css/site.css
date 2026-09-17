@@ -17,6 +17,7 @@
   --orange: #ff8a3d;
   --blob-sky: #c8def2;
   --blue: var(--blob-sky);
+  --mentor: #136491;
   --teal: #2da3ba;
   --mint: #acd9be;
   --focus: rgba(34, 197, 94, 0.28);
@@ -463,6 +464,7 @@ body[data-proposal="1"][data-page="integrazioni"] .dc-explorer .dc-bridge-action
 .nav a:hover,
 .nav a[aria-current="page"] {
   color: var(--red);
+  text-decoration: none;
 }
 
 .nav a[href="#contatti"] {
@@ -2378,7 +2380,7 @@ body[data-proposal="1"] .section.soft.solution-overview {
 }
 
 .solution-overview .product-row[data-product="mentor"] {
-  --product-accent: var(--blue);
+  --product-accent: var(--mentor);
 }
 
 .solution-overview .product-row[data-product="sense"] {

@@ -212,8 +212,10 @@ body[data-proposal="1"] .dc-steps,body[data-proposal="1"] .dc-contact-person{dis
 .nav-discover-menu.is-open .nav-menu-inner,.nav-dropdown.is-open .nav-menu-inner{opacity:1;transform:none}
 .nav-menu-group{display:grid;gap:8px;align-content:start}
 .nav-menu-heading{margin:0 0 4px;font-size:.72rem;font-weight:800;letter-spacing:.08em;line-height:1.2;text-transform:uppercase;color:#3f3f46}
-.nav-discover-menu a{white-space:nowrap;font-size:.86rem;font-weight:700;line-height:1.2;padding:0;color:#3f3f46;text-transform:none;transition:color 160ms ease}
-.nav-discover-menu a:hover,.nav-discover-menu a[aria-current="page"]{color:var(--red,#e30613)}
+.nav-discover-menu a{white-space:nowrap;font-size:.86rem;font-weight:700;line-height:1.2;padding:0;color:#3f3f46;text-transform:none;text-decoration:none;transition:color 160ms ease}
+.nav-discover-menu a:hover,.nav-discover-menu a:focus-visible,.nav-discover-menu a[aria-current="page"]{color:var(--red,#e30613);text-decoration:none}
+.nav-menu-group--mentor .nav-menu-heading,.nav-menu-group--mentor a{color:var(--mentor,#136491)}
+.nav-menu-group--mentor a:hover,.nav-menu-group--mentor a:focus-visible,.nav-menu-group--mentor a[aria-current="page"]{color:var(--mentor,#136491)}
 .nav-menu-group--moduli{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:28px;row-gap:0}
 .nav-menu-moduli-col{display:grid;gap:8px;align-content:start}
 .nav-menu-group--moduli a{white-space:normal}
