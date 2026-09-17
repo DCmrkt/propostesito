@@ -20,10 +20,10 @@
         dot.style.setProperty('--x',x.toFixed(2)+'%');
         dot.style.setProperty('--y',y.toFixed(1)+'%');
         dot.style.setProperty('--s',size.toFixed(2)+'em');
-        dot.style.setProperty('--g',(7.2+(c%3)*0.8).toFixed(2));
-        dot.style.setProperty('--dx',(((nx-0.5)*0.28)).toFixed(2)+'em');
-        dot.style.setProperty('--dy',(((r-1)*0.18)).toFixed(2)+'em');
-        dot.style.setProperty('--d',(n*0.018)+'s');
+        dot.style.setProperty('--g',(12.4+(c%3)*1.5).toFixed(2));
+        dot.style.setProperty('--dx',(((nx-0.5)*0.55)).toFixed(2)+'em');
+        dot.style.setProperty('--dy',(((r-1)*0.32)).toFixed(2)+'em');
+        dot.style.setProperty('--d',(n*0.01)+'s');
         wrap.append(dot);
         n+=1;
       }
@@ -704,6 +704,8 @@
   const cloudSoft = '<path d="M44 116c-18 4-32-14-20-30 6-22 38-28 50-10 10-24 48-30 64-6 18-16 52-6 54 18 20 4 28 28 8 38-6 18-42 22-58 6-14 14-54 16-98-16z"/>';
   const disc = (tone, motion) => `<span class="hero-blob is-disc ${tone}" ${motion}></span>`;
   const cloud = (tone, motion, path) => `<svg class="hero-blob is-cloud ${tone}" ${motion} viewBox="0 0 200 200">${path}</svg>`;
+  const cluster = (tone, motion) => `<span class="hero-blob hero-blob-cluster ${tone}" ${motion}><span class="hero-blob-cell is-core"></span><span class="hero-blob-cell is-top"></span><span class="hero-blob-cell is-left"></span><span class="hero-blob-cell is-bridge"></span></span>`;
+  const blobGoo = '<svg class="hero-blob-goo-defs" aria-hidden="true" focusable="false"><defs><filter id="hero-blob-goo" x="-45%" y="-45%" width="190%" height="190%"><feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -8" result="goo"/></filter></defs></svg>';
 
   const blobThemes = {
     fundraising: [
@@ -727,8 +729,7 @@
       cloud('is-lilac', 'data-x="-28" data-y="80" data-spin="18" data-tilt="-6"', cloudLilac)
     ],
     integrazioni: [
-      disc('is-mint', 'data-x="90" data-y="16" data-spin="-10" data-morph="1"'),
-      disc('is-sky', 'data-x="110" data-y="40" data-spin="18" data-grow="-0.08" data-morph="1"'),
+      cluster('is-sky', 'data-x="70" data-y="18" data-spin="-8" data-morph="1"'),
       cloud('is-gold', 'data-x="-40" data-y="54" data-grow="0.55" data-spin="16"', cloudGold)
     ],
     moduli: [
@@ -854,7 +855,7 @@
     if (hero.querySelector('.hero-blobs')) return;
     const theme = blobTheme();
     const parts = blobThemes[theme] || blobThemes.fundraising;
-    hero.insertAdjacentHTML('afterbegin', `<div class="hero-blobs" data-theme="${theme}" aria-hidden="true">${parts.join('')}</div>`);
+    hero.insertAdjacentHTML('afterbegin', `<div class="hero-blobs" data-theme="${theme}" aria-hidden="true">${theme === 'integrazioni' ? blobGoo : ''}${parts.join('')}</div>`);
     const blobs = [...hero.querySelectorAll('.hero-blob')];
     if (!blobs.length) return;
     const heroBox = hero.getBoundingClientRect();
