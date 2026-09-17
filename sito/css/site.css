@@ -15,6 +15,7 @@
   --pink: #fac9fa;
   --orange: #ff8a3d;
   --blue: #2165ab;
+  --blob-sky: #c8def2;
   --teal: #2da3ba;
   --mint: #acd9be;
   --focus: rgba(34, 197, 94, 0.28);
@@ -189,10 +190,7 @@ select {
   isolation: isolate;
   overflow: hidden;
   z-index: 0;
-  width: auto;
-  max-width: 100%;
-  padding: 10px 16px;
-  border: 2px solid var(--btn-dot, var(--blue));
+  border: 1px solid var(--btn-dot, var(--blue));
   border-radius: 999px;
   background: transparent;
   color: var(--btn-label);
@@ -228,26 +226,13 @@ select {
   isolation: isolate;
   overflow: hidden;
   z-index: 0;
-  width: auto;
-  max-width: 100%;
-  padding: 10px 16px;
-  border: 2px solid var(--btn-dot, var(--dc-cta, var(--blue)));
+  border: 1px solid var(--btn-dot, var(--dc-cta, var(--blue)));
   color: var(--btn-label) !important;
 }
 
 body[data-proposal="1"] .hero-copy .dc-hero-actions .dc-button:not(.hero-ecosystem-chip),
 body[data-proposal="1"] .dc-actions .dc-button:not(.hero-ecosystem-chip) {
-  width: auto;
-  max-width: 100%;
-  padding: 10px 16px;
-  border-width: 2px;
-}
-
-@media (max-width: 540px) {
-  body[data-proposal="1"] .dc-actions .dc-button {
-    width: auto;
-    max-width: 100%;
-  }
+  border-width: 1px;
 }
 
 body[data-proposal="1"] .hero-copy .dc-hero-actions .dc-button.secondary:not(.hero-ecosystem-chip),
@@ -271,16 +256,16 @@ body[data-proposal="1"] .dc-hero-actions .dc-button.secondary:not(.hero-ecosyste
   inset: 0;
   z-index: 3;
   box-sizing: border-box;
-  border: 2px solid var(--btn-dot, var(--blue));
+  border: 1px solid var(--btn-dot, var(--blue));
   border-radius: inherit;
   pointer-events: none;
 }
 
 .btn-bubbles {
   position: absolute;
-  inset: 0;
+  inset: 1px;
   z-index: -1;
-  overflow: visible;
+  overflow: hidden;
   pointer-events: none;
 }
 
@@ -294,7 +279,7 @@ body[data-proposal="1"] .dc-hero-actions .dc-button.secondary:not(.hero-ecosyste
   margin: 0;
   padding: 0;
   border-radius: 50%;
-  background: color-mix(in srgb, var(--btn-dot, var(--product-accent, var(--dc-cta, var(--blue)))) 70%, #fff);
+  background: color-mix(in srgb, var(--btn-dot, var(--product-accent, var(--dc-cta, var(--blue)))) 86%, #fff);
   transform: translate(-50%, -50%) scale(0);
   transform-origin: 50% 50%;
   pointer-events: none;
@@ -330,7 +315,7 @@ body[data-proposal="1"] .dc-hero-actions .dc-button.secondary:not(.hero-ecosyste
 .dc-button.secondary:not(.hero-ecosystem-chip):focus-visible::after,
 .hero-conversion .dc-hero-actions .dc-button:not(.hero-ecosystem-chip):hover::after,
 .hero-conversion .dc-hero-actions .dc-button:not(.hero-ecosystem-chip):focus-visible::after {
-  animation: btnBorderCover 1.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: none;
 }
 
 .button.secondary:hover .btn-bubbles i,
@@ -339,6 +324,56 @@ body[data-proposal="1"] .dc-hero-actions .dc-button.secondary:not(.hero-ecosyste
 .dc-button:hover .btn-bubbles i,
 .dc-button:focus-visible .btn-bubbles i {
   animation: btnDotPulse 1.55s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0s) both;
+}
+
+body[data-page="integrazioni"] {
+  --blue: var(--blob-sky);
+  --dc-cta: var(--blob-sky);
+}
+
+body[data-proposal="1"][data-page="integrazioni"] .dc-button,
+body[data-proposal="1"][data-page="integrazioni"] .button,
+body[data-proposal="1"][data-page="integrazioni"] .nav a[href="#contatti"] {
+  background: var(--blob-sky);
+  border-color: var(--blob-sky);
+  color: var(--ink) !important;
+  box-shadow: none;
+}
+
+body[data-proposal="1"][data-page="integrazioni"] .dc-button.secondary,
+body[data-proposal="1"][data-page="integrazioni"] .button.secondary {
+  --btn-dot: var(--blob-sky);
+  --btn-label: var(--ink);
+  background: transparent;
+  border-color: var(--blob-sky);
+  color: var(--ink) !important;
+}
+
+body[data-proposal="1"][data-page="integrazioni"] .dc-button:hover,
+body[data-proposal="1"][data-page="integrazioni"] .dc-button:focus-visible,
+body[data-proposal="1"][data-page="integrazioni"] .button:hover,
+body[data-proposal="1"][data-page="integrazioni"] .nav a[href="#contatti"]:hover,
+body[data-proposal="1"][data-page="integrazioni"] .nav a[href="#contatti"][aria-current="page"],
+body[data-proposal="1"][data-page="integrazioni"] .dc-home-contact-actions .dc-button:hover,
+body[data-proposal="1"][data-page="integrazioni"] .dc-home-contact-actions .dc-button:focus-visible {
+  background: var(--blob-sky);
+  border-color: var(--blob-sky);
+  color: var(--ink) !important;
+}
+
+body[data-proposal="1"][data-page="integrazioni"] .dc-button.secondary:hover,
+body[data-proposal="1"][data-page="integrazioni"] .dc-button.secondary:focus-visible,
+body[data-proposal="1"][data-page="integrazioni"] .button.secondary:hover,
+body[data-proposal="1"][data-page="integrazioni"] .button.secondary:focus-visible,
+body[data-proposal="1"][data-page="integrazioni"] .hero-copy .dc-hero-actions .dc-button.secondary:not(.hero-ecosystem-chip):hover,
+body[data-proposal="1"][data-page="integrazioni"] .hero-copy .dc-hero-actions .dc-button.secondary:not(.hero-ecosystem-chip):focus-visible,
+body[data-proposal="1"][data-page="integrazioni"] .dc-hero-actions .dc-button.secondary:not(.hero-ecosystem-chip):hover,
+body[data-proposal="1"][data-page="integrazioni"] .dc-hero-actions .dc-button.secondary:not(.hero-ecosystem-chip):focus-visible,
+body[data-proposal="1"][data-page="integrazioni"] .dc-explorer .dc-bridge-actions .dc-button.secondary:hover,
+body[data-proposal="1"][data-page="integrazioni"] .dc-explorer .dc-bridge-actions .dc-button.secondary:focus-visible {
+  --btn-dot: var(--blob-sky);
+  --btn-label: var(--ink);
+  color: var(--ink) !important;
 }
 
 .button.ghost {
@@ -591,7 +626,7 @@ body[data-proposal="1"] .hero-blobs .is-mint {
 .hero-blob.is-lilac { color: #d7c4f0; }
 .hero-blob.is-gold { color: #f3e08a; }
 .hero-blob.is-peach { color: #f4d4c2; }
-.hero-blob.is-sky { color: #c8def2; }
+.hero-blob.is-sky { color: var(--blob-sky, #c8def2); }
 .hero-blob.is-foam { color: rgba(255, 255, 255, 0.34); }
 .hero-blob.is-blush { color: #f6cfdc; }
 .hero-blob.is-aqua { color: #bfe7ea; }
@@ -1368,27 +1403,27 @@ body[data-proposal="1"] .hero-blobs .is-mint {
 
   16% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(0.9);
+    transform: translate(-50%, -50%) scale(1.08);
   }
 
   36% {
     opacity: 1;
-    transform: translate(calc(-50% + var(--dx, 2px)), calc(-50% + var(--dy, -2px))) scale(1.22);
+    transform: translate(calc(-50% + var(--dx, 2px)), calc(-50% + var(--dy, -2px))) scale(1.5);
   }
 
   56% {
     opacity: 1;
-    transform: translate(calc(-50% - var(--dx, 2px)), calc(-50% - var(--dy, -2px))) scale(0.86);
+    transform: translate(calc(-50% - var(--dx, 2px)), calc(-50% - var(--dy, -2px))) scale(1.08);
   }
 
   76% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, -50%) scale(1.22);
   }
 
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.12);
+    transform: translate(-50%, -50%) scale(0.18);
   }
 }
 
@@ -1396,7 +1431,7 @@ body[data-proposal="1"] .hero-blobs .is-mint {
   0%,
   42% {
     background-color: transparent;
-    border-color: transparent;
+    border-color: var(--btn-dot, var(--blue));
     --btn-label: var(--btn-dot, var(--blue));
   }
 
@@ -1405,22 +1440,6 @@ body[data-proposal="1"] .hero-blobs .is-mint {
     background-color: var(--btn-dot, var(--blue));
     border-color: var(--btn-dot, var(--blue));
     --btn-label: #fff;
-  }
-}
-
-@keyframes btnBorderCover {
-  0% {
-    border-color: var(--btn-dot, var(--blue));
-  }
-
-  12%,
-  58% {
-    border-color: #fff;
-  }
-
-  82%,
-  100% {
-    border-color: var(--btn-dot, var(--blue));
   }
 }
 
@@ -1864,10 +1883,10 @@ body[data-proposal="1"] .hero-conversion .hero-copy {
 }
 
 body[data-proposal="1"] .hero-conversion .dc-hero-actions {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   grid-column: 1 / -1;
-  align-items: center;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
   gap: 12px;
   width: 100%;
   margin-top: 0;
@@ -1876,15 +1895,13 @@ body[data-proposal="1"] .hero-conversion .dc-hero-actions {
 }
 
 body[data-proposal="1"] .hero-conversion .dc-hero-actions .dc-button {
-  min-height: 48px;
+  min-height: 58px;
   height: auto;
-  width: auto;
-  max-width: 100%;
-  padding: 10px 16px;
+  width: 100%;
   box-sizing: border-box;
   justify-content: center;
   background: transparent;
-  border: 2px solid var(--blue);
+  border: 1px solid var(--blue);
   color: var(--blue) !important;
   box-shadow: none;
 }
@@ -2300,6 +2317,7 @@ body[data-proposal="1"] .section.soft.solution-overview {
 }
 
 .product-cta {
+  width: 100%;
   margin-top: 18px;
 }
 
@@ -2377,6 +2395,7 @@ body[data-proposal="1"] .section.soft.solution-overview {
 }
 
 .solution-overview .product-cta {
+  width: 100%;
   margin-top: auto;
   padding-top: 18px;
   overflow: visible;
@@ -2384,11 +2403,11 @@ body[data-proposal="1"] .section.soft.solution-overview {
 
 .solution-overview .product-cta .button {
   --btn-dot: var(--product-accent);
-  width: auto;
-  max-width: 100%;
+  display: flex;
+  width: 100%;
   min-height: 48px;
-  padding: 10px 16px;
-  border: 2px solid var(--product-accent);
+  box-sizing: border-box;
+  border: 1px solid var(--product-accent);
   border-radius: 999px;
   background: transparent;
   color: var(--product-accent);
@@ -2493,11 +2512,8 @@ body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button.secondary {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  width: auto;
-  max-width: 100%;
-  padding: 10px 16px;
   background: transparent;
-  border: 2px solid var(--blue);
+  border: 1px solid var(--blue);
   color: var(--btn-label) !important;
 }
 
@@ -3596,7 +3612,7 @@ body[data-proposal="1"] .process-section .process-item {
   }
 
   body[data-proposal="1"] .hero-conversion .dc-hero-actions {
-    display: flex;
+    grid-template-columns: 1fr;
   }
 
   .fields {
@@ -3803,8 +3819,8 @@ body[data-proposal="1"] .process-section .process-item {
   width: 100%;
   min-height: 48px;
   margin: 0;
-  padding: 10px 16px;
-  border: 2px solid var(--blue);
+  padding: 12px 22px;
+  border: 1px solid var(--blue);
   border-radius: 999px;
   background: transparent;
   color: var(--ink);
