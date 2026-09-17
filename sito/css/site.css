@@ -189,7 +189,10 @@ select {
   isolation: isolate;
   overflow: hidden;
   z-index: 0;
-  border: 2px solid var(--blue);
+  width: auto;
+  max-width: 100%;
+  padding: 10px 16px;
+  border: 2px solid var(--btn-dot, var(--blue));
   border-radius: 999px;
   background: transparent;
   color: var(--btn-label);
@@ -225,12 +228,39 @@ select {
   isolation: isolate;
   overflow: hidden;
   z-index: 0;
+  width: auto;
+  max-width: 100%;
+  padding: 10px 16px;
+  border: 2px solid var(--btn-dot, var(--dc-cta, var(--blue)));
   color: var(--btn-label) !important;
+}
+
+body[data-proposal="1"] .hero-copy .dc-hero-actions .dc-button:not(.hero-ecosystem-chip),
+body[data-proposal="1"] .dc-actions .dc-button:not(.hero-ecosystem-chip) {
+  width: auto;
+  max-width: 100%;
+  padding: 10px 16px;
+  border-width: 2px;
+}
+
+@media (max-width: 540px) {
+  body[data-proposal="1"] .dc-actions .dc-button {
+    width: auto;
+    max-width: 100%;
+  }
 }
 
 body[data-proposal="1"] .hero-copy .dc-hero-actions .dc-button.secondary:not(.hero-ecosystem-chip),
 body[data-proposal="1"] .dc-hero-actions .dc-button.secondary:not(.hero-ecosystem-chip) {
   color: var(--btn-label) !important;
+}
+
+body[data-proposal="1"] .hero-copy .dc-hero-actions .dc-button.secondary:not(.hero-ecosystem-chip):hover,
+body[data-proposal="1"] .hero-copy .dc-hero-actions .dc-button.secondary:not(.hero-ecosystem-chip):focus-visible,
+body[data-proposal="1"] .dc-hero-actions .dc-button.secondary:not(.hero-ecosystem-chip):hover,
+body[data-proposal="1"] .dc-hero-actions .dc-button.secondary:not(.hero-ecosystem-chip):focus-visible {
+  --btn-label: #fff;
+  color: #fff !important;
 }
 
 .button.secondary::after,
@@ -241,8 +271,7 @@ body[data-proposal="1"] .dc-hero-actions .dc-button.secondary:not(.hero-ecosyste
   inset: 0;
   z-index: 3;
   box-sizing: border-box;
-  border: inherit;
-  border-color: var(--btn-dot, var(--blue));
+  border: 2px solid var(--btn-dot, var(--blue));
   border-radius: inherit;
   pointer-events: none;
 }
@@ -278,6 +307,8 @@ body[data-proposal="1"] .dc-hero-actions .dc-button.secondary:not(.hero-ecosyste
 .dc-button.secondary:not(.hero-ecosystem-chip):focus-visible,
 .hero-conversion .dc-hero-actions .dc-button:not(.hero-ecosystem-chip):hover,
 .hero-conversion .dc-hero-actions .dc-button:not(.hero-ecosystem-chip):focus-visible {
+  --btn-label: #fff;
+  color: #fff !important;
   transform: none !important;
   box-shadow: none !important;
   z-index: 2;
@@ -1833,10 +1864,10 @@ body[data-proposal="1"] .hero-conversion .hero-copy {
 }
 
 body[data-proposal="1"] .hero-conversion .dc-hero-actions {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   grid-column: 1 / -1;
-  grid-template-columns: 1fr 1fr;
-  align-items: stretch;
+  align-items: center;
   gap: 12px;
   width: 100%;
   margin-top: 0;
@@ -1845,9 +1876,11 @@ body[data-proposal="1"] .hero-conversion .dc-hero-actions {
 }
 
 body[data-proposal="1"] .hero-conversion .dc-hero-actions .dc-button {
-  min-height: 58px;
+  min-height: 48px;
   height: auto;
-  width: 100%;
+  width: auto;
+  max-width: 100%;
+  padding: 10px 16px;
   box-sizing: border-box;
   justify-content: center;
   background: transparent;
@@ -2351,9 +2384,11 @@ body[data-proposal="1"] .section.soft.solution-overview {
 
 .solution-overview .product-cta .button {
   --btn-dot: var(--product-accent);
-  width: 100%;
+  width: auto;
+  max-width: 100%;
   min-height: 48px;
-  border: 1px solid var(--product-accent);
+  padding: 10px 16px;
+  border: 2px solid var(--product-accent);
   border-radius: 999px;
   background: transparent;
   color: var(--product-accent);
@@ -2386,6 +2421,7 @@ body[data-proposal="1"] .section.soft.solution-overview {
   .product-row:hover .button.secondary,
   .dc-button.secondary:hover,
   .dc-button.secondary:focus-visible {
+    --btn-label: #fff;
     background: var(--btn-dot, var(--blue)) !important;
     color: #fff !important;
   }
@@ -2457,6 +2493,9 @@ body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button.secondary {
   position: relative;
   isolation: isolate;
   overflow: hidden;
+  width: auto;
+  max-width: 100%;
+  padding: 10px 16px;
   background: transparent;
   border: 2px solid var(--blue);
   color: var(--btn-label) !important;
@@ -2464,6 +2503,8 @@ body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button.secondary {
 
 body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button.secondary:hover,
 body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button.secondary:focus-visible {
+  --btn-label: #fff;
+  color: #fff !important;
   transform: none;
   box-shadow: none;
 }
@@ -3555,7 +3596,7 @@ body[data-proposal="1"] .process-section .process-item {
   }
 
   body[data-proposal="1"] .hero-conversion .dc-hero-actions {
-    grid-template-columns: 1fr;
+    display: flex;
   }
 
   .fields {
@@ -3762,8 +3803,8 @@ body[data-proposal="1"] .process-section .process-item {
   width: 100%;
   min-height: 48px;
   margin: 0;
-  padding: 12px 22px;
-  border: 1px solid var(--blue);
+  padding: 10px 16px;
+  border: 2px solid var(--blue);
   border-radius: 999px;
   background: transparent;
   color: var(--ink);

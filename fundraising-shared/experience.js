@@ -1,12 +1,25 @@
 (() => {
   'use strict';
-  function seedButtonDots(btn){
-    if(!btn || btn.querySelector('.btn-bubbles') || btn.classList.contains('hero-ecosystem-chip') || btn.disabled) return;
+  function seedButtonDots(btn, force){
+    if(!btn || btn.classList.contains('hero-ecosystem-chip') || btn.disabled) return;
+    const existing=btn.querySelector('.btn-bubbles');
+    const rect=btn.getBoundingClientRect();
+    if(rect.width<8){
+      if(!btn.dataset.btnDotsWait){
+        btn.dataset.btnDotsWait='1';
+        btn.addEventListener('mouseenter', () => seedButtonDots(btn, true), {once:true});
+      }
+      return;
+    }
+    if(existing && !force) return;
+    if(existing) existing.remove();
     const wrap=document.createElement('span');
     wrap.className='btn-bubbles';
     wrap.setAttribute('aria-hidden','true');
-    const h=Math.max(btn.getBoundingClientRect().height||48, 40);
-    const cols=8;
+    const h=Math.max(rect.height||48, 40);
+    const w=Math.max(rect.width||160, 80);
+    const pitch=Math.max(h*0.42, 18);
+    const cols=Math.max(5, Math.min(14, Math.round(w/pitch)));
     const rows=3;
     let n=0;
     for(let r=0;r<rows;r++){

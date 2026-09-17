@@ -183,6 +183,7 @@ body[data-proposal="1"] .dc-steps,body[data-proposal="1"] .dc-contact-person{dis
 .dc-hero-actions .dc-button.secondary{background:transparent;color:inherit!important;border-color:currentColor}
 .hero-copy .dc-hero-actions .dc-button{background:var(--dc-cta,var(--dc-accent));color:#fff!important;border-color:var(--dc-cta,var(--dc-accent))}
 .hero-copy .dc-hero-actions .dc-button.secondary{background:transparent;color:var(--dc-cta,var(--dc-accent))!important}
+.hero-copy .dc-hero-actions .dc-button.secondary:hover,.hero-copy .dc-hero-actions .dc-button.secondary:focus-visible{color:#fff!important}
 .site-header{z-index:50;position:sticky;top:0}
 .nav .button.red{color:#fff!important}
 .nav .btn{background:var(--dc-accent);color:#fff!important;min-height:44px}
