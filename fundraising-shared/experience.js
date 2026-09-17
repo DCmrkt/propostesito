@@ -5,7 +5,8 @@
     const wrap=document.createElement('span');
     wrap.className='btn-bubbles';
     wrap.setAttribute('aria-hidden','true');
-    const cols=10;
+    const h=Math.max(btn.getBoundingClientRect().height||48, 40);
+    const cols=8;
     const rows=3;
     let n=0;
     for(let r=0;r<rows;r++){
@@ -13,17 +14,15 @@
       const offset=r===1?0:0.5;
       for(let c=0;c<count;c++){
         const dot=document.createElement('i');
-        const nx=(c+offset+0.5)/cols;
         const x=((c+offset+0.5)/cols)*100;
         const y=((r+0.5)/rows)*100;
-        const size=0.38+((c*3+r*5)%5)*0.04;
+        const size=h*(0.38+((c*3+r*5)%5)*0.04);
         dot.style.setProperty('--x',x.toFixed(2)+'%');
         dot.style.setProperty('--y',y.toFixed(1)+'%');
-        dot.style.setProperty('--s',size.toFixed(2)+'em');
-        dot.style.setProperty('--g',(12.4+(c%3)*1.5).toFixed(2));
-        dot.style.setProperty('--dx',(((nx-0.5)*0.55)).toFixed(2)+'em');
-        dot.style.setProperty('--dy',(((r-1)*0.32)).toFixed(2)+'em');
-        dot.style.setProperty('--d',(n*0.01)+'s');
+        dot.style.setProperty('--s',size.toFixed(1)+'px');
+        dot.style.setProperty('--dx',(((c%3)-1)*(h*0.035)).toFixed(1)+'px');
+        dot.style.setProperty('--dy',(((r%3)-1)*(h*0.03)).toFixed(1)+'px');
+        dot.style.setProperty('--d',(n*0.014)+'s');
         wrap.append(dot);
         n+=1;
       }
@@ -704,8 +703,8 @@
   const cloudSoft = '<path d="M44 116c-18 4-32-14-20-30 6-22 38-28 50-10 10-24 48-30 64-6 18-16 52-6 54 18 20 4 28 28 8 38-6 18-42 22-58 6-14 14-54 16-98-16z"/>';
   const disc = (tone, motion) => `<span class="hero-blob is-disc ${tone}" ${motion}></span>`;
   const cloud = (tone, motion, path) => `<svg class="hero-blob is-cloud ${tone}" ${motion} viewBox="0 0 200 200">${path}</svg>`;
-  const cluster = (tone, motion) => `<span class="hero-blob hero-blob-cluster ${tone}" ${motion}><span class="hero-blob-cell is-core"></span><span class="hero-blob-cell is-top"></span><span class="hero-blob-cell is-left"></span><span class="hero-blob-cell is-neck-top"></span><span class="hero-blob-cell is-neck-left"></span></span>`;
-  const blobGoo = '<svg class="hero-blob-goo-defs" aria-hidden="true" focusable="false"><defs><filter id="hero-blob-goo" x="-55%" y="-55%" width="210%" height="210%"><feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8" result="goo"/></filter></defs></svg>';
+  const cluster = (tone, motion) => `<span class="hero-blob hero-blob-cluster ${tone}" ${motion}><span class="hero-blob-cell is-core"></span><span class="hero-blob-cell is-a"></span><span class="hero-blob-cell is-b"></span><span class="hero-blob-cell is-c"></span><span class="hero-blob-cell is-d"></span><span class="hero-blob-cell is-e"></span><span class="hero-blob-cell is-bead is-bead-1"></span><span class="hero-blob-cell is-bead is-bead-2"></span><span class="hero-blob-cell is-bead is-bead-3"></span><span class="hero-blob-cell is-bead is-bead-4"></span><span class="hero-blob-cell is-bead is-bead-5"></span><span class="hero-blob-cell is-bead is-bead-6"></span><span class="hero-blob-cell is-bead is-bead-7"></span><span class="hero-blob-cell is-bead is-bead-8"></span><span class="hero-blob-cell is-bead is-bead-9"></span><span class="hero-blob-cell is-bead is-bead-10"></span></span>`;
+  const blobGoo = '<svg class="hero-blob-goo-defs" aria-hidden="true" focusable="false"><defs><filter id="hero-blob-goo" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur in="SourceGraphic" stdDeviation="11" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9" result="goo"/></filter></defs></svg>';
 
   const blobThemes = {
     fundraising: [

@@ -186,7 +186,7 @@ select {
   --btn-dot: var(--product-accent, var(--blue));
   position: relative;
   isolation: isolate;
-  overflow: visible;
+  overflow: hidden;
   z-index: 0;
   border: 2px solid var(--blue);
   border-radius: 999px;
@@ -221,7 +221,7 @@ select {
   --btn-dot: var(--dc-cta, var(--blue));
   position: relative;
   isolation: isolate;
-  overflow: visible;
+  overflow: hidden;
   z-index: 0;
 }
 
@@ -251,8 +251,8 @@ select {
   position: absolute;
   left: var(--x, 50%);
   top: var(--y, 50%);
-  width: var(--s, 0.42em);
-  height: var(--s, 0.42em);
+  width: var(--s, 22px);
+  height: var(--s, 22px);
   display: block;
   margin: 0;
   padding: 0;
@@ -282,7 +282,7 @@ select {
 .product-row:hover .button.secondary::before,
 .dc-button.secondary:not(.hero-ecosystem-chip):hover::before,
 .dc-button.secondary:not(.hero-ecosystem-chip):focus-visible::before {
-  animation: btnDotGrowBack 1.25s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: btnDotPulse 1.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .button.secondary:hover::after,
@@ -300,7 +300,7 @@ select {
 .product-row:hover .btn-bubbles i,
 .dc-button:hover .btn-bubbles i,
 .dc-button:focus-visible .btn-bubbles i {
-  animation: btnDotGrowBack 1.25s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0s) both;
+  animation: btnDotPulse 1.55s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0s) both;
 }
 
 .button.ghost {
@@ -549,11 +549,6 @@ body[data-proposal="1"] .hero-blobs .is-mint {
   border-radius: var(--blob-radius, 50%);
 }
 
-.hero-blob-cluster .is-neck-top,
-.hero-blob-cluster .is-neck-left {
-  border-radius: 999px;
-}
-
 .hero-blob.is-mint { color: #d5eadc; }
 .hero-blob.is-lilac { color: #d7c4f0; }
 .hero-blob.is-gold { color: #f3e08a; }
@@ -649,46 +644,123 @@ body[data-proposal="1"] .hero-blobs .is-mint {
 }
 
 .hero-blobs[data-theme="integrazioni"] .hero-blob-cluster {
-  top: 10%;
-  left: 1%;
-  width: min(520px, 46vw);
-  height: min(520px, 46vw);
-  opacity: 0.82;
+  top: 6%;
+  left: 0;
+  width: min(560px, 50vw);
+  height: min(560px, 50vw);
+  opacity: 0.84;
 }
 
 .hero-blobs[data-theme="integrazioni"] .is-core {
-  right: 2%;
-  bottom: 4%;
-  width: 42%;
-  height: 42%;
+  left: 53%;
+  top: 41%;
+  width: 34%;
+  height: 34%;
 }
 
-.hero-blobs[data-theme="integrazioni"] .is-top {
-  top: 0;
-  left: 66%;
-  width: 22%;
-  height: 22%;
+.hero-blobs[data-theme="integrazioni"] .is-a {
+  left: 36%;
+  top: 18%;
+  width: 20%;
+  height: 20%;
 }
 
-.hero-blobs[data-theme="integrazioni"] .is-left {
-  left: 0;
-  top: 63%;
-  width: 24%;
-  height: 24%;
+.hero-blobs[data-theme="integrazioni"] .is-b {
+  left: 22%;
+  top: 4%;
+  width: 12%;
+  height: 12%;
 }
 
-.hero-blobs[data-theme="integrazioni"] .is-neck-top {
-  top: 16%;
-  left: 70%;
-  width: 13%;
-  height: 42%;
+.hero-blobs[data-theme="integrazioni"] .is-c {
+  left: 14%;
+  top: 1%;
+  width: 8%;
+  height: 8%;
 }
 
-.hero-blobs[data-theme="integrazioni"] .is-neck-left {
+.hero-blobs[data-theme="integrazioni"] .is-d {
+  left: 10%;
   top: 68%;
-  left: 16%;
-  width: 44%;
-  height: 13%;
+  width: 15%;
+  height: 15%;
+}
+
+.hero-blobs[data-theme="integrazioni"] .is-e {
+  left: 84%;
+  top: 10%;
+  width: 14%;
+  height: 14%;
+}
+
+.hero-blobs[data-theme="integrazioni"] .is-bead-1 {
+  left: 58.4%;
+  top: 44.2%;
+  width: 6.4%;
+  height: 6.4%;
+}
+
+.hero-blobs[data-theme="integrazioni"] .is-bead-2 {
+  left: 51.2%;
+  top: 35.6%;
+  width: 5.8%;
+  height: 5.8%;
+}
+
+.hero-blobs[data-theme="integrazioni"] .is-bead-3 {
+  left: 33.2%;
+  top: 16.2%;
+  width: 5.6%;
+  height: 5.6%;
+}
+
+.hero-blobs[data-theme="integrazioni"] .is-bead-4 {
+  left: 18.4%;
+  top: 5.2%;
+  width: 5%;
+  height: 5%;
+}
+
+.hero-blobs[data-theme="integrazioni"] .is-bead-5 {
+  left: 55.4%;
+  top: 58.6%;
+  width: 6.2%;
+  height: 6.2%;
+}
+
+.hero-blobs[data-theme="integrazioni"] .is-bead-6 {
+  left: 43.8%;
+  top: 62.4%;
+  width: 5.6%;
+  height: 5.6%;
+}
+
+.hero-blobs[data-theme="integrazioni"] .is-bead-7 {
+  left: 31.6%;
+  top: 66.2%;
+  width: 5.2%;
+  height: 5.2%;
+}
+
+.hero-blobs[data-theme="integrazioni"] .is-bead-8 {
+  left: 74.8%;
+  top: 36.6%;
+  width: 5.8%;
+  height: 5.8%;
+}
+
+.hero-blobs[data-theme="integrazioni"] .is-bead-9 {
+  left: 22.2%;
+  top: 70.4%;
+  width: 5.4%;
+  height: 5.4%;
+}
+
+.hero-blobs[data-theme="integrazioni"] .is-bead-10 {
+  left: 81.2%;
+  top: 22.4%;
+  width: 5.2%;
+  height: 5.2%;
 }
 
 .hero-blobs[data-theme="integrazioni"] .is-gold {
@@ -810,10 +882,10 @@ body[data-proposal="1"] .hero-blobs .is-mint {
   }
 
   .hero-blobs[data-theme="integrazioni"] .hero-blob-cluster {
-    top: 12%;
-    left: -8%;
-    width: min(380px, 86vw);
-    height: min(380px, 86vw);
+    top: 10%;
+    left: -6%;
+    width: min(400px, 88vw);
+    height: min(400px, 88vw);
   }
 }
 
@@ -1244,30 +1316,35 @@ body[data-proposal="1"] .hero-blobs .is-mint {
   animation: hlCircleBlob 2.15s ease-in-out both;
 }
 
-@keyframes btnDotGrowBack {
+@keyframes btnDotPulse {
   0% {
     opacity: 1;
     transform: translate(-50%, -50%) scale(0.12);
   }
 
-  26% {
+  16% {
     opacity: 1;
-    transform: translate(calc(-50% + var(--dx, 0.12em) * 0.45), calc(-50% + var(--dy, -0.1em) * 0.45)) scale(calc(var(--g, 12) * 0.72));
+    transform: translate(-50%, -50%) scale(0.9);
   }
 
-  46% {
+  36% {
     opacity: 1;
-    transform: translate(calc(-50% + var(--dx, 0.12em)), calc(-50% + var(--dy, -0.1em))) scale(calc(var(--g, 12) * 1.08));
+    transform: translate(calc(-50% + var(--dx, 2px)), calc(-50% + var(--dy, -2px))) scale(1.22);
   }
 
-  78% {
+  56% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1.08);
+    transform: translate(calc(-50% - var(--dx, 2px)), calc(-50% - var(--dy, -2px))) scale(0.86);
+  }
+
+  76% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
   }
 
   100% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.12);
   }
 }
 
@@ -1768,7 +1845,7 @@ body[data-proposal="1"] .hero-conversion .dc-hero-actions .dc-button:not(.hero-e
   --btn-dot: var(--blue);
   position: relative;
   isolation: isolate;
-  overflow: visible;
+  overflow: hidden;
 }
 
 body[data-proposal="1"] .hero-conversion .dc-hero-actions .dc-button:not(.hero-ecosystem-chip):hover,
@@ -2364,7 +2441,7 @@ body[data-proposal="1"] .dc-explorer .dc-bridge-actions .dc-button.secondary {
   --btn-dot: var(--blue);
   position: relative;
   isolation: isolate;
-  overflow: visible;
+  overflow: hidden;
   background: transparent;
   border: 2px solid var(--blue);
   color: var(--blue) !important;
