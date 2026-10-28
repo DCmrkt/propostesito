@@ -2,9 +2,25 @@
   var toggle = document.querySelector(".nav-toggle");
   var nav = document.querySelector(".nav");
   if (toggle && nav) {
+    function closeNav(restoreFocus) {
+      nav.classList.remove("is-open");
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-label", "Apri menu");
+      if (restoreFocus) toggle.focus();
+    }
     toggle.addEventListener("click", function () {
       var open = nav.classList.toggle("is-open");
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      toggle.setAttribute("aria-label", open ? "Chiudi menu" : "Apri menu");
+    });
+    nav.addEventListener("click", function (event) {
+      if (event.target.closest("a")) closeNav(false);
+    });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && nav.classList.contains("is-open")) closeNav(true);
+    });
+    document.addEventListener("click", function (event) {
+      if (!event.target.closest(".site-header")) closeNav(false);
     });
   }
 

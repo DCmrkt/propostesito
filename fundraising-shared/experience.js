@@ -63,7 +63,7 @@
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const emit = (name, detail = {}) => document.dispatchEvent(new CustomEvent('dc:interaction', {detail: {name, proposal: document.body.dataset.proposal, ...detail}}));
   // Local UI events only. No analytics provider, storage or personal data transmission.
-  const HOME_PATH = 'fundraising-soluzioni-per-il-terzo-settore/';
+  const HOME_PATH = 'non-profit/';
   const NAV_ITEMS = [
     {id:'fundraising', label:'Fundraising', hash:'#hero'},
     {id:'strumenti', label:'Gli strumenti', hash:'#strumenti'},
@@ -77,7 +77,7 @@
       pages:[
         {label:'Fundraising', path:HOME_PATH},
         {label:'Gli strumenti', path:HOME_PATH, hash:'#strumenti'},
-        {label:'L’ecosistema', path:'ecosistema/'},
+        {label:'L’ecosistema', path:'non-profit/ecosistema/'},
         {label:'La community', path:HOME_PATH, hash:'#community'}
       ]
     },
@@ -85,25 +85,25 @@
       id:'mentor',
       label:'Mentor CRM',
       pages:[
-        {label:'Mentor CRM', path:'mentor-crm/'},
-        {label:'Moduli di Mentor', path:'mentor-crm/moduli-di-mentor/'}
+        {label:'Mentor CRM', path:'non-profit/mentor-crm/'},
+        {label:'Moduli di Mentor', path:'non-profit/mentor-crm/moduli-di-mentor/'}
       ]
     },
     {
       id:'moduli',
       label:'Moduli',
       pages:[
-        {label:'Area Donatori', path:'mentor-crm/moduli-di-mentor/area-donatori/'},
-        {label:'High Value Donors', path:'mentor-crm/moduli-di-mentor/high-value-donors/'},
-        {label:'Telemarketing', path:'mentor-crm/moduli-di-mentor/telemarketing/'},
-        {label:'Mentor Automation', path:'mentor-crm/moduli-di-mentor/mentor-automation/'},
-        {label:'Questionari', path:'mentor-crm/moduli-di-mentor/questionari/'},
-        {label:'Landing Page Maker', path:'mentor-crm/moduli-di-mentor/landing-page-maker/'},
-        {label:'Lead & Donations', path:'mentor-crm/moduli-di-mentor/leads-and-donations/'},
-        {label:'Lasciti testamentari', path:'mentor-crm/moduli-di-mentor/lasciti-testamentari/'},
-        {label:'Eventi Web', path:'mentor-crm/moduli-di-mentor/eventi-web/'},
-        {label:'Data Quality e Normalizzazione', path:'mentor-crm/moduli-di-mentor/data-quality-e-normalizzazione/'},
-        {label:'Riconciliazioni', path:'mentor-crm/moduli-di-mentor/riconciliazioni/'}
+        {label:'Area Donatori', path:'non-profit/mentor-crm/moduli-di-mentor/area-donatori/'},
+        {label:'High Value Donors', path:'non-profit/mentor-crm/moduli-di-mentor/high-value-donors/'},
+        {label:'Telemarketing', path:'non-profit/mentor-crm/moduli-di-mentor/telemarketing/'},
+        {label:'Mentor Automation', path:'non-profit/mentor-crm/moduli-di-mentor/mentor-automation/'},
+        {label:'Questionari', path:'non-profit/mentor-crm/moduli-di-mentor/questionari/'},
+        {label:'Landing Page Maker', path:'non-profit/mentor-crm/moduli-di-mentor/landing-page-maker/'},
+        {label:'Lead & Donations', path:'non-profit/mentor-crm/moduli-di-mentor/leads-and-donations/'},
+        {label:'Lasciti testamentari', path:'non-profit/mentor-crm/moduli-di-mentor/lasciti-testamentari/'},
+        {label:'Eventi Web', path:'non-profit/mentor-crm/moduli-di-mentor/eventi-web/'},
+        {label:'Data Quality e Normalizzazione', path:'non-profit/mentor-crm/moduli-di-mentor/data-quality-e-normalizzazione/'},
+        {label:'Riconciliazioni', path:'non-profit/mentor-crm/moduli-di-mentor/riconciliazioni/'}
       ]
     },
     {
@@ -111,7 +111,7 @@
       label:'Integrazioni',
       stack:true,
       pages:[
-        {label:'Integrazioni', path:'mentor-integrazioni/'}
+        {label:'Integrazioni', path:'non-profit/mentor-integrazioni/'}
       ]
     },
     {
@@ -119,7 +119,7 @@
       label:'DirectSense',
       stack:true,
       pages:[
-        {label:'DirectSense', path:'direct-sense-business-intelligence/'}
+        {label:'DirectSense', path:'non-profit/direct-sense-business-intelligence/'}
       ]
     },
     {
@@ -127,7 +127,7 @@
       label:'Analisi Predittive',
       stack:true,
       pages:[
-        {label:'Analisi Predittive', path:'fundraising-analisi-predittive/'}
+        {label:'Analisi Predittive', path:'non-profit/fundraising-analisi-predittive/'}
       ]
     }
   ];
@@ -248,6 +248,12 @@
   const nav = document.querySelector('.nav');
   const toggle = document.querySelector('.nav-toggle');
   const dropdowns = [...document.querySelectorAll('.nav-dropdown')];
+  function syncDiscoverPosition(){
+    const menu=document.querySelector('.nav-discover-menu');
+    const header=document.querySelector('.site-header');
+    if(!menu||!header||window.matchMedia('(max-width:1120px)').matches) return;
+    menu.style.setProperty('--dc-menu-top',Math.max(0,header.getBoundingClientRect().bottom)+'px');
+  }
   function placeDiscoverMenu(){
     const menu=document.querySelector('.nav-discover-menu');
     const dropdown=document.querySelector('.nav-dropdown');
@@ -257,6 +263,7 @@
     }else if(menu.parentElement!==document.body){
       document.body.append(menu);
     }
+    syncDiscoverPosition();
   }
   placeDiscoverMenu();
   function closeDropdowns(except) {
@@ -279,6 +286,7 @@
     menu.id ||= `dc-menu-${i}`; b.setAttribute('aria-controls',menu.id); b.setAttribute('aria-expanded','false');
     b.addEventListener('click', () => {
       const open=!d.classList.contains('is-open');
+      syncDiscoverPosition();
       closeDropdowns(open?d:null);
       d.classList.toggle('is-open',open);
       menu.classList.toggle('is-open',open);
@@ -325,7 +333,11 @@
   let spyFrame=0;
   function requestNavSpy(){
     if(spyFrame) return;
-    spyFrame=requestAnimationFrame(()=>{spyFrame=0; spyHomeNav();});
+    spyFrame=requestAnimationFrame(()=>{
+      spyFrame=0;
+      spyHomeNav();
+      if(document.querySelector('.nav-discover-menu.is-open')) syncDiscoverPosition();
+    });
   }
   spyHomeNav();
   window.addEventListener('scroll', requestNavSpy, {passive:true});
@@ -680,7 +692,7 @@
     };
     hexes.forEach(hex=>{
       const slug=modulePages[hex.dataset.title];
-      if(slug) hex.href=new URL('../mentor-crm/moduli-di-mentor/'+slug,fundraisingHome).href;
+      if(slug) hex.href=new URL('mentor-crm/moduli-di-mentor/'+slug,fundraisingHome).href;
     });
     const search=explorer.querySelector('input[type="search"]');
     const count=explorer.querySelector('.dc-count');

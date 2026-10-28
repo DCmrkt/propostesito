@@ -1,5 +1,6 @@
 # Local visual QA
 mobile-*.png
+__pycache__/
 
 # Intermediate ecosystem artwork sources
 fundraising-shared/ecosistema-hex-layout.json
