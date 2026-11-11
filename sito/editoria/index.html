@@ -15,7 +15,7 @@
   <link href="../css/site.css?v=134" rel="stylesheet"/>
   <link href="../css/divisions.css?v=1" rel="stylesheet"/>
   <link href="../css/editoria.css?v=2" rel="stylesheet"/>
-  <link href="../css/editoria-theme.css?v=1" rel="stylesheet"/>
+  <link href="../css/editoria-theme.css?v=2" rel="stylesheet"/>
   <link href="./" rel="canonical"/>
  </head>
  <body class="editoria-page">
@@ -51,7 +51,7 @@
      </span>
     </button>
     <nav aria-label="Principale" class="nav" id="site-nav">
-     <a href="./">
+     <a aria-current="page" href="./">
       Editoria
      </a>
      <a href="./#soluzioni">
@@ -78,12 +78,12 @@
   <main id="contenuto">
    <section class="ed-hero ed-hero--overview">
     <div class="wrap ed-hero-grid">
-     <div>
+     <div class="ed-hero-copy">
       <h1>
        Le storie continuano.
        <br/>
        Le relazioni
-       <span class="ed-underline">
+       <span class="hl hl--marker">
         crescono.
        </span>
       </h1>
@@ -91,6 +91,20 @@
        Al fianco degli editori, dalla prima pagina al prossimo rinnovo. Competenze, tecnologie e servizi per dare più valore a ogni abbonamento.
       </p>
 
+     </div>
+     <div class="ed-hero-actions">
+      <a class="ed-button" href="#soluzioni">
+       Esplora le soluzioni
+       <span aria-hidden="true" class="ed-arrow" data-direction="down">
+        <svg aria-hidden="true" fill="none" focusable="false" height="18" viewBox="0 0 24 24" width="18">
+         <path d="M12 4v16m-7-7 7 7 7-7" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
+         </path>
+        </svg>
+       </span>
+      </a>
+      <p class="ed-hero-note">
+       Carta, digitale, app e paywall. Un unico partner.
+      </p>
      </div>
      <div aria-hidden="true" class="ed-art ed-art--press">
       <div class="ed-orbit">
@@ -129,20 +143,6 @@
       <div class="ed-art-label">
        Dalla prima pagina, al prossimo rinnovo.
       </div>
-     </div>
-     <div class="ed-hero-actions">
-      <a class="ed-button" href="#soluzioni">
-       Esplora le soluzioni
-       <span aria-hidden="true" class="ed-arrow" data-direction="down">
-        <svg aria-hidden="true" fill="none" focusable="false" height="18" viewBox="0 0 24 24" width="18">
-         <path d="M12 4v16m-7-7 7 7 7-7" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
-         </path>
-        </svg>
-       </span>
-      </a>
-      <p class="ed-hero-note">
-       Carta, digitale, app e paywall. Un unico partner.
-      </p>
      </div>
     </div>
    </section>
@@ -214,7 +214,7 @@
       </p>
      </div>
      <div class="ed-service-grid">
-      <a class="ed-service-card" href="abbonamenti-e-servizi/">
+      <a class="ed-service-card" data-service="abbonamenti-e-servizi" href="abbonamenti-e-servizi/">
        <span class="ed-card-number">
         01
         <span aria-hidden="true" class="ed-arrow" data-direction="diagonal">
@@ -234,7 +234,7 @@
         Scopri la soluzione
        </span>
       </a>
-      <a class="ed-service-card" href="e-commerce/">
+      <a class="ed-service-card" data-service="e-commerce" href="e-commerce/">
        <span class="ed-card-number">
         02
         <span aria-hidden="true" class="ed-arrow" data-direction="diagonal">
@@ -254,7 +254,7 @@
         Scopri la soluzione
        </span>
       </a>
-      <a class="ed-service-card" href="periodici-e-quotidiani/">
+      <a class="ed-service-card" data-service="periodici-e-quotidiani" href="periodici-e-quotidiani/">
        <span class="ed-card-number">
         03
         <span aria-hidden="true" class="ed-arrow" data-direction="diagonal">
@@ -274,7 +274,7 @@
         Scopri la soluzione
        </span>
       </a>
-      <a class="ed-service-card" href="collezioni/">
+      <a class="ed-service-card" data-service="collezioni" href="collezioni/">
        <span class="ed-card-number">
         04
         <span aria-hidden="true" class="ed-arrow" data-direction="diagonal">
@@ -294,7 +294,7 @@
         Scopri la soluzione
        </span>
       </a>
-      <a class="ed-service-card" href="analisi/">
+      <a class="ed-service-card" data-service="analisi" href="analisi/">
        <span class="ed-card-number">
         05
         <span aria-hidden="true" class="ed-arrow" data-direction="diagonal">
@@ -314,7 +314,7 @@
         Scopri la soluzione
        </span>
       </a>
-      <a class="ed-service-card" href="consulenza-marketing/">
+      <a class="ed-service-card" data-service="consulenza-marketing" href="consulenza-marketing/">
        <span class="ed-card-number">
         06
         <span aria-hidden="true" class="ed-arrow" data-direction="diagonal">
@@ -334,7 +334,7 @@
         Scopri la soluzione
        </span>
       </a>
-      <a class="ed-service-card" href="abbonamenti-b2b/">
+      <a class="ed-service-card" data-service="abbonamenti-b2b" href="abbonamenti-b2b/">
        <span class="ed-card-number">
         07
         <span aria-hidden="true" class="ed-arrow" data-direction="diagonal">
@@ -354,7 +354,7 @@
         Scopri la soluzione
        </span>
       </a>
-      <a class="ed-service-card" href="direct-reader/">
+      <a class="ed-service-card" data-service="direct-reader" href="direct-reader/">
        <span class="ed-card-number">
         08
         <span aria-hidden="true" class="ed-arrow" data-direction="diagonal">
