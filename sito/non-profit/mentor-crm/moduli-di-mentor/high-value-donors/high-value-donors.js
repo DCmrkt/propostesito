@@ -10,6 +10,43 @@
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let requestedIndex = null;
   let settleTimer;
+  let rotationTimer;
+  let userPaused = reducedMotion.matches;
+  let visible = false;
+  let hovered = false;
+  let focused = false;
+  let pointerHeld = false;
+
+  const rotationControl = document.createElement('button');
+  rotationControl.type = 'button';
+  rotationControl.className = 'hvd-slider-toggle';
+  rotationControl.setAttribute('data-no-edit', '');
+  if (!track.id) track.id = 'hvd-feature-track';
+  rotationControl.setAttribute('aria-controls', track.id);
+  const hint = section.querySelector('.hvd-slider-hint');
+  if (hint) hint.insertAdjacentElement('afterend', rotationControl);
+  else track.insertAdjacentElement('beforebegin', rotationControl);
+
+  function updateRotationControl() {
+    const label = userPaused ? 'Avvia la rotazione automatica' : 'Metti in pausa la rotazione automatica';
+    rotationControl.setAttribute('aria-label', label);
+    rotationControl.title = label;
+    rotationControl.dataset.paused = String(userPaused);
+    rotationControl.innerHTML = userPaused
+      ? '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 5 10 7-10 7Z"/></svg>'
+      : '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5v14M16 5v14"/></svg>';
+  }
+
+  function scheduleRotation() {
+    clearTimeout(rotationTimer);
+    const canRotate = !userPaused && visible && !document.hidden && !hovered && !focused && !pointerHeld;
+    section.dataset.autoplay = canRotate ? 'playing' : 'paused';
+    if (!canRotate) return;
+    rotationTimer = setTimeout(() => {
+      showPanel(((requestedIndex ?? currentIndex()) + 1) % panels.length);
+      scheduleRotation();
+    }, 7000);
+  }
 
   function currentIndex() {
     const left = track.getBoundingClientRect().left;
@@ -50,6 +87,7 @@
     event.preventDefault();
     showPanel(index);
     panels[index].focus({ preventScroll: true });
+    scheduleRotation();
   }));
 
   track.addEventListener('keydown', event => {
@@ -63,6 +101,7 @@
     else return;
     event.preventDefault();
     showPanel(index);
+    scheduleRotation();
   });
 
   let scheduled = false;
@@ -72,10 +111,68 @@
     requestAnimationFrame(() => { scheduled = false; updateSelection(); });
   }, { passive: true });
   track.addEventListener('scrollend', finishSelection);
-  track.addEventListener('pointerdown', finishSelection);
-  track.addEventListener('wheel', finishSelection, { passive: true });
+  track.addEventListener('pointerdown', () => {
+    pointerHeld = true;
+    finishSelection();
+    scheduleRotation();
+  });
+  const releasePointer = () => {
+    if (!pointerHeld) return;
+    pointerHeld = false;
+    scheduleRotation();
+  };
+  window.addEventListener('pointerup', releasePointer);
+  window.addEventListener('pointercancel', releasePointer);
+  track.addEventListener('wheel', () => {
+    finishSelection();
+    scheduleRotation();
+  }, { passive: true });
+
+  section.addEventListener('mouseenter', () => { hovered = true; scheduleRotation(); });
+  section.addEventListener('mouseleave', () => { hovered = false; scheduleRotation(); });
+  section.addEventListener('focusin', event => {
+    // The explicit play control remains usable from the keyboard.
+    focused = event.target !== rotationControl;
+    scheduleRotation();
+  });
+  section.addEventListener('focusout', event => {
+    focused = section.contains(event.relatedTarget) && event.relatedTarget !== rotationControl;
+    scheduleRotation();
+  });
+  rotationControl.addEventListener('click', () => {
+    userPaused = !userPaused;
+    updateRotationControl();
+    scheduleRotation();
+  });
+  document.addEventListener('visibilitychange', scheduleRotation);
+  reducedMotion.addEventListener('change', () => {
+    if (reducedMotion.matches) userPaused = true;
+    updateRotationControl();
+    scheduleRotation();
+  });
+
+  function updateVisibility(nextVisible) {
+    if (visible === nextVisible) return;
+    visible = nextVisible;
+    scheduleRotation();
+  }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(entries => {
+      const entry = entries[0];
+      updateVisibility(entry.isIntersecting && entry.intersectionRatio >= .15);
+    }, { threshold: .15 }).observe(section);
+  } else {
+    const checkVisibility = () => {
+      const rect = section.getBoundingClientRect();
+      updateVisibility(rect.bottom > 0 && rect.top < window.innerHeight);
+    };
+    window.addEventListener('scroll', checkVisibility, { passive: true });
+    window.addEventListener('resize', checkVisibility);
+    checkVisibility();
+  }
   new ResizeObserver(updateSelection).observe(track);
   window.addEventListener('hashchange', finishSelection);
   window.addEventListener('load', updateSelection, { once: true });
+  updateRotationControl();
   updateSelection();
 })();

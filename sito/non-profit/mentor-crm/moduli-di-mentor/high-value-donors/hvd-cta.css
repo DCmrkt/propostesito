@@ -1,0 +1,66 @@
+/* The CTA borrows the header's shapes; copy and the action stay stationary. */
+.hvd-page .hvd-cta {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.hvd-page .hvd-cta > .wrap {
+  position: relative;
+  z-index: 1;
+}
+.hvd-page .hvd-cta p { color: #fff; }
+.hvd-cta-art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+.hvd-cta-shape {
+  position: absolute;
+  display: block;
+  opacity: 0;
+  pointer-events: none;
+  transform-origin: center;
+}
+.hvd-cta-shape path { fill: currentColor; }
+.hvd-cta-shape--foam {
+  left: clamp(-210px, -12vw, -80px);
+  top: var(--cta-foam-top, 100%);
+  width: clamp(380px, 47vw, 660px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: currentColor;
+  color: rgba(255, 255, 255, .34);
+}
+.hvd-cta-shape--gold {
+  left: var(--cta-gold-left, 100%);
+  top: var(--cta-gold-top, 100%);
+  width: 220px;
+  height: 220px;
+  overflow: visible;
+  color: #f3e08a;
+}
+.hvd-cta-shape--blush {
+  left: var(--cta-blush-left, 100%);
+  top: var(--cta-blush-top, 100%);
+  width: 140px;
+  height: 140px;
+  overflow: visible;
+  color: #f6cfdc;
+}
+.hvd-page .hvd-cta .dc-button {
+  min-height: 52px;
+  padding: 16px 24px;
+}
+@media (max-width: 760px) {
+  .hvd-cta-shape--foam { width: 400px; left: -180px; }
+  .hvd-cta-shape--gold { width: 190px; height: 190px; }
+  .hvd-cta-shape--blush { width: 110px; height: 110px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hvd-cta-shape { will-change: auto; }
+}
+@media print {
+  .hvd-cta-art { display: none; }
+}
