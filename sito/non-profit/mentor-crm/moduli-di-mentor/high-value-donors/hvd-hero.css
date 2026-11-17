@@ -1,7 +1,7 @@
 /* Product video hero: scoped separately from the page's editorial styles. */
 .hvd-hero { --hvd-coral: #d9314b; }
 .hvd-hero .lead, .hvd-hero .hero-proof { color: #fff; }
-.hvd-hero::after, .hvd-hero .hero-blobs { display: none; }
+.hvd-hero::after { display: none; }
 .hvd-hero-grid {
   grid-template-columns: minmax(0, .88fr) minmax(0, 1.22fr);
   gap: clamp(24px, 3vw, 48px);
