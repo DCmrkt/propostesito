@@ -11,35 +11,14 @@
   let requestedIndex = null;
   let settleTimer;
   let rotationTimer;
-  let userPaused = reducedMotion.matches;
   let visible = false;
-  let hovered = false;
   let focused = false;
+  let keyboardNavigation = false;
   let pointerHeld = false;
-
-  const rotationControl = document.createElement('button');
-  rotationControl.type = 'button';
-  rotationControl.className = 'hvd-slider-toggle';
-  rotationControl.setAttribute('data-no-edit', '');
-  if (!track.id) track.id = 'hvd-feature-track';
-  rotationControl.setAttribute('aria-controls', track.id);
-  const hint = section.querySelector('.hvd-slider-hint');
-  if (hint) hint.insertAdjacentElement('afterend', rotationControl);
-  else track.insertAdjacentElement('beforebegin', rotationControl);
-
-  function updateRotationControl() {
-    const label = userPaused ? 'Avvia la rotazione automatica' : 'Metti in pausa la rotazione automatica';
-    rotationControl.setAttribute('aria-label', label);
-    rotationControl.title = label;
-    rotationControl.dataset.paused = String(userPaused);
-    rotationControl.innerHTML = userPaused
-      ? '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 5 10 7-10 7Z"/></svg>'
-      : '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5v14M16 5v14"/></svg>';
-  }
 
   function scheduleRotation() {
     clearTimeout(rotationTimer);
-    const canRotate = !userPaused && visible && !document.hidden && !hovered && !focused && !pointerHeld;
+    const canRotate = !reducedMotion.matches && visible && !document.hidden && !focused && !pointerHeld;
     section.dataset.autoplay = canRotate ? 'playing' : 'paused';
     if (!canRotate) return;
     rotationTimer = setTimeout(() => {
@@ -128,28 +107,30 @@
     scheduleRotation();
   }, { passive: true });
 
-  section.addEventListener('mouseenter', () => { hovered = true; scheduleRotation(); });
-  section.addEventListener('mouseleave', () => { hovered = false; scheduleRotation(); });
+  // Pointer viewing keeps cycling; protect text editing and keyboard focus.
+  const isEditing = target => !!target && (target.isContentEditable || target.matches?.('input, textarea, select'));
+  window.addEventListener('keydown', () => {
+    keyboardNavigation = true;
+    if (section.contains(document.activeElement)) {
+      focused = true;
+      scheduleRotation();
+    }
+  });
+  section.addEventListener('pointerdown', event => {
+    keyboardNavigation = false;
+    focused = isEditing(event.target);
+    scheduleRotation();
+  });
   section.addEventListener('focusin', event => {
-    // The explicit play control remains usable from the keyboard.
-    focused = event.target !== rotationControl;
+    focused = keyboardNavigation || isEditing(event.target);
     scheduleRotation();
   });
   section.addEventListener('focusout', event => {
-    focused = section.contains(event.relatedTarget) && event.relatedTarget !== rotationControl;
-    scheduleRotation();
-  });
-  rotationControl.addEventListener('click', () => {
-    userPaused = !userPaused;
-    updateRotationControl();
+    focused = section.contains(event.relatedTarget) && (keyboardNavigation || isEditing(event.relatedTarget));
     scheduleRotation();
   });
   document.addEventListener('visibilitychange', scheduleRotation);
-  reducedMotion.addEventListener('change', () => {
-    if (reducedMotion.matches) userPaused = true;
-    updateRotationControl();
-    scheduleRotation();
-  });
+  reducedMotion.addEventListener('change', scheduleRotation);
 
   function updateVisibility(nextVisible) {
     if (visible === nextVisible) return;
@@ -173,6 +154,5 @@
   new ResizeObserver(updateSelection).observe(track);
   window.addEventListener('hashchange', finishSelection);
   window.addEventListener('load', updateSelection, { once: true });
-  updateRotationControl();
   updateSelection();
 })();

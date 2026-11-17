@@ -190,37 +190,11 @@
 }
 .hvd-feature-nav a[aria-current="true"]::before { background: #fff; }
 .hvd-feature-nav a:focus-visible,
-.hvd-slider-toggle:focus-visible,
 .hvd-feature-list:focus-visible,
 .hvd-feature-row:focus-visible {
   outline: 3px solid #00649b;
   outline-offset: 3px;
 }
-.hvd-slider-toggle {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  margin: 8px 0 -20px auto;
-  padding: 10px;
-  border: 0;
-  border-radius: 50%;
-  background: var(--hvd-blush);
-  color: var(--hvd-coral-dark);
-  cursor: pointer;
-}
-.hvd-slider-toggle:hover { background: #f6cfdc; }
-.hvd-slider-toggle svg {
-  display: block;
-  width: 20px;
-  height: 20px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.hvd-slider-toggle[data-paused="true"] svg { fill: currentColor; stroke-width: 1.5; }
 .hvd-feature-workspace {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(0, .8fr);
@@ -267,7 +241,7 @@
   transition: left .65s cubic-bezier(.22,.8,.25,1), top .65s cubic-bezier(.22,.8,.25,1), width .65s cubic-bezier(.22,.8,.25,1), opacity .3s;
 }
 .hvd-interface-scene[data-feature="valuta-potenziale"] [data-ui="profile"] {
-  left: 1%; top: 6%; width: 62%; opacity: 1; z-index: 2;
+  left: 1%; top: 6%; width: 42%; opacity: 1; z-index: 2;
 }
 .hvd-interface-scene[data-feature="moves-management"] [data-ui="move"] {
   left: 34%; top: 8%; width: 64%; opacity: 1; z-index: 2;
@@ -344,10 +318,23 @@
 @media print {
   .hvd-feature-workspace { display: block; }
   .hvd-interface-scene { display: none; }
-  .hvd-feature-nav, .hvd-slider-hint, .hvd-slider-toggle { display: none; }
+  .hvd-feature-nav, .hvd-slider-hint { display: none; }
   .hvd-features .hvd-feature-list { display: grid; overflow: visible; }
   .hvd-features .hvd-feature-row { break-inside: avoid; }
 }
 @media (max-width: 480px) {
   .hvd-page .dc-home-contact-intro { grid-template-columns: 1fr; }
+}
+
+/* Keep the organisations in the same community banner as its story. */
+.hvd-page .hvd-community .dc-clients {
+  margin-top: clamp(32px, 4vw, 56px);
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.hvd-page .hvd-community .dc-clients h2 {
+  font-size: 1.1rem;
+  line-height: 1.4;
+  letter-spacing: -.02em;
 }
