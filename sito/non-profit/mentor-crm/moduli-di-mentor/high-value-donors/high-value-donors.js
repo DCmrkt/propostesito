@@ -6,7 +6,10 @@
   const links = [...section.querySelectorAll('.hvd-feature-nav a')];
   const panels = links.map(link => document.getElementById(link.hash.slice(1)));
   if (!track || panels.some(panel => !panel)) return;
+  const scene = section.querySelector('.hvd-interface-scene');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let requestedIndex = null;
+  let settleTimer;
 
   function currentIndex() {
     const left = track.getBoundingClientRect().left;
@@ -16,16 +19,29 @@
   }
 
   function updateSelection() {
-    const current = currentIndex();
+    const current = requestedIndex ?? currentIndex();
     links.forEach((link, index) => {
       if (index === current) link.setAttribute('aria-current', 'true');
       else link.removeAttribute('aria-current');
     });
+    // Reposition the same captured UI panels; the application screen stays fixed.
+    if (scene) scene.dataset.feature = panels[current].id;
   }
 
   function showPanel(index) {
+    clearTimeout(settleTimer);
+    requestedIndex = index;
+    updateSelection();
     const left = track.scrollLeft + panels[index].getBoundingClientRect().left - track.getBoundingClientRect().left;
     track.scrollTo({ left, behavior: reducedMotion.matches ? 'instant' : 'smooth' });
+    // Keep a direct selection stable while the copy passes intermediate panels.
+    settleTimer = setTimeout(finishSelection, reducedMotion.matches ? 0 : 800);
+  }
+
+  function finishSelection() {
+    clearTimeout(settleTimer);
+    requestedIndex = null;
+    updateSelection();
   }
 
   links.forEach((link, index) => link.addEventListener('click', event => {
@@ -39,7 +55,7 @@
   track.addEventListener('keydown', event => {
     // The site lets users edit copy. Do not intercept keys in those fields.
     if (event.target !== track) return;
-    let index = currentIndex();
+    let index = requestedIndex ?? currentIndex();
     if (event.key === 'ArrowRight') index = Math.min(index + 1, panels.length - 1);
     else if (event.key === 'ArrowLeft') index = Math.max(index - 1, 0);
     else if (event.key === 'Home') index = 0;
@@ -55,8 +71,11 @@
     scheduled = true;
     requestAnimationFrame(() => { scheduled = false; updateSelection(); });
   }, { passive: true });
+  track.addEventListener('scrollend', finishSelection);
+  track.addEventListener('pointerdown', finishSelection);
+  track.addEventListener('wheel', finishSelection, { passive: true });
   new ResizeObserver(updateSelection).observe(track);
-  window.addEventListener('hashchange', updateSelection);
+  window.addEventListener('hashchange', finishSelection);
   window.addEventListener('load', updateSelection, { once: true });
   updateSelection();
 })();
