@@ -1,4 +1,17 @@
 /* Styles scoped to the High Value Donors detail page. */
+/* Keep the module identity red, with blue reserved for Mentor interface accents. */
+.hvd-page .hvd-cta .dc-button {
+  background: #fff;
+  color: var(--hvd-coral-dark) !important;
+}
+.hvd-page .hvd-ui {
+  --hvd-interface-accent: #1c84c6;
+}
+.hvd-page .hvd-ui-top { background: #d6eaf8; }
+.hvd-page .hvd-ui-cards i:nth-child(2) { background: #eaf4fb; }
+.hvd-page .hvd-ui-chart {
+  background: linear-gradient(145deg, transparent 48%, var(--hvd-interface-accent) 49% 52%, transparent 53%), #fff;
+}
 .hvd-subtitle {
   margin: 0 0 22px;
   color: #fff;
@@ -7,15 +20,162 @@
   line-height: 1.4;
 }
 .hvd-hero .dc-actions { gap: 12px; }
-.hvd-big-number small { margin-top: 18px; }
-.hvd-intro-points {
-  padding-left: 1.25em;
-  color: #5f5866;
-  font-size: 1.05rem;
-  line-height: 1.78;
+.hvd-intro { padding: clamp(56px, 7vw, 100px) 0; }
+.hvd-intro-frame {
+  padding: clamp(26px, 4.5vw, 64px);
+  border-radius: 32px;
+  background: #fff4f5;
 }
-.hvd-intro-points li + li { margin-top: 8px; }
-.hvd-intro-points li::marker { color: var(--hvd-coral-dark); }
+.hvd-intro-frame h2 {
+  max-width: 30ch;
+  margin: 0 0 clamp(28px, 4vw, 48px);
+  color: var(--hvd-ink);
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+.hvd-intro-overview {
+  display: grid;
+  grid-template-columns: minmax(230px, .7fr) minmax(0, 1.3fr);
+  align-items: center;
+  gap: clamp(28px, 5vw, 68px);
+}
+.hvd-intro-stat {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  align-self: stretch;
+  align-content: center;
+  gap: 4px 0;
+  padding: 26px;
+  border-radius: 24px;
+  background: var(--hvd-coral-dark);
+  color: #fff;
+}
+.hvd-intro-stat-label {
+  grid-column: 1 / -1;
+  margin-bottom: 26px;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.hvd-intro-stat-start { grid-column: 1 / -1; }
+.hvd-intro-stat-end { grid-column: 1 / -1; justify-self: end; text-align: right; }
+.hvd-intro-stat strong {
+  display: block;
+  font-size: clamp(3.8rem, 6.4vw, 5.5rem);
+  font-weight: 800;
+  line-height: .95;
+  letter-spacing: -.07em;
+}
+.hvd-intro-stat strong span { font-size: .58em; }
+.hvd-intro-stat-start > span,
+.hvd-intro-stat-end > span { display: block; margin-top: 7px; font-size: .88rem; }
+.hvd-intro-stat-path {
+  grid-column: 1 / -1;
+  width: 65%;
+  height: 48px;
+  justify-self: center;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: .6;
+}
+.hvd-intro-story p,
+.hvd-intro-closing p {
+  margin: 0;
+  color: #5f5866;
+  font-size: 1.02rem;
+  line-height: 1.75;
+}
+.hvd-intro-story p + p { margin-top: 18px; }
+.hvd-intro-story .hvd-intro-lead {
+  color: var(--hvd-ink);
+  font-size: clamp(1.12rem, 1.6vw, 1.3rem);
+  line-height: 1.6;
+}
+.hvd-intro-lead strong { color: var(--hvd-coral-dark); font-weight: 800; }
+.hvd-intro-method { margin-top: clamp(28px, 4vw, 46px); }
+.hvd-intro-method-label { margin: 0 0 14px; color: var(--hvd-ink); font-weight: 700; }
+.hvd-intro-points {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 26px;
+  margin: 0;
+  padding: 28px;
+  border-radius: 20px;
+  background: #fff;
+  color: var(--hvd-ink);
+  font-size: .95rem;
+  line-height: 1.65;
+  list-style: none;
+}
+.hvd-intro-points li { display: grid; align-content: start; gap: 13px; min-width: 0; }
+.hvd-intro-points svg {
+  width: 30px;
+  height: 30px;
+  color: var(--hvd-coral-dark);
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.hvd-intro-closing {
+  margin-top: clamp(30px, 4vw, 48px);
+}
+.hvd-intro-closing > p:first-child { max-width: 70ch; }
+.hvd-intro-closing .hvd-intro-takeaway {
+  max-width: 48ch;
+  margin-top: clamp(24px, 3vw, 36px);
+  color: var(--hvd-ink);
+  font-size: clamp(1.35rem, 2.3vw, 2rem);
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
+.hvd-intro-takeaway strong { color: var(--hvd-coral-dark); font-weight: 800; }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hvd-intro-stat {
+      animation: hvd-intro-arrive linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 65%;
+    }
+    @keyframes hvd-intro-arrive {
+      from { opacity: .4; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  }
+}
+@media (max-width: 980px) {
+  .hvd-intro-overview { grid-template-columns: minmax(200px, .75fr) minmax(0, 1.25fr); gap: 28px; }
+  .hvd-intro-stat { padding: 24px; }
+}
+@media (max-width: 760px) {
+  .hvd-intro-frame { padding: 26px 22px; border-radius: 24px; }
+  .hvd-intro-frame h2 { font-size: clamp(1.7rem, 6vw, 2.2rem); }
+  .hvd-intro-overview { grid-template-columns: 1fr; }
+  .hvd-intro-stat { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 24px; gap: 10px 22px; }
+  .hvd-intro-stat-label { margin-bottom: 8px; }
+  .hvd-intro-stat-start { grid-column: 1; }
+  .hvd-intro-stat-end { grid-column: 2; justify-self: end; }
+  .hvd-intro-stat strong { font-size: clamp(3.3rem, 13vw, 5rem); }
+  .hvd-intro-stat-path { display: none; }
+  .hvd-intro-points { grid-template-columns: 1fr; gap: 22px; padding: 24px; }
+  .hvd-intro-points li { grid-template-columns: 30px minmax(0, 1fr); align-items: start; gap: 15px; }
+}
+@media (max-width: 360px) {
+  .hvd-intro-stat { padding: 18px; gap: 10px 12px; }
+  .hvd-intro-stat strong { font-size: 2.8rem; }
+  .hvd-intro-stat-start > span,
+  .hvd-intro-stat-end > span { font-size: .82rem; }
+}
 .hvd-features { padding-top: clamp(24px, 4vw, 56px); }
 .hvd-features .hvd-section-head { margin-bottom: 28px; }
 .hvd-feature-nav {
