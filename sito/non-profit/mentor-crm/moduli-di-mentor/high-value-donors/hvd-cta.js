@@ -36,6 +36,7 @@
   };
   let pending = false;
   let needsMeasure = true;
+  let lastProgress = null;
 
   function measure(rect) {
     const content = wrap.getBoundingClientRect();
@@ -63,6 +64,9 @@
     if (needsMeasure) measure(rect);
     // 0 at the first visible pixel; 1 only when the last pixel leaves the top.
     const progress = reducedMotion.matches ? .55 : clamp((window.innerHeight - rect.top) / Math.max(1, window.innerHeight + rect.height));
+    // Scrolling elsewhere must not repaint the large, already-settled shapes.
+    if (progress === lastProgress) return;
+    lastProgress = progress;
     section.style.setProperty('--cta-scroll-progress', progress.toFixed(4));
     section.dataset.ctaProgress = progress.toFixed(3);
 

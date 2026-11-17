@@ -1,4 +1,4 @@
-// Autoplay continuously as requested, with no visible playback controls.
+// Play continuously while near the viewport, without visible playback controls.
 (() => {
   const video = document.querySelector('.hvd-motion-video');
   if (!video) return;
@@ -33,8 +33,33 @@
     document.body.append(nav);
   }
   video.muted = true;
-  const play = () => video.play().catch(() => {});
-  video.addEventListener('loadeddata', play);
-  window.addEventListener('pageshow', play);
-  play();
+  // Keep the current frame when scrolling away; do not decode an invisible loop.
+  video.autoplay = false;
+  const nearViewport = () => {
+    const rect = video.getBoundingClientRect();
+    return rect.bottom > -200 && rect.top < window.innerHeight + 200;
+  };
+  let visible = nearViewport();
+  function syncPlayback() {
+    if (!visible || document.hidden) video.pause();
+    else if (video.paused) video.play().catch(() => {});
+  }
+  function checkVisibility() {
+    visible = nearViewport();
+    syncPlayback();
+  }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(entries => {
+      visible = entries[0].isIntersecting;
+      syncPlayback();
+    }, { rootMargin: '200px 0px' }).observe(video);
+  } else {
+    window.addEventListener('scroll', checkVisibility, { passive: true });
+    window.addEventListener('resize', checkVisibility);
+  }
+  video.addEventListener('loadeddata', checkVisibility);
+  window.addEventListener('pageshow', checkVisibility);
+  window.addEventListener('pagehide', () => video.pause());
+  document.addEventListener('visibilitychange', checkVisibility);
+  syncPlayback();
 })();

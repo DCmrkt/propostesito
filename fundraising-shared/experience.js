@@ -1108,7 +1108,12 @@
       blob.dataset.y = String(Math.max(160, Math.round(hero.clientHeight - top - box.height * 0.12 + 110)));
     });
 
+    const cacheProgress = hero.matches('.hvd-hero') && !hero.closest('.opening-band');
+    let lastProgress = null;
     function paint(progress) {
+      // HVD shapes stop changing outside their scroll range; keep other themes intact.
+      if (cacheProgress && progress === lastProgress) return;
+      lastProgress = progress;
       const band = hero.closest('.opening-band');
       let wash = progress;
       let slow = progress;
