@@ -19,6 +19,13 @@
   gap: clamp(32px, 5vw, 76px);
 }
 
+.updates-hero-label {
+  margin: 0 0 12px;
+  color: #ffa1ad;
+  font-size: clamp(1rem, 1.6vw, 1.16rem);
+  font-weight: 800;
+}
+
 .updates-hero h1 {
   font-size: clamp(3.15rem, 5.6vw, 5.7rem);
   font-weight: 800;

@@ -16,6 +16,8 @@ class MentorUpdates(unittest.TestCase):
         self.assertIn('media/mentor-updater.it.vtt', page.links)
         content = path.read_text(encoding='utf-8')
         self.assertIn('<h1 id="updates-title"><span>Updater</span></h1>', content)
+        self.assertIn('class="updates-hero-label">Nuova funzionalità</p>', content)
+        self.assertIn('class="updates-subtitle">Aggiornamento massivo in Mentor</p>', content)
         self.assertNotIn('webinar', content.lower())
         self.assertNotIn('updates-motion-button', content)
         self.assertNotIn('Controllo dei record e dei campi', content)
