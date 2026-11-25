@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="Porta la tua testata su ogni dispositivo. Sviluppiamo app native per iOS e Android, sfogliatori web e paywall integrati per monetizzare i contenuti digitali.">
+  <meta name="description" content="Scopri Direct Reader: app editoriali per iOS e Android, sfogliatore web e sistema gestionale per gli abbonamenti.">
   <meta name="robots" content="noindex,nofollow">
   <title>Direct Reader &amp; Digital Publishing | Direct Channel</title>
   <link rel="icon" href="../../../assets/favicon-32.png">
@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="../../css/divisions.css?v=1">
   <link rel="stylesheet" href="../../css/editoria.css?v=2">
   <link rel="stylesheet" href="../../css/editoria-theme.css?v=4">
+  <link rel="stylesheet" href="direct-reader.css?v=1">
   <link rel="canonical" href="./">
 </head>
 <body class="editoria-page hvd-page" data-ed-color="lilac">
@@ -43,62 +44,112 @@
   </header>
   <main id="contenuto">
 
-    <section class="hvd-hero ed-module-hero" aria-labelledby="ed-hero-title">
+    <section class="hvd-hero ed-module-hero reader-hero" aria-labelledby="ed-hero-title">
       <div class="wrap hvd-hero-grid">
         <div class="hvd-hero-copy">
           <h1 id="ed-hero-title"><span class="hl hl--marker">Direct Reader</span> &amp; Digital Publishing</h1>
-          <p class="lead">Porta la tua testata su ogni dispositivo. Sviluppiamo app native per iOS e Android, sfogliatori web e paywall integrati per monetizzare i contenuti digitali.</p>
+          <p class="lead">Trasforma i tuoi contenuti editoriali in un’app per iOS e Android e in uno sfogliatore web. Con Direct Channel puoi gestire anche abbonamenti, pagamenti e rinnovi.</p>
           <div class="dc-actions">
-            <a class="dc-button" href="#approfondimento">Esplora il servizio <span aria-hidden="true">↓</span></a>
+            <a class="dc-button" href="#approfondimento">Esplora le soluzioni <span aria-hidden="true">↓</span></a>
             <a class="dc-button secondary" href="#contatti">Parliamone insieme <span aria-hidden="true">↗</span></a>
           </div>
         </div>
-        <div class="ed-hero-art" aria-hidden="true">
-          <div class="ed-art ed-art--reader">
-            <div class="ed-device">
-              <span>DIRECT READER</span>
-              <div class="ed-device-cover">
-                Storie.
-              <br>
-                Ovunque.
-              </div>
-              <i></i>
-              <i></i>
-              <i></i>
+        <figure class="reader-hero-preview">
+          <video id="reader-preview" width="960" height="700" muted loop playsinline preload="none" poster="media/reader-poster.webp" aria-hidden="true">
+            <source src="media/reader-hero.webm" type="video/webm">
+            <source src="media/reader-hero.mp4" type="video/mp4">
+          </video>
+          <figcaption class="dc-sr">Anteprima delle app editoriali, dello sfogliatore web e del sistema gestionale Direct Reader.</figcaption>
+          <button class="reader-motion-toggle" type="button" aria-controls="reader-preview" aria-label="Metti in pausa l’anteprima" hidden><span aria-hidden="true">Ⅱ</span></button>
+        </figure>
+      </div>
+    </section>
+    <section class="ed-detail reader-solutions" id="approfondimento" aria-labelledby="ed-detail-title">
+      <div class="wrap">
+        <nav class="ed-trail" aria-label="Percorso"><a href="../">Editoria</a><span aria-hidden="true">/</span><span aria-current="page">Direct Reader</span></nav>
+        <div class="hvd-section-head reader-section-head">
+          <h2 id="ed-detail-title">Come funziona <span class="hl hl--marker">Direct Reader</span></h2>
+          <p>Pubblica le tue edizioni, scegli come distribuirle e gestisci il servizio in abbonamento.</p>
+        </div>
+        <nav class="module-tags reader-solution-nav" id="app-e-sfogliatore" aria-label="Soluzioni Direct Reader">
+          <a class="module-tag" id="reader-tab-app" href="#app-ios-android">App iOS e Android</a>
+          <a class="module-tag" id="reader-tab-web" href="#web-reader">Web Reader</a>
+          <a class="module-tag" id="reader-tab-gestionale" href="#sistema-gestionale">Sistema Gestionale</a>
+        </nav>
+        <div class="reader-panels">
+          <section class="reader-panel" id="app-ios-android" aria-labelledby="reader-app-title">
+            <div class="hvd-feature-copy">
+              <h3 id="reader-app-title">La tua testata <span class="hl hl--marker">in un’app</span></h3>
+              <p>Scegli il template, carica le edizioni nella dashboard e personalizza la veste grafica. Direct Channel sviluppa l’app e la pubblica su App Store e Google Play.</p>
+              <ul class="reader-highlights">
+                <li><strong>Edicola digitale.</strong> Vendi numeri singoli e abbonamenti, con anteprime e accesso agli arretrati.</li>
+                <li><strong>Lettura su mobile.</strong> Arricchisci le edizioni con audio, video, link e articoli ottimizzati per lo schermo.</li>
+                <li><strong>Promozione.</strong> Raggiungi i lettori con notifiche push, coupon e spazi pubblicitari.</li>
+              </ul>
+              <a class="reader-more" href="https://www.directreader.it/applicazioni-ios-e-android/">Scopri template e funzionalità delle app <span aria-hidden="true">↗</span></a>
             </div>
-          </div>
+            <figure class="reader-shot reader-shot--apps">
+              <img src="media/app-editoriali.webp" width="900" height="590" decoding="async" alt="Due app editoriali realizzate con Direct Reader, con schermate di Vogue e Forbes">
+              <figcaption>App editoriali di Vogue e Forbes</figcaption>
+            </figure>
+          </section>
+          <section class="reader-panel" id="web-reader" aria-labelledby="reader-web-title">
+            <div class="hvd-feature-copy">
+              <h3 id="reader-web-title">Le tue edizioni <span class="hl hl--marker">nel browser</span></h3>
+              <p>Carica un PDF, scegli il template e ottieni un link da condividere o un codice per integrare lo sfogliatore nel tuo sito.</p>
+              <ul class="reader-highlights">
+                <li><strong>Sfoglia e cerca.</strong> I lettori possono ingrandire le pagine, usare l’indice e cercare per parola chiave.</li>
+                <li><strong>Arricchisci l’edizione.</strong> Aggiungi audio, video e link. Puoi attivare la modalità testo scorrevole e la lettura vocale.</li>
+                <li><strong>Configura l’accesso.</strong> Decidi quali pagine mostrare in anteprima e se abilitare il download.</li>
+              </ul>
+              <a class="reader-more" href="https://www.directreader.it/web-reader/">Scopri tutte le funzioni del Web Reader <span aria-hidden="true">↗</span></a>
+            </div>
+            <figure class="reader-shot">
+              <img src="media/sfogliatore.webp" width="500" height="300" loading="lazy" decoding="async" alt="Rivista di arredamento aperta nello sfogliatore web Direct Reader, con le miniature delle pagine">
+              <figcaption>Un’edizione aperta nel Web Reader</figcaption>
+            </figure>
+          </section>
+          <section class="reader-panel" id="sistema-gestionale" aria-labelledby="reader-gestionale-title">
+            <div class="hvd-feature-copy">
+              <h3 id="reader-gestionale-title">Gli abbonamenti <span class="hl hl--marker">in un unico sistema</span></h3>
+              <p>Direct Channel centralizza informazioni, scadenze e pagamenti per gestire abbonamenti cartacei e digitali, membership e servizi online.</p>
+              <ul class="reader-highlights">
+                <li><strong>Offerte flessibili.</strong> Configura durate, promozioni, rinnovi automatici e abbonamenti regalo.</li>
+                <li><strong>Rinnovi e assistenza.</strong> Invia comunicazioni via email, SMS o posta e affianca il servizio clienti.</li>
+                <li><strong>Pagamenti e dati.</strong> Monitora i risultati per campagna, testata e metodo di pagamento. Integra gli strumenti commerciali o contabili.</li>
+              </ul>
+              <a class="reader-more" href="https://www.directreader.it/gestionale/">Scopri il Sistema Gestionale <span aria-hidden="true">↗</span></a>
+            </div>
+            <figure class="reader-shot">
+              <img src="media/gestionale.webp" width="500" height="300" loading="lazy" decoding="async" alt="Illustrazione Direct Reader con scadenze, rinnovi e pagamenti riuniti in un’unica vista">
+              <figcaption>Gestione centralizzata degli abbonamenti</figcaption>
+            </figure>
+          </section>
         </div>
       </div>
     </section>
-    <section class="ed-detail" id="approfondimento" aria-labelledby="ed-detail-title">
-      <div class="wrap">
-        <nav class="ed-trail" aria-label="Percorso"><a href="../">Editoria</a><span aria-hidden="true">/</span><span aria-current="page">Direct Reader</span></nav>
-        <div class="hvd-section-head"><h2 id="ed-detail-title">Come funziona Direct Reader</h2></div>
-        <nav class="module-tags ed-jump-links" aria-label="In questa pagina">
-          <a class="module-tag" href="#app-e-sfogliatore">App e sfogliatore</a>
-          <a class="module-tag" href="#funzionalita">Funzionalità</a>
-          <a class="module-tag" href="#analytics">Analytics</a>
-          <a class="module-tag" href="#paywall">Paywall e SSO</a>
-        </nav>
-        <div class="ed-detail-grid">
-          <article class="hvd-benefit ed-detail-card" id="app-e-sfogliatore" aria-labelledby="app-e-sfogliatore-title">
-            <h3 id="app-e-sfogliatore-title">L’esperienza digitale della tua testata</h3>
-            <p>Personalizziamo app e sfogliatore web con il logo, la schermata iniziale e la veste grafica della testata. I lettori possono accedere alle edizioni su smartphone, tablet e browser.</p>
-          </article>
-          <article class="hvd-benefit ed-detail-card" id="funzionalita" aria-labelledby="funzionalita-title">
-            <h3 id="funzionalita-title">Acquisti, archivio e contenuti multimediali</h3>
-            <p>Gestisci acquisti in-app di copie singole e abbonamenti, numeri arretrati, edizioni locali e numeri speciali. Aggiungi video, gallerie e link, invia notifiche push e gestisci banner, interstitial, codici omaggio e buoni sconto.</p>
-          </article>
-          <article class="hvd-benefit ed-detail-card" id="analytics" aria-labelledby="analytics-title">
-            <h3 id="analytics-title">Vendite e comportamenti di lettura</h3>
-            <p>Gli strumenti di analytics e business intelligence integrati permettono di monitorare le vendite in-app e capire come vengono letti i contenuti.</p>
-          </article>
-          <article class="hvd-benefit ed-detail-card" id="paywall" aria-labelledby="paywall-title">
-            <h3 id="paywall-title">Paywall e accesso con un solo account</h3>
-            <p>Il paywall consente di monetizzare i contenuti web. Con il Single Sign-On integrato con Abbonamenti.it puoi analizzare i comportamenti sui diversi canali, proporre offerte mirate e favorire il passaggio tra digitale e cartaceo.</p>
-          </article>
-        </div>
 
+    <section class="reader-publishing" id="funzionalita" aria-labelledby="reader-publishing-title">
+      <div class="wrap">
+        <div class="hvd-section-head reader-section-head"><h2 id="reader-publishing-title">Dal PDF <span class="hl hl--marker">alla pubblicazione</span></h2></div>
+        <ol class="reader-steps">
+          <li class="hvd-benefit"><span class="hvd-benefit-icon" aria-hidden="true">1</span><h3>Carica l’edizione</h3><p>Trascina il file nella dashboard Direct Reader e abbinalo al template della tua testata.</p></li>
+          <li class="hvd-benefit"><span class="hvd-benefit-icon" aria-hidden="true">2</span><h3>Personalizza la lettura</h3><p>Aggiungi indice, link e contenuti multimediali. Scegli le pagine da rendere visibili in anteprima.</p></li>
+          <li class="hvd-benefit"><span class="hvd-benefit-icon" aria-hidden="true">3</span><h3>Distribuisci il contenuto</h3><p>Condividi lo sfogliatore, integralo nel sito o porta le pubblicazioni nella tua app editoriale.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="ed-detail reader-extras" aria-label="Analytics, paywall e accesso">
+      <div class="wrap ed-detail-grid">
+        <article class="hvd-benefit ed-detail-card" id="analytics" aria-labelledby="analytics-title">
+          <h3 id="analytics-title">Misura come vengono lette le edizioni</h3>
+          <p>Consulta utenti attivi, sessioni e pagine lette nella dashboard. Per le app puoi monitorare anche i download dei numeri e le aperture da notifica push.</p>
+        </article>
+        <article class="hvd-benefit ed-detail-card" id="paywall" aria-labelledby="paywall-title">
+          <h3 id="paywall-title">Paywall e accesso con un solo account</h3>
+          <p>Riserva contenuti agli abbonati e collega il database con il Single Sign-On. L’integrazione con Abbonamenti.it permette di coordinare l’offerta digitale e quella cartacea.</p>
+        </article>
       </div>
     </section>
 
@@ -135,5 +186,6 @@
     </div>
   </footer>
   <script defer src="../../js/site.js?v=2"></script>
+  <script defer src="direct-reader.js?v=1"></script>
 </body>
 </html>
