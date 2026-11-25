@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="css/divisions.css?v=1">
   <link rel="stylesheet" href="css/editoria.css?v=2">
   <link rel="stylesheet" href="css/editoria-theme.css?v=4">
+  <link rel="stylesheet" href="css/home.css?v=1">
   <link rel="canonical" href="./">
 </head>
 <body class="editoria-page hvd-page" data-ed-color="lilac">
@@ -34,23 +35,29 @@
       <a class="dc-button" href="https://www.directchannel.it/contattaci/">Contatti <span aria-hidden="true">↗</span></a>
     </div>
   </header>
-  <main id="contenuto">
-    <section class="hvd-hero ed-module-hero ed-gateway-hero" aria-labelledby="gateway-title">
-      <div class="wrap hvd-hero-grid">
-        <div class="hvd-hero-copy">
-          <h1 id="gateway-title">Facciamo crescere <span class="hl hl--marker">le relazioni</span></h1>
+  <main id="contenuto" tabindex="-1">
+    <section class="home-gateway" aria-labelledby="gateway-title">
+      <div class="wrap">
+        <div class="home-intro">
+          <h1 id="gateway-title">Facciamo crescere <span>le relazioni.</span></h1>
           <p class="lead">Affianchiamo editori, aziende e organizzazioni del Terzo settore con tecnologia, dati e servizi.</p>
         </div>
-        <div class="ed-solutions-grid ed-gateway-grid">
-          <a class="hvd-benefit ed-service-card" href="editoria/" data-ed-color="lilac" aria-labelledby="gateway-editoria">
-            <h2 id="gateway-editoria">Editoria</h2>
-            <p>Gestione abbonamenti, pubblicazione digitale e marketing per raggiungere nuovi lettori e accompagnarli al rinnovo.</p>
-            <span class="ed-card-link">Vai a Editoria <span aria-hidden="true">↗</span></span>
+        <div class="home-cards">
+          <a class="ed-service-card home-card--editoria" href="editoria/" aria-labelledby="gateway-editoria" aria-describedby="gateway-editoria-desc">
+            <img class="home-card-image" src="media/home/editoria.jpg" width="1536" height="1024" alt="">
+            <div class="home-card-content">
+              <h2 id="gateway-editoria">Editoria</h2>
+              <p id="gateway-editoria-desc">Abbonamenti, pubblicazione digitale e marketing per far crescere il tuo pubblico.</p>
+              <span class="home-card-link">Vai a Editoria <span aria-hidden="true">↗</span></span>
+            </div>
           </a>
-          <a class="hvd-benefit ed-service-card" href="non-profit/" data-ed-color="rose" aria-labelledby="gateway-fundraising">
-            <h2 id="gateway-fundraising">Fundraising</h2>
-            <p>Mentor CRM, business intelligence e analisi predittive per gestire le campagne e far crescere il sostegno alla tua organizzazione.</p>
-            <span class="ed-card-link">Vai a Fundraising <span aria-hidden="true">↗</span></span>
+          <a class="ed-service-card home-card--fundraising" href="non-profit/" aria-labelledby="gateway-fundraising" aria-describedby="gateway-fundraising-desc">
+            <img class="home-card-image" src="media/home/fundraising.jpg" width="1536" height="1024" alt="">
+            <div class="home-card-content">
+              <h2 id="gateway-fundraising">Fundraising</h2>
+              <p id="gateway-fundraising-desc">Mentor CRM e business intelligence al servizio del non profit.</p>
+              <span class="home-card-link">Vai a Fundraising <span aria-hidden="true">↗</span></span>
+            </div>
           </a>
         </div>
       </div>
