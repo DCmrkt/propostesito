@@ -19,19 +19,12 @@
   gap: clamp(32px, 5vw, 76px);
 }
 
-.updates-hero-label {
-  margin: 0 0 12px;
-  color: #ffa1ad;
-  font-size: clamp(1rem, 1.6vw, 1.16rem);
-  font-weight: 800;
-}
-
 .updates-hero h1 {
   font-size: clamp(3.15rem, 5.6vw, 5.7rem);
   font-weight: 800;
   line-height: 1;
   letter-spacing: -.073em;
-  margin: 0 0 22px;
+  margin: 0 0 12px;
 }
 
 .updates-hero h1 span {
@@ -40,10 +33,17 @@
 }
 
 .updates-subtitle {
-  margin: 0 0 10px;
+  margin: 0 0 23px;
+  color: #ffa1ad;
   font-size: clamp(1.25rem, 2vw, 1.6rem);
-  font-weight: 750;
+  font-weight: 800;
   letter-spacing: -.02em;
+}
+
+.updates-context {
+  margin: 0 0 8px;
+  font-size: clamp(1.1rem, 1.7vw, 1.32rem);
+  font-weight: 700;
 }
 
 .updates-lead {
