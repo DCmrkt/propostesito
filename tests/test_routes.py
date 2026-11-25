@@ -7,14 +7,19 @@ import unittest
 from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
-EDITORIA = ('abbonamenti-e-servizi', 'e-commerce', 'periodici-e-quotidiani',
-            'collezioni', 'analisi', 'consulenza-marketing', 'abbonamenti-b2b', 'direct-reader')
+EDITORIA = ('abbonamenti-e-servizi', 'periodici-e-quotidiani', 'direct-reader',
+            'abbonamenti-it', 'analisi', 'abbonamenti-b2b')
+EDITORIA_REDIRECTS = {
+    'e-commerce': ('abbonamenti-it', ''),
+    'collezioni': ('periodici-e-quotidiani', 'collezioni'),
+    'consulenza-marketing': ('analisi', 'consulenza-marketing'),
+}
 
 
 class Page(HTMLParser):
     def __init__(self, path):
         super().__init__()
-        self.links, self.ids, self.headings = [], set(), 0
+        self.links, self.ids, self.headings, self.service_links = [], set(), 0, []
         self.feed(path.read_text(encoding='utf-8'))
 
     def handle_starttag(self, tag, attrs):
@@ -23,6 +28,8 @@ class Page(HTMLParser):
             self.ids.add(attrs['id'])
         if tag == 'h1':
             self.headings += 1
+        if tag == 'a' and 'ed-service-card' in attrs.get('class', '').split():
+            self.service_links.append(attrs.get('href'))
         for key in ('href', 'src', 'action', 'poster'):
             if attrs.get(key):
                 self.links.append(attrs[key])
@@ -34,6 +41,12 @@ def parse(path):
 
 
 class Routes(unittest.TestCase):
+    def test_gateway_links_to_both_divisions(self):
+        path = ROOT / 'sito/index.html'
+        self.assertEqual(parse(path).service_links, ['editoria/', 'non-profit/'])
+        text = path.read_text(encoding='utf-8')
+        self.assertIn('>Fundraising</h2>', text)
+
     def test_both_divisions_have_real_content_and_navigation(self):
         for rel in ['sito/index.html', 'sito/non-profit/index.html', 'sito/editoria/index.html']:
             with self.subTest(path=rel):
@@ -46,6 +59,8 @@ class Routes(unittest.TestCase):
                 self.assertTrue('Divisioni' in path.read_text(encoding='utf-8'), 'Missing division navigation')
 
     def test_editoria_has_all_service_pages(self):
+        overview = parse(ROOT / 'sito/editoria/index.html')
+        self.assertEqual(overview.service_links, [f'{slug}/' for slug in EDITORIA])
         for slug in EDITORIA:
             with self.subTest(slug=slug):
                 path = ROOT / 'sito/editoria' / slug / 'index.html'
@@ -53,6 +68,17 @@ class Routes(unittest.TestCase):
                 if path.is_file():
                     self.assertEqual(parse(path).headings, 1)
                     self.assertGreater(len(re.sub('<[^>]+>', '', path.read_text(encoding='utf-8'))), 1600)
+
+    def test_consolidated_editoria_urls_have_a_canonical_destination(self):
+        for old, (new, fragment) in EDITORIA_REDIRECTS.items():
+            with self.subTest(old=old):
+                path = ROOT / 'sito/editoria' / old / 'index.html'
+                text = path.read_text(encoding='utf-8')
+                self.assertIn(f' rel="canonical" href="../{new}/"', text)
+                self.assertIn('location.search', text)
+                self.assertIn('location.hash', text)
+                destination = f'../{new}/' + (f'#{fragment}' if fragment else '')
+                self.assertIn(destination, parse(path).links)
 
     def test_canonical_pages_have_no_broken_local_destinations(self):
         files = [ROOT / 'sito/index.html']

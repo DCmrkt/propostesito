@@ -1,17 +1,17 @@
 # Direct Channel · proposta sito
 
-Proposta statica multipagina in HTML, CSS e JavaScript. La home comune presenta le divisioni **Editoria** e **Non profit**.
+Proposta statica multipagina in HTML, CSS e JavaScript. La home comune presenta le divisioni **Editoria** e **Fundraising**.
 
 ## Percorsi
 
 - `/sito/` — ingresso comune.
-- `/sito/editoria/` — panoramica Editoria, con otto approfondimenti: Abbonamenti e servizi, E-commerce, Periodici e quotidiani, Collezioni, Analisi, Consulenza marketing, Abbonamenti B2B, Direct Reader.
-- `/sito/non-profit/` — proposta fundraising esistente, con Mentor CRM, moduli, integrazioni, ecosistema, DirectSense e analisi predittive.
+- `/sito/editoria/` — panoramica Editoria, con sei approfondimenti: Gestione abbonamenti, Periodici e collezioni, Direct Reader, Abbonamenti.it, Data Analysis e Consulenza Marketing, Abbonamenti B2B.
+- `/sito/non-profit/` — divisione Fundraising, con Mentor CRM, moduli, integrazioni, ecosistema, DirectSense e analisi predittive.
 - I vecchi indirizzi reindirizzano alle nuove pagine conservando parametri e ancore.
 
-Navigazione tra le divisioni e contenuti Editoria disponibili anche senza JavaScript. Non profit conserva mappa interattiva, carosello clienti e richiesta demo dimostrativa. I contatti Editoria aprono il sito ufficiale.
+La navigazione tra le divisioni e i contenuti Editoria sono disponibili anche senza JavaScript. La divisione Fundraising include una mappa interattiva, un carosello clienti e una richiesta demo dimostrativa. I contatti Editoria aprono il sito ufficiale.
 
-Testi dei servizi e dati numerici dal [documento fornito](https://docs.google.com/document/d/1p4U11OLWsnxlw2h089gRxX0wd3d4w1eCxVmwkx9x9EI/edit). Escluse le note di lavorazione; i numeri sono quelli della proposta, senza attribuirvi un ulteriore periodo di misurazione.
+Testi dei servizi e dati numerici dalla proposta «Riorganizzazione sito Direct Channel».
 
 ## Anteprima locale
 
