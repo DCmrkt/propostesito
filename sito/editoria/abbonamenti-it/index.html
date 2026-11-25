@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="../../css/divisions.css?v=1">
   <link rel="stylesheet" href="../../css/editoria.css?v=2">
   <link rel="stylesheet" href="../../css/editoria-theme.css?v=4">
+  <link rel="stylesheet" href="abbonamenti-hero.css?v=1">
   <link rel="canonical" href="./">
 </head>
 <body class="editoria-page hvd-page" data-ed-color="mint">
@@ -43,7 +44,7 @@
   </header>
   <main id="contenuto">
 
-    <section class="hvd-hero ed-module-hero" aria-labelledby="ed-hero-title">
+    <section class="hvd-hero ed-module-hero abb-hero" aria-labelledby="ed-hero-title">
       <div class="wrap hvd-hero-grid">
         <div class="hvd-hero-copy">
           <h1 id="ed-hero-title"><span class="hl hl--marker">Abbonamenti.it</span></h1>
@@ -53,22 +54,13 @@
             <a class="dc-button secondary" href="#contatti">Parliamone insieme <span aria-hidden="true">↗</span></a>
           </div>
         </div>
-        <div class="ed-hero-art" aria-hidden="true">
-          <div class="ed-art ed-art--shop">
-            <div class="ed-orbit"></div>
-            <div class="ed-book ed-book--back">
-              <span>DIRECT<br>CHANNEL</span>
-              <b>Idee che<br>crescono.</b>
-              <i></i>
-            </div>
-            <div class="ed-book ed-book--front">
-              <span>IL VALORE DELLE RELAZIONI</span>
-              <b>Ogni pagina,<br>una nuova<br>possibilità.</b>
-              <div class="ed-cover-mark"></div>
-              <small>EDITORIA / DIRECT CHANNEL</small>
-            </div>
-          </div>
-        </div>
+        <figure class="abb-hero-motion">
+          <video data-abb-motion width="1080" height="810" muted loop playsinline preload="none" poster="media/portale-poster.webp" aria-label="Anteprima animata di Abbonamenti.it" aria-describedby="abb-motion-description">
+            <source src="media/portale-hero-alpha.webm" type="video/webm">
+            <source src="media/portale-hero.mp4" type="video/mp4">
+          </video>
+          <figcaption id="abb-motion-description" class="dc-sr">L’anteprima mostra tre viste semplificate del portale: il catalogo delle riviste, la scheda di Focus e alcune categorie di Offerte promo.</figcaption>
+        </figure>
       </div>
     </section>
     <section class="ed-proof" aria-label="I numeri di Abbonamenti.it">
@@ -146,5 +138,6 @@
     </div>
   </footer>
   <script defer src="../../js/site.js?v=2"></script>
+  <script defer src="abbonamenti-hero.js?v=1"></script>
 </body>
 </html>
