@@ -87,7 +87,7 @@
       pages:[
         {label:'Mentor CRM', path:'non-profit/mentor-crm/'},
         {label:'Moduli di Mentor', path:'non-profit/mentor-crm/moduli-di-mentor/'},
-        {label:'Nuove funzionalità', path:'non-profit/mentor-crm/nuove-funzionalita/'}
+        {label:'Updater', path:'non-profit/mentor-crm/nuove-funzionalita/'}
       ]
     },
     {

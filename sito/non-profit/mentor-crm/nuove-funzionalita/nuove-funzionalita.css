@@ -80,11 +80,6 @@
 
 .updates-button:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 
-.updates-motion-button:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 4px;
-}
-
 .updates-demo { min-width: 0; margin: 0; }
 
 .updates-stage {
@@ -99,37 +94,6 @@
   border-radius: 13px;
   box-shadow: 0 20px 50px #071e3c59, 0 2px 9px #0b223a24;
   background: #fff;
-}
-
-.updates-demo figcaption {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  min-height: 44px;
-  margin-top: 10px;
-  font-size: .82rem;
-  font-weight: 650;
-}
-
-.updates-motion-button {
-  flex: none;
-  padding: 6px 10px;
-  border: 1px solid currentColor;
-  border-radius: 999px;
-  background: none;
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-}
-
-.updates-sr {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
 }
 
 .updates-focus,
@@ -176,22 +140,15 @@
 
 .updates-demo-query .updates-pointer { top: 33%; left: 94%; }
 
-.updates-demo[data-animated] {
-  --motion-duration: 10.5s;
-  --motion-state: paused;
-}
+@media (prefers-reduced-motion: no-preference) {
+  .updates-demo[data-in-view] .updates-focus-count { animation-name: updates-show-count; }
+  .updates-demo[data-in-view] .updates-focus-field { animation-name: updates-show-field; }
+  .updates-demo-query[data-in-view] .updates-pointer { animation-name: updates-query-pointer; }
 
-.updates-demo[data-running] { --motion-state: running; }
-
-.updates-demo[data-animated] .updates-focus-count { animation-name: updates-show-count; }
-.updates-demo[data-animated] .updates-focus-field { animation-name: updates-show-field; }
-.updates-demo-query[data-animated] .updates-pointer { animation-name: updates-query-pointer; }
-
-.updates-demo[data-animated] :is(.updates-focus, .updates-pointer) {
-  animation-duration: var(--motion-duration);
-  animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(.2, .7, .27, 1);
-  animation-play-state: var(--motion-state);
+  .updates-demo[data-in-view] :is(.updates-focus, .updates-pointer) {
+    animation-duration: 4.8s;
+    animation-timing-function: cubic-bezier(.2, .7, .27, 1);
+  }
 }
 
 @keyframes updates-show-count {
@@ -233,14 +190,14 @@
   line-height: 1.65;
 }
 
-.updates-webinar {
+.updates-video {
   background: var(--updates-soft);
   text-align: center;
 }
 
-.updates-webinar-heading { margin: 0 auto clamp(22px, 3.6vw, 40px); }
-.updates-webinar-heading p { margin: 12px 0 0; }
-.updates-webinar video {
+.updates-video-heading { margin: 0 auto clamp(22px, 3.6vw, 40px); }
+.updates-video-heading p { margin: 12px 0 0; }
+.updates-video video {
   display: block;
   width: min(100%, 980px);
   height: auto;
@@ -458,8 +415,4 @@
 
 @media (max-width: 600px) {
   .updates-shot-grid { grid-template-columns: minmax(0, 1fr); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .updates-demo[data-animated] :is(.updates-focus, .updates-pointer) { animation: none; }
 }
