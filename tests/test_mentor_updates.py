@@ -19,3 +19,16 @@ class MentorUpdates(unittest.TestCase):
         content = redirect.read_text(encoding='utf-8')
         self.assertIn('../../non-profit/mentor-crm/nuove-funzionalita/', parse(redirect).links)
         self.assertIn('location.search + location.hash', content)
+
+    def test_word_guide_follows_webinar_with_motion_and_anchored_steps(self):
+        path = ROOT / 'sito/non-profit/mentor-crm/nuove-funzionalita/index.html'
+        content = path.read_text(encoding='utf-8')
+        page = parse(path)
+        self.assertLess(content.index('id="webinar"'), content.index('id="come-funziona"'))
+        for step in ('apertura', 'estrattore-query-builder', 'campo-valore', 'modalita-file', 'conferma-esito', 'domande-frequenti'):
+            with self.subTest(step=step):
+                self.assertIn(step, page.ids)
+                self.assertIn(f'#{step}', page.links)
+        self.assertEqual(content.count('data-scroll-motion'), 9)
+        self.assertIn('<caption>Come cambia il campo Valore', content)
+        self.assertTrue((path.parent / 'media/ricerca-campagne-dettaglio.webp').is_file())

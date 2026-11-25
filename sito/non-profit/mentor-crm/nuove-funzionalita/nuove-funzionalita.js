@@ -31,4 +31,14 @@
 
     updatePlayback();
   }
+
+  if ('IntersectionObserver' in window) {
+    const visiblePart = .3;
+    const shotObserver = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        entry.target.toggleAttribute('data-in-view', entry.intersectionRatio >= visiblePart);
+      }
+    }, { threshold: visiblePart });
+    document.querySelectorAll('[data-scroll-motion]').forEach(shot => shotObserver.observe(shot));
+  }
 })();

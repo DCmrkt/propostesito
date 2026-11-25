@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="../../../css/site.css?v=136">
   <link rel="stylesheet" href="../../../../fundraising-shared/experience.css?v=47">
   <link rel="stylesheet" href="../../../css/divisions.css?v=1">
-  <link rel="stylesheet" href="nuove-funzionalita.css">
+  <link rel="stylesheet" href="nuove-funzionalita.css?v=2">
 </head>
 <body class="mentor-updates" data-proposal="1">
   <a class="skip-link" href="#contenuto">Vai al contenuto</a>
@@ -67,48 +67,6 @@
       </div>
     </section>
 
-    <section class="updates-section" id="come-funziona" aria-labelledby="modalita-title">
-      <div class="wrap">
-        <div class="updates-modes">
-          <h2 id="modalita-title">Tre modi per scegliere i record</h2>
-          <div class="updates-mode-grid">
-            <article>
-              <h3>Estrattore</h3>
-              <p>Dalla ricerca campagne, apri <strong>Aggiorna massivamente</strong> per lavorare sui risultati dei filtri già applicati.</p>
-            </article>
-            <article>
-              <h3>Query Builder</h3>
-              <p>Apri l’Updater dal menu laterale e scegli la dimensione tra i risultati dell’ultima estrazione.</p>
-            </article>
-            <article>
-              <h3>File</h3>
-              <p>Carica un CSV o un foglio Excel con il codice del record e il nuovo valore, anche quando cambia da una riga all’altra.</p>
-            </article>
-          </div>
-        </div>
-        <div class="updates-feature">
-          <div class="updates-feature-copy">
-            <h2>Dal file alla conferma</h2>
-            <p>Mentor indica quante righe valide ha trovato. Scegli la dimensione e il campo da aggiornare, poi ricontrolla i dati nel passaggio di conferma.</p>
-            <p><strong>L’aggiornamento è irreversibile.</strong> Mentor registra chi lo ha eseguito. Il ripristino dei dati richiede un intervento dedicato con costi aggiuntivi.</p>
-            <p>In Estrattore e Query Builder puoi aggiornare più campi e vedere l’esito di ciascuno nella griglia.</p>
-          </div>
-          <figure class="updates-demo updates-demo-file" data-motion>
-            <div class="updates-stage" id="file-animation">
-              <img class="updates-screen" src="media/aggiornamento-da-file.webp" width="720" height="415" alt="Modalità File dell’Updater con un foglio dimostrativo, una riga valida e il campo Campagna di entrata.">
-              <span class="updates-scrim" aria-hidden="true"></span>
-              <img class="updates-focus updates-focus-confirm" src="media/conferma-aggiornamento.webp" width="490" height="183" alt="">
-              <span class="updates-pointer" aria-hidden="true"></span>
-            </div>
-            <figcaption>
-              <span>Modalità File · Verifica prima della conferma</span>
-              <button class="updates-motion-button" aria-controls="file-animation" type="button" hidden>Pausa<span class="updates-sr"> animazione Modalità File</span></button>
-            </figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
-
     <section class="updates-section updates-webinar" id="webinar" aria-labelledby="webinar-title">
       <div class="wrap">
         <div class="updates-webinar-heading">
@@ -122,6 +80,188 @@
         </video>
       </div>
     </section>
+    <section class="updates-guide updates-section" id="come-funziona" aria-labelledby="guida-title">
+      <div class="wrap">
+        <header class="updates-guide-heading">
+          <h2 id="guida-title">Come funziona l’Updater</h2>
+          <p>L’Updater è una finestra di <strong>Aggiornamento massivo</strong>. Il principio è semplice: prendete un insieme di elementi, scegliete un campo e gli assegnate un nuovo valore. Mentor lo applica a tutti gli elementi in una sola operazione.</p>
+          <nav class="updates-guide-nav" aria-label="Passaggi della guida Updater">
+            <a href="#apertura">Da dove si apre</a>
+            <a href="#estrattore-query-builder">Estrattore e Query Builder</a>
+            <a href="#campo-valore">Campo e valore</a>
+            <a href="#modalita-file">Modalità File</a>
+            <a href="#conferma-esito">Conferma ed esito</a>
+            <a href="#domande-frequenti">Domande frequenti</a>
+          </nav>
+        </header>
+
+        <section class="updates-guide-step" id="apertura" aria-labelledby="apertura-title">
+          <h3 id="apertura-title">Da dove si apre</h3>
+          <p>Potete aprirlo da due punti diversi. Il punto di partenza determina le modalità a disposizione.</p>
+          <div class="updates-shot-grid updates-shot-grid-entry">
+            <article>
+              <h4>Ricerca campagne</h4>
+              <p>Il pulsante <strong>Aggiorna massivamente</strong> sopra i risultati apre la modalità Estrattore. L’Updater lavora sulle campagne che avete appena estratto con i vostri filtri.</p>
+              <figure class="updates-shot updates-shot-campaign" data-scroll-motion style="--shot-x:88.221%; --shot-y:21.967%; --shot-width:10.982%; --shot-origin:right center; --shot-scale:2.05">
+                <div class="updates-shot-screen">
+                  <picture>
+                    <source media="(max-width: 850px)" srcset="media/ricerca-campagne-dettaglio.webp" width="504" height="165">
+                    <img src="media/ricerca-campagne.webp" width="1630" height="305" loading="lazy" alt="Ricerca campagne di Mentor, con il pulsante Aggiorna massivamente sopra la griglia dei risultati.">
+                  </picture>
+                  <img class="updates-shot-focus" src="media/pulsante-aggiorna-massivamente.webp" width="179" height="29" loading="lazy" alt="">
+                </div>
+                <figcaption>Ricerca campagne · Aggiorna massivamente</figcaption>
+              </figure>
+            </article>
+            <article>
+              <h4>Menu laterale</h4>
+              <p>Se invece aprite la voce <strong>Updater</strong> dal menu, potete usare il risultato del Query Builder oppure caricare un file.</p>
+              <figure class="updates-shot" data-scroll-motion style="--shot-x:0.513%; --shot-y:91.745%; --shot-width:16.422%; --shot-origin:left bottom; --shot-scale:1.27">
+                <div class="updates-shot-screen">
+                  <img src="media/updater-menu-laterale.webp" width="1364" height="533" loading="lazy" alt="La voce Updater nel menu laterale e la finestra Aggiornamento massivo aperta sulla scheda File.">
+                  <img class="updates-shot-focus" src="media/voce-updater.webp" width="224" height="40" loading="lazy" alt="">
+                </div>
+                <figcaption>Menu laterale · Updater</figcaption>
+              </figure>
+            </article>
+          </div>
+        </section>
+
+        <section class="updates-guide-step updates-guide-split" id="estrattore-query-builder" aria-labelledby="modalita-title">
+          <div>
+            <h3 id="modalita-title">Estrattore e Query Builder</h3>
+            <h4>Modalità Estrattore</h4>
+            <p>In alto vedete <strong>Campagne estratte</strong> con il numero di elementi coinvolti. Sono esattamente quelli della ricerca che avete appena fatto, con gli stessi filtri.</p>
+            <p>Controllate sempre questo numero prima di procedere. Se vi aspettavate 50 campagne e ne vedete 5.000, fermatevi e rivedete i filtri.</p>
+            <h4>Modalità Query Builder</h4>
+            <p>Aprendo l’Updater dal menu e scegliendo Query Builder, Mentor mostra subito quanti elementi ha estratto il vostro ultimo Query Builder, divisi per dimensione: Anagrafiche, Donazioni, Donazioni Regolari, Attività e Bambini.</p>
+            <p>Scegliete la dimensione da aggiornare. Solo dopo questa scelta compare l’elenco dei campi modificabili, perché ogni dimensione ha i suoi.</p>
+          </div>
+          <figure class="updates-shot" data-scroll-motion style="--shot-x:2.639%; --shot-y:37.783%; --shot-width:94.861%">
+            <div class="updates-shot-screen">
+              <img src="media/query-builder-dimensioni.webp" width="720" height="397" loading="lazy" alt="Query Builder elenca 24 anagrafiche e mostra il campo Dimensione da selezionare.">
+              <img class="updates-shot-focus" src="media/query-builder-conteggio.webp" width="683" height="31" loading="lazy" alt="">
+            </div>
+            <figcaption>Query Builder · Record estratti per dimensione</figcaption>
+          </figure>
+        </section>
+
+        <section class="updates-guide-step" id="campo-valore" aria-labelledby="campo-valore-title">
+          <h3 id="campo-valore-title">Comporre l’aggiornamento</h3>
+          <p>In Estrattore e Query Builder potete aggiornare più campi nella stessa operazione.</p>
+          <ol class="updates-guide-list">
+            <li>Scegliete il campo dal menu <strong>Campo</strong>.</li>
+            <li>Inserite il nuovo valore.</li>
+            <li>Premete <strong>Aggiungi</strong>. La coppia campo e valore finisce nella griglia sotto.</li>
+            <li>Ripetete per tutti i campi che vi servono.</li>
+          </ol>
+          <div class="updates-shot-grid updates-shot-grid-fields">
+            <figure class="updates-shot" data-scroll-motion style="--shot-x:4.250%; --shot-y:73.373%; --shot-width:55.500%; --shot-origin:left bottom">
+              <div class="updates-shot-screen">
+                <img src="media/scelta-campo.webp" width="400" height="169" loading="lazy" alt="Con Anagrafiche come dimensione, il menu Campo mostra la voce Professione.">
+                <img class="updates-shot-focus" src="media/campo-professione.webp" width="222" height="42" loading="lazy" alt="">
+              </div>
+              <figcaption>Scegli il campo</figcaption>
+            </figure>
+            <figure class="updates-shot" data-scroll-motion style="--shot-x:4.096%; --shot-y:45.161%; --shot-width:52.289%; --shot-origin:left center">
+              <div class="updates-shot-screen">
+                <img src="media/scelta-valore.webp" width="415" height="310" loading="lazy" alt="Nel menù Valore del campo Professione è disponibile Lavoratore autonomo.">
+                <img class="updates-shot-focus" src="media/valore-professione.webp" width="217" height="33" loading="lazy" alt="">
+              </div>
+              <figcaption>Inserisci il nuovo valore</figcaption>
+            </figure>
+            <figure class="updates-shot" data-scroll-motion style="--shot-x:11.517%; --shot-y:45.578%; --shot-width:84.461%">
+              <div class="updates-shot-screen">
+                <img src="media/griglia-campo-valore.webp" width="547" height="147" loading="lazy" alt="La griglia dell’Updater mostra Professione come campo e Lavoratore autonomo come valore.">
+                <img class="updates-shot-focus" src="media/professione-in-griglia.webp" width="462" height="59" loading="lazy" alt="">
+              </div>
+              <figcaption>Controlla la griglia</figcaption>
+            </figure>
+          </div>
+          <table class="updates-field-table">
+            <caption>Come cambia il campo Valore in base al tipo di dato</caption>
+            <thead><tr><th scope="col">Tipo di campo</th><th scope="col">Cosa vedete</th><th scope="col">Esempio</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Numero intero</th><td>Casella che accetta solo cifre e segno meno</td><td>123</td></tr>
+              <tr><th scope="row">Numero decimale</th><td>Casella con la virgola come separatore</td><td>12,50</td></tr>
+              <tr><th scope="row">Data</th><td>Calendario</td><td>11/10/2026</td></tr>
+              <tr><th scope="row">Ora</th><td>Selettore dell’orario</td><td>09:30</td></tr>
+              <tr><th scope="row">Sì/No</th><td>Interruttore</td><td>Sì</td></tr>
+              <tr><th scope="row">Testo</th><td>Casella libera</td><td>Qualsiasi testo</td></tr>
+              <tr><th scope="row">Valore da tabella</th><td>Elenco a tendina con ricerca</td><td>Una professione, una provincia</td></tr>
+            </tbody>
+          </table>
+          <p>Se sbagliate formato, ad esempio scrivete «12.50» invece di «12,50», Mentor ve lo segnala e il pulsante Aggiungi resta disattivato.</p>
+          <p>La casella <strong>Azzera</strong> serve a svuotare il campo su tutti gli elementi. Il valore viene riportato al default del suo tipo, cioè zero per numeri e date, vuoto per i testi, «No» per i Sì/No.</p>
+          <p>Se aggiungete di nuovo un campo già presente in griglia, il nuovo valore sostituisce il precedente. Per togliere una riga basta il cestino a sinistra.</p>
+        </section>
+
+        <section class="updates-guide-step" id="modalita-file" aria-labelledby="file-title">
+          <h3 id="file-title">Modalità File</h3>
+          <p>La modalità File serve quando ogni elemento deve ricevere un valore diverso. Preparate un file <strong>CSV, XLS o XLSX</strong> con due colonne.</p>
+          <ol class="updates-guide-list">
+            <li>Il codice dell’elemento (Codice Anagrafico, ID Donazione o Codice Bambino, a seconda della dimensione).</li>
+            <li>Il nuovo valore per quell’elemento.</li>
+          </ol>
+          <p>La prima riga è l’intestazione e viene ignorata. Caricate il file, Mentor vi dice quante righe valide ha trovato. Poi scegliete la dimensione e il campo da aggiornare.</p>
+          <div class="updates-shot-grid">
+            <figure class="updates-shot" data-scroll-motion style="--shot-x:4.554%; --shot-y:81.315%; --shot-width:39.208%; --shot-origin:left center">
+              <div class="updates-shot-screen">
+                <img src="media/esempio-file.webp" width="505" height="289" loading="lazy" alt="Il file Excel di esempio mostra le colonne Codice e Campo, con il codice 0000000001 e il valore 26_GEN_GN.">
+                <img class="updates-shot-focus" src="media/file-codice-e-valore.webp" width="198" height="43" loading="lazy" alt="">
+              </div>
+              <figcaption>Esempio di file · Codice e nuovo valore</figcaption>
+            </figure>
+            <figure class="updates-shot" data-scroll-motion style="--shot-x:2.361%; --shot-y:44.578%; --shot-width:35.417%; --shot-origin:left center">
+              <div class="updates-shot-screen">
+                <img src="media/aggiornamento-da-file.webp" width="720" height="415" loading="lazy" alt="Updater in modalità File. Mentor ha trovato una riga valida e mostra il campo Campagna di entrata.">
+                <img class="updates-shot-focus" src="media/numero-righe-valide.webp" width="255" height="22" loading="lazy" alt="">
+              </div>
+              <figcaption>Updater · Verifica il numero di righe valide</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="updates-guide-step updates-guide-split" id="conferma-esito" aria-labelledby="conferma-title">
+          <div>
+            <h3 id="conferma-title">Conferma ed esito</h3>
+            <p>Premendo <strong>Aggiorna dati</strong> compare sempre una conferma. Leggetela con attenzione, perché ricorda quattro cose importanti.</p>
+            <ul class="updates-guide-list">
+              <li>L’aggiornamento è irreversibile.</li>
+              <li>Va valutato con cura quali dati sono coinvolti.</li>
+              <li>Il ripristino dei dati originali ha costi aggiuntivi.</li>
+              <li>Ogni operazione viene registrata con il nome di chi l’ha eseguita.</li>
+            </ul>
+            <p>Dopo la conferma, in Estrattore e Query Builder la griglia diventa un registro in tempo reale. Per ogni campo vedete un’icona: rotellina mentre lavora, spunta verde se è andato a buon fine, croce rossa in caso di errore. La colonna <strong>Righe</strong> indica quanti elementi sono stati aggiornati.</p>
+            <p>Un errore su un campo non blocca gli altri. Alla fine un messaggio riassume l’esito complessivo. Mentor aggiorna anche data e utente di ultima modifica degli elementi.</p>
+          </div>
+          <figure class="updates-shot" data-scroll-motion style="--shot-x:15.972%; --shot-y:27.952%; --shot-width:68.056%; --shot-scale:1.14">
+            <div class="updates-shot-screen">
+              <img src="media/dialog-conferma.webp" width="720" height="415" loading="lazy" alt="Conferma aggiornamento massivo con le avvertenze e i pulsanti Annulla e Procedi con l’aggiornamento.">
+              <img class="updates-shot-focus" src="media/conferma-aggiornamento.webp" width="490" height="183" loading="lazy" alt="">
+            </div>
+            <figcaption>Aggiorna dati · Finestra di conferma</figcaption>
+          </figure>
+        </section>
+
+        <section class="updates-guide-step" id="domande-frequenti" aria-labelledby="faq-title">
+          <h3 id="faq-title">Consigli e domande frequenti</h3>
+          <ul class="updates-guide-list">
+            <li><strong>Controllate il numero di elementi.</strong> È il modo più rapido per accorgervi di un filtro sbagliato.</li>
+            <li><strong>Rileggete la griglia.</strong> Campo e valore sono quelli giusti? Un campo azzerato compare come «(azzerato)».</li>
+            <li><strong>Per i file, verificate la prima colonna.</strong> Deve contenere il codice corretto per la dimensione scelta, altrimenti gli elementi non vengono trovati.</li>
+          </ul>
+          <div class="updates-faq">
+            <details><summary>Posso annullare un aggiornamento?</summary><p>No, l’operazione è irreversibile. Il ripristino dei dati originali è possibile solo con un intervento dedicato, che ha costi aggiuntivi.</p></details>
+            <details><summary>Perché il pulsante Aggiungi è grigio?</summary><p>Manca il campo, manca il valore oppure il valore non è nel formato giusto. Controllate il messaggio sotto la casella.</p></details>
+            <details><summary>Un campo è andato in errore. Devo rifare tutto?</summary><p>No. Gli altri campi sono stati aggiornati comunque. Riaprite l’Updater e ripetete solo il campo in errore.</p></details>
+            <details><summary>Che separatore uso per i decimali?</summary><p>La virgola, come in Excel italiano. Ad esempio 12,50.</p></details>
+            <details><summary>Perché dalla ricerca campagne non posso usare Query Builder o File?</summary><p>Nella versione mostrata, dalla ricerca campagne è disponibile la modalità Estrattore. Per Query Builder e File usate la voce Updater nel menu.</p></details>
+            <details><summary>Si sa chi ha fatto un aggiornamento?</summary><p>Sì. Ogni operazione viene registrata con il nome dell’utente. Sui record vengono aggiornati anche la data e l’utente di ultima modifica.</p></details>
+          </div>
+        </section>
+      </div>
+    </section>
   </main>
   <footer class="site-footer">
     <div class="wrap footer-grid">
@@ -130,6 +270,6 @@
     </div>
   </footer>
   <script defer src="../../../../fundraising-shared/experience.js?v=93"></script>
-  <script defer src="nuove-funzionalita.js"></script>
+  <script defer src="nuove-funzionalita.js?v=2"></script>
 </body>
 </html>
