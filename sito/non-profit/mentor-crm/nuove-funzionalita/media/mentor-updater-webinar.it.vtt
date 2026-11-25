@@ -1,0 +1,404 @@
+WEBVTT
+
+1
+00:00:00.300 --> 00:00:04.233
+Buongiorno a tutti e benvenuti. Oggi
+vediamo insieme l'Updater, la
+
+2
+00:00:04.233 --> 00:00:08.567
+funzionalità di Mentor che permette di
+aggiornare in un colpo solo lo stesso
+
+3
+00:00:08.567 --> 00:00:10.100
+campo su tanti elementi.
+
+4
+00:00:10.367 --> 00:00:14.300
+Finora, per correggere un dato su
+centinaia di anagrafiche o donazioni,
+
+5
+00:00:14.400 --> 00:00:18.033
+bisognava aprirle una per una oppure con
+alcune funzionalità disponibili sul
+
+6
+00:00:18.033 --> 00:00:22.133
+post estrattore. Con l'Updater bastano
+pochi clic: scegliete gli elementi,
+
+7
+00:00:22.133 --> 00:00:25.733
+scegliete il campo, indicate il nuovo
+valore e confermate.
+
+8
+00:00:25.733 --> 00:00:30.733
+L'Updater è una finestra di "Aggiornamento
+massivo". Il principio è semplice:
+
+9
+00:00:30.767 --> 00:00:34.733
+prendete un insieme di elementi, scegliete
+un campo e gli assegnate un nuovo
+
+10
+00:00:34.733 --> 00:00:39.567
+valore. Mentor lo applica a tutti gli
+elementi in una sola operazione.
+
+11
+00:00:42.167 --> 00:00:45.500
+Potete aprire l’Updater dalla ricerca
+campagne o dal menu laterale.
+
+12
+00:00:51.000 --> 00:00:54.467
+Se partite dalla ricerca campagne,
+l'Updater lavora sulle campagne che avete
+
+13
+00:00:54.467 --> 00:00:56.167
+appena estratto con i vostri filtri.
+
+14
+00:00:57.600 --> 00:01:00.333
+Se invece lo aprite dal menu, partite da
+zero:
+
+15
+00:01:00.767 --> 00:01:03.767
+potete usare il risultato del Query
+Builder oppure caricare un file.
+
+16
+00:01:03.867 --> 00:01:08.167
+Questa è la modalità che userete più
+spesso. In alto vedete "Campagne
+
+17
+00:01:08.167 --> 00:01:12.133
+estratte" con il numero di elementi
+coinvolti: sono esattamente quelli della
+
+18
+00:01:12.133 --> 00:01:14.900
+ricerca che avete appena fatto, con gli
+stessi filtri.
+
+19
+00:01:15.400 --> 00:01:17.667
+Controllate sempre questo numero prima di
+procedere.
+
+20
+00:01:19.800 --> 00:01:23.267
+Se vi aspettavate 50 campagne e ne vedete
+5.000, fermatevi e rivedete i
+
+21
+00:01:23.267 --> 00:01:24.133
+filtri.
+
+22
+00:01:30.500 --> 00:01:33.700
+Dal menu laterale aprite Updater e
+scegliete Query Builder.
+
+23
+00:01:34.700 --> 00:01:38.200
+Il riepilogo mostra i totali dell’ultima
+estrazione per dimensione:
+
+24
+00:01:38.267 --> 00:01:42.167
+Anagrafiche, Donazioni, Donazioni
+Regolari, Attività e Bambini.
+
+25
+00:01:42.533 --> 00:01:46.200
+Scegliete la dimensione, qui Anagrafiche.
+Il menu Campo mostra le voci
+
+26
+00:01:46.200 --> 00:01:47.100
+disponibili.
+
+27
+00:01:48.700 --> 00:01:51.533
+Potete aggiornare più campi in un’unica
+operazione.
+
+28
+00:01:51.967 --> 00:01:54.033
+In Campo, scegliete Professione.
+
+29
+00:01:54.900 --> 00:01:57.533
+In Valore, selezionate Lavoratore
+autonomo.
+
+30
+00:01:58.133 --> 00:01:59.900
+Fate clic su Aggiungi.
+
+31
+00:02:00.933 --> 00:02:02.900
+Campo e valore entrano in griglia.
+
+32
+00:02:04.300 --> 00:02:06.533
+Ripetete il passaggio per gli altri campi.
+
+33
+00:02:09.167 --> 00:02:11.833
+Il controllo del valore dipende dal tipo
+di campo.
+
+34
+00:02:17.733 --> 00:02:22.567
+Per i decimali usate la virgola. Se
+digitate 12.50, Aggiungi resta
+
+35
+00:02:22.567 --> 00:02:23.467
+disattivato.
+
+36
+00:02:23.767 --> 00:02:25.967
+Azzera ripristina il valore predefinito:
+
+37
+00:02:26.333 --> 00:02:30.167
+zero per numeri e date, vuoto per i testi,
+no per i Sì/No.
+
+38
+00:02:31.033 --> 00:02:34.067
+Se aggiungete di nuovo un campo già
+presente in griglia, il nuovo valore
+
+39
+00:02:34.067 --> 00:02:37.900
+sostituisce il precedente. Non si creano
+doppioni. Per togliere una riga
+
+40
+00:02:37.900 --> 00:02:39.933
+basta il cestino a sinistra.
+
+41
+00:02:42.567 --> 00:02:46.500
+La modalità File serve quando ogni
+elemento deve ricevere un valore diverso.
+
+42
+00:02:47.633 --> 00:02:52.233
+Preparate un file CSV, XLS o XLSX con due
+colonne:
+
+43
+00:02:52.533 --> 00:02:56.700
+prima colonna: il codice dell’elemento
+(Codice Anagrafico, ID Donazione o
+
+44
+00:02:56.700 --> 00:02:58.933
+Codice Bambino, a seconda della
+dimensione);
+
+45
+00:02:59.133 --> 00:03:01.700
+seconda colonna: il nuovo valore per
+quell’elemento.
+
+46
+00:03:02.300 --> 00:03:03.833
+La prima riga è l’intestazione.
+
+47
+00:03:05.400 --> 00:03:07.967
+Caricate il file e verificate il numero di
+righe valide.
+
+48
+00:03:11.167 --> 00:03:14.367
+Poi scegliete la dimensione e il campo da
+aggiornare.
+
+49
+00:03:17.233 --> 00:03:22.000
+Con Aggiorna dati si apre la conferma.
+Prima di procedere, leggete le
+
+50
+00:03:22.000 --> 00:03:22.933
+avvertenze.
+
+51
+00:03:25.367 --> 00:03:27.567
+l'aggiornamento è irreversibile;
+
+52
+00:03:27.867 --> 00:03:30.267
+va valutato con cura quali dati sono
+coinvolti;
+
+53
+00:03:30.700 --> 00:03:33.467
+il ripristino dei dati originali ha costi
+aggiuntivi;
+
+54
+00:03:33.767 --> 00:03:37.467
+ogni operazione viene registrata con il
+nome di chi l'ha eseguita.
+
+55
+00:03:46.133 --> 00:03:49.933
+Dopo la conferma, in Estrattore e Query
+Builder la griglia diventa un
+
+56
+00:03:49.933 --> 00:03:51.500
+registro in tempo reale.
+
+57
+00:03:52.933 --> 00:03:57.433
+Per ogni campo vedete un'icona: rotellina
+mentre lavora, spunta verde se è
+
+58
+00:03:57.433 --> 00:03:58.500
+andato a buon fine,
+
+59
+00:03:59.400 --> 00:04:01.233
+croce rossa in caso di errore.
+
+60
+00:04:02.400 --> 00:04:05.233
+La colonna "Righe" indica quanti elementi
+sono stati aggiornati.
+
+61
+00:04:05.433 --> 00:04:07.700
+Un errore su un campo non blocca gli
+altri.
+
+62
+00:04:08.400 --> 00:04:12.700
+Alla fine un messaggio riassume l'esito
+complessivo. Mentor aggiorna anche
+
+63
+00:04:12.700 --> 00:04:15.467
+data e utente di ultima modifica degli
+elementi.
+
+64
+00:04:17.667 --> 00:04:20.167
+Tre abitudini che vi evitano brutte
+sorprese:
+
+65
+00:04:22.767 --> 00:04:26.967
+Controllate il numero di elementi. È il
+modo più rapido per accorgervi di un
+
+66
+00:04:26.967 --> 00:04:28.133
+filtro sbagliato.
+
+67
+00:04:28.633 --> 00:04:32.333
+Rileggete la griglia. Campo e valore sono
+quelli giusti?
+
+68
+00:04:32.767 --> 00:04:35.567
+Un campo azzerato compare come
+"(azzerato)".
+
+69
+00:04:36.400 --> 00:04:40.567
+Per i file, verificate la prima colonna.
+Deve contenere il codice corretto
+
+70
+00:04:40.567 --> 00:04:44.767
+per la dimensione scelta, altrimenti gli
+elementi non vengono trovati.
+
+71
+00:04:47.000 --> 00:04:51.933
+Posso annullare un aggiornamento? No,
+l'operazione è irreversibile. Il
+
+72
+00:04:51.933 --> 00:04:55.500
+ripristino dei dati originali è possibile
+solo con un intervento dedicato,
+
+73
+00:04:55.500 --> 00:04:56.767
+che ha costi aggiuntivi.
+
+74
+00:04:57.167 --> 00:05:01.800
+Perché il pulsante "Aggiungi" è grigio?
+Manca il campo, manca il valore
+
+75
+00:05:01.800 --> 00:05:05.467
+oppure il valore non è nel formato giusto.
+Controllate il messaggio sotto la
+
+76
+00:05:05.467 --> 00:05:06.167
+casella.
+
+77
+00:05:07.733 --> 00:05:12.667
+Un campo è andato in errore: devo rifare
+tutto? No. Gli altri campi sono
+
+78
+00:05:12.667 --> 00:05:16.667
+stati aggiornati comunque. Riaprite
+l'Updater e ripetete solo il campo in
+
+79
+00:05:16.667 --> 00:05:17.267
+errore.
+
+80
+00:05:17.633 --> 00:05:22.533
+Che separatore uso per i decimali? La
+virgola, come in Excel italiano: 12,50.
+
+81
+00:05:23.033 --> 00:05:26.133
+Perché dalla ricerca campagne non posso
+usare Query Builder o File?
+
+82
+00:05:26.433 --> 00:05:31.200
+Arriveranno con un prossimo rilascio. Per
+ora usate la voce Updater nel menu.
+
+83
+00:05:31.467 --> 00:05:35.833
+Si sa chi ha fatto un aggiornamento? Sì.
+Ogni operazione viene registrata con
+
+84
+00:05:35.833 --> 00:05:39.600
+il nome dell'utente e sugli elementi vengono
+aggiornati data e utente di ultima
+
+85
+00:05:39.600 --> 00:05:40.367
+modifica.

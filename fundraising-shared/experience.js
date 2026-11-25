@@ -86,7 +86,8 @@
       label:'Mentor CRM',
       pages:[
         {label:'Mentor CRM', path:'non-profit/mentor-crm/'},
-        {label:'Moduli di Mentor', path:'non-profit/mentor-crm/moduli-di-mentor/'}
+        {label:'Moduli di Mentor', path:'non-profit/mentor-crm/moduli-di-mentor/'},
+        {label:'Nuove funzionalità', path:'non-profit/mentor-crm/nuove-funzionalita/'}
       ]
     },
     {
@@ -239,7 +240,8 @@
     });
     frag.append(renderDiscoverMenu(root, home));
     const cta=document.createElement('a');
-    cta.href='#contatti';
+    cta.href=navEl.querySelector('[data-nav-contact]')?.getAttribute('href') || '#contatti';
+    cta.dataset.navContact='';
     cta.textContent='Richiedi una consulenza';
     frag.append(cta);
     navEl.replaceChildren(frag);

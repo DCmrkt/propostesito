@@ -467,7 +467,7 @@ body[data-proposal="1"][data-page="integrazioni"] .dc-explorer .dc-bridge-action
   text-decoration: none;
 }
 
-.nav a[href="#contatti"] {
+.nav a:is([href="#contatti"], [data-nav-contact]) {
   display: inline-flex;
   align-items: center;
   min-height: 40px;
@@ -477,8 +477,8 @@ body[data-proposal="1"][data-page="integrazioni"] .dc-explorer .dc-bridge-action
   color: var(--btn-text) !important;
 }
 
-.nav a[href="#contatti"]:hover,
-.nav a[href="#contatti"][aria-current="page"] {
+.nav a:is([href="#contatti"], [data-nav-contact]):hover,
+.nav a:is([href="#contatti"], [data-nav-contact])[aria-current="page"] {
   background: color-mix(in srgb, var(--blob-sky) 78%, #7ea9d0);
   color: var(--btn-text) !important;
 }
@@ -3634,7 +3634,7 @@ body[data-proposal="1"] .process-section .process-item {
     background: #fdecec;
   }
 
-  .nav a[href="#contatti"] {
+  .nav a:is([href="#contatti"], [data-nav-contact]) {
     justify-content: center;
   }
 }
