@@ -29,6 +29,13 @@ class MentorUpdates(unittest.TestCase):
         self.assertIn('../../non-profit/mentor-crm/nuove-funzionalita/', parse(redirect).links)
         self.assertIn('location.search + location.hash', content)
 
+    def test_captions_button_controls_the_updater_player(self):
+        path = ROOT / 'sito/non-profit/mentor-crm/nuove-funzionalita/index.html'
+        content = path.read_text(encoding='utf-8')
+        self.assertIn('updater-player', parse(path).ids)
+        self.assertRegex(content, r'<button\b[^>]+aria-controls="updater-player"[^>]+aria-pressed="false"')
+        self.assertIn('Sottotitoli in italiano', content)
+
     def test_word_guide_follows_video_with_motion_and_anchored_steps(self):
         path = ROOT / 'sito/non-profit/mentor-crm/nuove-funzionalita/index.html'
         content = path.read_text(encoding='utf-8')

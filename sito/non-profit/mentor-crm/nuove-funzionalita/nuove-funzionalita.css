@@ -215,6 +215,41 @@
   box-shadow: 0 20px 45px #11304e21;
 }
 
+.updates-video-actions {
+  width: min(100%, 980px);
+  margin: 0 auto;
+  text-align: end;
+}
+
+.updates-caption-button:not([hidden]) {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  margin-top: 14px;
+  padding: 8px 15px;
+  border: 1px solid var(--updates-blue);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--updates-blue);
+  font: inherit;
+  font-size: .9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.updates-caption-button:hover { background: #dceeff; }
+.updates-caption-button[aria-pressed="true"] { background: var(--updates-blue); color: #fff; }
+.updates-caption-button:focus-visible { outline: 2px solid var(--updates-blue); outline-offset: 3px; }
+
+.updates-caption-icon {
+  padding: 1px 4px;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  font-size: .72rem;
+  line-height: 1.2;
+}
+
 .updates-guide {
   color: var(--updates-ink);
   background: #fbfdff;
