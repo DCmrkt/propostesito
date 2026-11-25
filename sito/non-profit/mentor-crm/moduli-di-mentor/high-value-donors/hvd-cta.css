@@ -20,7 +20,6 @@
 .hvd-cta-shape {
   position: absolute;
   display: block;
-  opacity: 0;
   pointer-events: none;
   transform-origin: center;
 }
@@ -30,9 +29,10 @@
   top: var(--cta-foam-top, 100%);
   width: clamp(680px, 75vw, 1100px);
   aspect-ratio: 1;
-  border-radius: 50%;
+  border-radius: 56% 44% 54% 46% / 50% 55% 45% 50%;
   background: currentColor;
   color: rgba(255, 255, 255, .34);
+  opacity: .9;
   transform-origin: center top;
 }
 .hvd-cta-shape--gold {
@@ -42,6 +42,7 @@
   height: 460px;
   overflow: visible;
   color: #f3e08a;
+  opacity: .92;
 }
 .hvd-cta-shape--blush {
   left: var(--cta-blush-left, 100%);
@@ -50,6 +51,7 @@
   height: 300px;
   overflow: visible;
   color: #f6cfdc;
+  opacity: .88;
 }
 .hvd-page .hvd-cta .dc-button {
   min-height: 52px;

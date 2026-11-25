@@ -1,0 +1,159 @@
+.area-donatori-page .hvd-hero {
+  background: var(--hvd-coral-dark);
+}
+
+.area-donatori-page .hvd-hero .lead {
+  color: #fff;
+}
+
+.area-donatori-page .hvd-hero h1 {
+  font-size: clamp(2.1rem, 4.5vw, 3.5rem);
+  line-height: 1.1;
+}
+
+.area-donatori-page .hvd-subtitle {
+  max-width: 36ch;
+  margin: 12px 0 16px;
+  color: #fff;
+  font-size: clamp(1.12rem, 1.8vw, 1.4rem);
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.area-donatori-page .hvd-hero .dc-actions {
+  gap: 12px;
+}
+
+.area-hero-screen,
+.area-feature-screen {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  margin: 0;
+  padding: clamp(16px, 3vw, 36px);
+  border-radius: 24px;
+  background: var(--hvd-blush);
+}
+
+.area-hero-screen {
+  background: #ffffff26;
+}
+
+.area-hero-screen img,
+.area-feature-screen img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 420px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 12px 30px #27203424;
+}
+
+.area-donatori-page .hvd-intro {
+  padding: clamp(56px, 7vw, 100px) 0;
+}
+
+.area-donatori-page .hvd-intro-frame {
+  padding: clamp(24px, 4.5vw, 64px);
+  border-radius: 28px;
+  background: var(--hvd-blush);
+}
+
+.area-donatori-page .hvd-intro-frame h2 {
+  max-width: 32ch;
+  margin: 0 0 24px;
+  color: var(--hvd-ink);
+  font-size: clamp(1.65rem, 3.2vw, 2.6rem);
+  line-height: 1.15;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+
+.area-donatori-page .hvd-intro-story,
+.area-donatori-page .hvd-intro-closing {
+  max-width: 76ch;
+  color: #5f5866;
+  line-height: 1.75;
+}
+
+.area-donatori-page .hvd-intro-lead {
+  color: var(--hvd-ink);
+  font-size: clamp(1.12rem, 1.6vw, 1.3rem);
+}
+
+.area-donatori-page .hvd-intro-method {
+  margin-block: 28px;
+}
+
+.area-donatori-page .hvd-intro-method-label {
+  margin: 0 0 14px;
+  color: var(--hvd-ink);
+  font-weight: 700;
+}
+
+.area-donatori-page .hvd-intro-points {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin: 0;
+  padding: 24px;
+  border-radius: 18px;
+  background: #fff;
+  color: var(--hvd-ink);
+  line-height: 1.6;
+  list-style: none;
+}
+
+.area-donatori-page .hvd-method-item {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+.area-donatori-page .hvd-method-icon {
+  width: 32px;
+  height: 32px;
+  color: var(--hvd-coral-dark);
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.area-donatori-page .hvd-method-connector {
+  display: none;
+}
+
+.area-donatori-page .hvd-intro-takeaway {
+  color: var(--hvd-ink);
+  font-size: clamp(1.2rem, 2.2vw, 1.65rem);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.area-donatori-page .hvd-features .hvd-feature-list {
+  margin-top: 24px;
+}
+
+.area-donatori-page .hvd-features .hvd-feature-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 48px);
+}
+
+.area-donatori-page .hvd-cta .dc-button {
+  background: #fff;
+  color: var(--hvd-coral-dark) !important;
+}
+
+@media (max-width: 800px) {
+  .area-donatori-page .hvd-intro-points,
+  .area-donatori-page .hvd-features .hvd-feature-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .area-donatori-page .hvd-features .hvd-feature-copy {
+    grid-row: 1;
+  }
+}

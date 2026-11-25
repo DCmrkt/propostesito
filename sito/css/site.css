@@ -3285,18 +3285,6 @@ body[data-proposal="1"] .process-section .process-item {
 
 .hvd-feature-row:nth-child(even) .hvd-feature-visual { order: 2; }
 
-.hvd-feature-copy span {
-  display: inline-grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  margin-bottom: 20px;
-  border-radius: 50%;
-  background: var(--hvd-coral);
-  color: #fff;
-  font-weight: 800;
-}
-
 .hvd-feature-copy h3 {
   margin: 0 0 16px;
   color: var(--hvd-ink);

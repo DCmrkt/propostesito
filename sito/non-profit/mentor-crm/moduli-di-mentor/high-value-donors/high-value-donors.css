@@ -238,7 +238,7 @@
   opacity: 0;
   pointer-events: none;
   filter: drop-shadow(0 8px 14px #27203426);
-  transition: left .65s cubic-bezier(.22,.8,.25,1), top .65s cubic-bezier(.22,.8,.25,1), width .65s cubic-bezier(.22,.8,.25,1), opacity .3s;
+  transition: opacity .12s ease-out;
 }
 .hvd-interface-scene[data-feature="valuta-potenziale"] [data-ui="profile"] {
   left: 1%; top: 6%; width: 42%; opacity: 1; z-index: 2;

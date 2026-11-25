@@ -22,20 +22,30 @@ class TelemarketingPage(unittest.TestCase):
 
     def test_feature_links_resolve_to_content_and_real_screenshot_crops(self):
         ids={a['id'] for _,a in self.doc.nodes if 'id' in a}
-        for name in ['contatto','esito','follow-up','storico']:
+        for name in ['configurazione','contatto','donazioni','storico']:
             self.assertIn(name,ids)
             self.assertTrue(any(tag=='a' and a.get('href')=='#'+name for tag,a in self.doc.nodes))
+        self.assertTrue({'esito', 'esito-title', 'follow-up', 'follow-up-title'}.issubset(ids))
         images=[a for tag,a in self.doc.nodes if tag=='img' and 'hvd-interface-base' in a.get('class','')]
         self.assertEqual(len(images),1)
         self.assertEqual((images[0]['width'],images[0]['height']),('1280','707'))
         self.assertTrue((PAGE/images[0]['src'].split('?')[0]).is_file())
         crops=[a for tag,a in self.doc.nodes if tag=='svg' and 'hvd-interface-panel' in a.get('class','')]
-        self.assertGreaterEqual(len(crops),4)
+        self.assertEqual(len(crops),3)
         for a in crops:
             x,y,w,h=map(float,a['viewbox'].split())
             self.assertGreater(w,0);self.assertGreater(h,0)
             self.assertGreaterEqual(x,0);self.assertGreaterEqual(y,0)
             self.assertLessEqual(x+w,1280);self.assertLessEqual(y+h,707)
+
+    def test_draft_includes_feature_subtitle_and_expandable_faqs(self):
+        heading = self.source.index('Come funziona il modulo Telemarketing')
+        subtitle = self.source.index('Potenzia la tua strategia di raccolta fondi')
+        navigation = self.source.index('class="hvd-feature-nav"')
+        self.assertLess(heading, subtitle)
+        self.assertLess(subtitle, navigation)
+        self.assertEqual(sum(tag == 'summary' for tag, _ in self.doc.nodes), 4)
+        self.assertIn('Gli operatori lavorano esclusivamente sulle liste', self.source)
 
     def test_simplified_form_keeps_telemarketing_context_and_existing_preview_behavior(self):
         controls={a.get('name'):a for tag,a in self.doc.nodes if tag in ['input','textarea']}

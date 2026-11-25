@@ -1,0 +1,219 @@
+.hvd-features { padding-top: clamp(24px, 4vw, 56px); }
+.hvd-features .hvd-section-head { margin-bottom: 28px; }
+.hvd-feature-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.hvd-feature-nav .module-tag {
+  min-height: 44px;
+  height: auto;
+  padding: 12px 18px;
+  font-size: .9rem;
+  line-height: 1.4;
+  white-space: normal;
+  --tag-color: var(--hvd-coral-dark);
+}
+.hvd-feature-nav a[aria-current="true"] {
+  background: var(--hvd-coral-dark);
+  color: #fff;
+}
+.hvd-feature-nav a[aria-current="true"]::before { background: #fff; }
+.hvd-feature-nav a:focus-visible,
+.hvd-feature-list:focus-visible,
+.hvd-feature-row:focus-visible {
+  outline: 3px solid #00649b;
+  outline-offset: 3px;
+}
+
+.hvd-features .hvd-feature-list {
+  display: flex;
+  gap: 24px;
+  min-width: 0;
+  margin-top: 0;
+  padding: 4px 0;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+.hvd-feature-list::-webkit-scrollbar { display: none; }
+.hvd-features .hvd-feature-row {
+  display: block;
+  flex: 0 0 100%;
+  min-width: 0;
+  padding: 24px 4px;
+  scroll-snap-align: start;
+  scroll-margin-top: 160px;
+}
+.hvd-community {
+  padding: clamp(64px, 8vw, 100px) 0;
+  background: var(--hvd-blush);
+}
+.hvd-community-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(28px, 6vw, 80px);
+}
+.hvd-community h2 {
+  margin: 0;
+  color: var(--hvd-ink);
+  font-size: clamp(1.7rem, 2.8vw, 2.4rem);
+  line-height: 1.18;
+  letter-spacing: -.04em;
+}
+.hvd-community-subtitle { margin: 18px 0 0; color: #5f5866; font-size: 1.05rem; line-height: 1.7; }
+.hvd-community-grid > p { margin: 0; color: #5f5866; font-size: 1.05rem; line-height: 1.78; }
+#come-funziona { scroll-margin-top: 0; }
+
+/* Keep the organisations in the same community banner as its story. */
+.hvd-page .hvd-community .dc-clients {
+  margin-top: clamp(32px, 4vw, 56px);
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.hvd-page .hvd-community .dc-clients h2 {
+  font-size: 1.1rem;
+  line-height: 1.4;
+  letter-spacing: -.02em;
+}
+
+@media (max-width: 980px) {
+  .hvd-community-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 760px) {
+  .hvd-features .hvd-feature-row { padding: 16px 4px; scroll-margin-top: 200px; }
+  .hvd-feature-nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hvd-feature-nav .module-tag { padding: 10px 12px; font-size: .8rem; }
+}
+
+@media print {
+  .hvd-feature-nav, .hvd-slider-hint { display: none; }
+  .hvd-features .hvd-feature-list { display: grid; overflow: visible; }
+  .hvd-features .hvd-feature-row { break-inside: avoid; }
+}
+
+.hvd-feature-copy p + p,
+.module-community-copy p + p {
+  margin-top: 12px;
+}
+
+.hvd-feature-copy a,
+.module-faq-answer a {
+  color: var(--hvd-coral-dark);
+  text-decoration: underline;
+  text-underline-offset: .18em;
+}
+
+.module-community-copy p {
+  margin: 0;
+  color: #5f5866;
+  font-size: 1.05rem;
+  line-height: 1.78;
+}
+
+.hvd-benefit-grid.module-benefit-grid-four {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.module-benefit-grid-four > .hvd-benefit {
+  grid-column: auto;
+}
+
+.hvd-feature-copy .module-legacy-anchor {
+  display: block;
+  width: 0;
+  height: 0;
+  margin: 0;
+  scroll-margin-top: 160px;
+}
+
+.module-faq {
+  padding: clamp(56px, 8vw, 96px) 0;
+}
+
+.module-faq .hvd-section-head {
+  margin-bottom: 24px;
+}
+
+.module-faq-item {
+  max-width: 900px;
+  border: 1px solid #e8e3eb;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.module-faq-item + .module-faq-item {
+  margin-top: 12px;
+}
+
+.module-faq-item > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px;
+  border-radius: inherit;
+  color: var(--hvd-ink);
+  font-weight: 700;
+  line-height: 1.5;
+  cursor: pointer;
+  list-style: none;
+}
+
+.module-faq-item > summary::-webkit-details-marker {
+  display: none;
+}
+
+.module-faq-item > summary::after {
+  content: "";
+  flex: 0 0 8px;
+  height: 8px;
+  margin: -4px 3px 0;
+  border: solid var(--hvd-coral-dark);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.module-faq-item[open] > summary {
+  background: var(--hvd-blush);
+  border-radius: 15px 15px 0 0;
+}
+
+.module-faq-item[open] > summary::after {
+  margin-top: 4px;
+  transform: rotate(225deg);
+}
+
+.module-faq-item > summary:focus-visible {
+  outline: 3px solid var(--hvd-coral-dark);
+  outline-offset: 3px;
+}
+
+.module-faq-answer {
+  max-width: 74ch;
+  padding: 16px 22px 20px;
+  color: #5f5866;
+  line-height: 1.7;
+}
+
+.module-faq-answer p {
+  margin: 0;
+}
+
+.module-faq-answer p + p {
+  margin-top: 12px;
+}
+
+.module-faq-pending {
+  border-style: dashed;
+}
+
+@media (max-width: 640px) {
+  .hvd-benefit-grid.module-benefit-grid-four {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -8,6 +8,7 @@
   if (!track || panels.some(panel => !panel)) return;
   const scene = section.querySelector('.hvd-interface-scene');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const autoAdvance = section.hasAttribute('data-auto-advance');
   let requestedIndex = null;
   let settleTimer;
   let rotationTimer;
@@ -18,7 +19,7 @@
 
   function scheduleRotation() {
     clearTimeout(rotationTimer);
-    const canRotate = !reducedMotion.matches && visible && !document.hidden && !focused && !pointerHeld;
+    const canRotate = autoAdvance && !reducedMotion.matches && visible && !document.hidden && !focused && !pointerHeld;
     section.dataset.autoplay = canRotate ? 'playing' : 'paused';
     if (!canRotate) return;
     rotationTimer = setTimeout(() => {
@@ -66,6 +67,7 @@
     event.preventDefault();
     showPanel(index);
     panels[index].focus({ preventScroll: true });
+    focused = true;
     scheduleRotation();
   }));
 

@@ -1,4 +1,4 @@
-// Reveal the header shapes, then keep their parallax moving until the CTA exits.
+// Keep the shapes visible while the banner moves through the viewport.
 (() => {
   const section = document.querySelector('.hvd-cta');
   const wrap = section?.querySelector('.wrap');
@@ -30,13 +30,10 @@
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const clamp = value => Math.max(0, Math.min(1, value));
-  const phase = (value, start, end) => {
-    const t = clamp((value - start) / (end - start));
-    return t * t * (3 - 2 * t);
-  };
   let pending = false;
   let needsMeasure = true;
   let lastProgress = null;
+  let withinRange = !('IntersectionObserver' in window);
 
   function measure(rect) {
     const content = wrap.getBoundingClientRect();
@@ -67,21 +64,12 @@
     // Scrolling elsewhere must not repaint the large, already-settled shapes.
     if (progress === lastProgress) return;
     lastProgress = progress;
-    section.style.setProperty('--cta-scroll-progress', progress.toFixed(4));
     section.dataset.ctaProgress = progress.toFixed(3);
 
-    const foam = phase(progress, .015, .22);
-    const gold = phase(progress, .04, .30);
-    const blush = phase(progress, .08, .35);
-    // Opacity settles after entry; each layer keeps a different speed and direction.
     const travel = progress - .5;
-    shapes[0].style.opacity = (foam * .9).toFixed(3);
-    shapes[0].style.transform = `translate3d(${260 * travel}px, ${110 * (1 - foam) - 80 * travel}px, 0) scale(${1 + .10 * progress})`;
-    shapes[0].style.borderRadius = `${50 + 12 * progress}% ${50 - 12 * progress}% ${50 + 8 * progress}% ${50 - 8 * progress}% / 50% ${50 + 10 * progress}% ${50 - 10 * progress}% 50%`;
-    shapes[1].style.opacity = (gold * .92).toFixed(3);
-    shapes[1].style.transform = `translate3d(${130 * (1 - gold) - 120 * travel}px, ${75 * (1 - gold) - 95 * travel}px, 0) rotate(${-16 + 32 * progress}deg) scale(${.94 + .12 * progress})`;
-    shapes[2].style.opacity = (blush * .88).toFixed(3);
-    shapes[2].style.transform = `translate3d(${-150 * travel}px, ${80 * (1 - blush) - 50 * travel}px, 0) rotate(${-30 + 80 * progress}deg) scale(${.9 + .2 * progress})`;
+    shapes[0].style.transform = `translate3d(${260 * travel}px, ${-80 * travel}px, 0) scale(${1 + .10 * progress})`;
+    shapes[1].style.transform = `translate3d(${-120 * travel}px, ${-95 * travel}px, 0) rotate(${-16 + 32 * progress}deg) scale(${.94 + .12 * progress})`;
+    shapes[2].style.transform = `translate3d(${-150 * travel}px, ${-50 * travel}px, 0) rotate(${-30 + 80 * progress}deg) scale(${.9 + .2 * progress})`;
   }
 
   function requestPaint() {
@@ -94,11 +82,17 @@
     requestPaint();
   }
   window.addEventListener('scroll', () => {
-    if (!reducedMotion.matches) requestPaint();
+    if (withinRange && !reducedMotion.matches) requestPaint();
   }, { passive: true });
   window.addEventListener('resize', refreshGeometry);
   window.addEventListener('pageshow', refreshGeometry);
   reducedMotion.addEventListener('change', requestPaint);
   if ('ResizeObserver' in window) new ResizeObserver(refreshGeometry).observe(wrap);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([entry]) => {
+      withinRange = entry.isIntersecting;
+      if (withinRange) requestPaint();
+    }, { rootMargin: '100px 0px' }).observe(section);
+  }
   paint();
 })();
